@@ -1,0 +1,106 @@
+code_complexity_features:
+  - file_name: /tmp/tmpx6cM76_ss_testcase/src-rose/src/dfa.c
+    function_name: dfamust
+    line_number: 0
+    feature_group: source_taint
+    feature: SHARED_MEMORY
+  - file_name: /tmp/tmpx6cM76_ss_testcase/src-rose/src/dfa.c
+    function_name: dfamust
+    line_number: 0
+    feature_group: data_type
+    feature: simple
+  - file_name: /tmp/tmpx6cM76_ss_testcase/src-rose/src/dfa.c
+    function_name: dfamust
+    line_number: 0
+    feature_group: data_flow
+    feature: basic
+  - file_name: /tmp/tmpx6cM76_ss_testcase/src-rose/src/dfa.c
+    function_name: dfamust
+    line_number: 0
+    feature_group: control_flow
+    feature: sequence
+description: "Creating test case using base program.\nAdded an environment variable read to get a key in order to read in data from shared memory.\nCompleted injection.\n"
+io_pair:
+  exploits:
+    - inputs:
+        - source: shared_memory_input
+          id: source
+          ordinal: 1
+          key: 5766
+          value_type_enum: 0
+          source_enum: 6
+          stage_enum: 0
+          stage: pre_process
+          size: 24
+          flags: 950
+          value_encoding: none
+          value_type: USE_TEXT_DIRECTLY
+          value: This is a bad test.
+    - inputs:
+        - stage_enum: 0
+          id: source
+          value: A NEW TEST
+          stage: pre_process
+          value_type: USE_TEXT_DIRECTLY
+          flags: 950
+          source: shared_memory_input
+          source_enum: 6
+          value_type_enum: 0
+          key: 5766
+          ordinal: 1
+          size: 24
+          value_encoding: none
+  description: "Read a string from the input.  If the string contains any spaces, a thread isspawned that attempts to decrements a semaphore twice causing a deadlock.\n\n"
+  base_inputs:
+    - source: shared_memory_input
+      source_enum: 6
+      stage: pre_process
+      stage_enum: 0
+      id: source
+      ordinal: 1
+      key: 5766
+      size: 24
+      flags: 950
+  benigns:
+    - inputs:
+        - flags: 950
+          source: shared_memory_input
+          source_enum: 6
+          stage: pre_process
+          stage_enum: 0
+          key: 5766
+          id: source
+          value_type: USE_TEXT_DIRECTLY
+          value_encoding: none
+          value: aTest
+          ordinal: 1
+          size: 24
+          value_type_enum: 0
+    - inputs:
+        - ordinal: 1
+          value: abigwordwithoutspaces
+          id: source
+          key: 5766
+          value_encoding: none
+          value_type: USE_TEXT_DIRECTLY
+          flags: 950
+          source_enum: 6
+          stage: pre_process
+          source: shared_memory_input
+          stage_enum: 0
+          size: 24
+          value_type_enum: 0
+    - inputs:
+        - flags: 950
+          key: 5766
+          stage_enum: 0
+          id: source
+          source_enum: 6
+          source: shared_memory_input
+          ordinal: 1
+          stage: pre_process
+          size: 24
+          value_encoding: none
+          value: anotherTestWithoutSpace
+          value_type_enum: 0
+          value_type: USE_TEXT_DIRECTLY

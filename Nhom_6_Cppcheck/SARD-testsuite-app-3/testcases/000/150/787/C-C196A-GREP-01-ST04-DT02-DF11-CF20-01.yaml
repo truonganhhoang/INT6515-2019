@@ -1,0 +1,156 @@
+description: "Creating test case using base program.\nAdded an environment variable read to get a key in order to read in data from shared memory.\nCompleted injection.\n"
+code_complexity_features:
+  - file_name: /tmp/tmpbAuIpQ_ss_testcase/src-rose/src/dfa.c
+    function_name: dfamust
+    line_number: 0
+    feature_group: source_taint
+    feature: SHARED_MEMORY
+  - file_name: /tmp/tmpbAuIpQ_ss_testcase/src-rose/src/dfa.c
+    function_name: dfamust
+    line_number: 0
+    feature_group: data_type
+    feature: simple
+  - file_name: /tmp/tmpbAuIpQ_ss_testcase/src-rose/src/dfa.c
+    function_name: dfamust
+    line_number: 0
+    feature_group: data_flow
+    feature: basic
+  - file_name: /tmp/tmpbAuIpQ_ss_testcase/src-rose/src/dfa.c
+    function_name: dfamust
+    line_number: 0
+    feature_group: control_flow
+    feature: sequence
+io_pair:
+  base_inputs:
+    - source: shared_memory_input
+      source_enum: 6
+      stage: pre_process
+      stage_enum: 0
+      id: source
+      ordinal: 1
+      key: 4675
+      size: 11
+      flags: 950
+  description: "This weakness reads a number to be used as a loop counter. The loop counter is initially read as an unsigned long, then converted to an int.  If the number read in is larger than MAX_UINT, it is silently converted to a negative number.  This breaks the loop counter logic, resulting in an infinite loop. Good inputs:  taint source is 2147483647 or less Bad inputs: taint source is 2147483648 or greater\n\n"
+  exploits:
+    - inputs:
+        - source: shared_memory_input
+          size: 11
+          value_type: USE_TEXT_DIRECTLY
+          source_enum: 6
+          stage: pre_process
+          value_encoding: none
+          stage_enum: 0
+          ordinal: 1
+          id: source
+          key: 4675
+          flags: 950
+          value: 4294967291
+          value_type_enum: 0
+        - ordinal: 2
+          value_type: USE_TEXT_DIRECTLY
+          value: Good_Bye_World
+          name: SS_BUFF
+          value_type_enum: 0
+          source: env_var_input
+          source_enum: 2
+          stage: pre_process
+          stage_enum: 0
+          value_encoding: none
+    - inputs:
+        - value_type: USE_TEXT_DIRECTLY
+          value_type_enum: 0
+          value: 2147483650
+          stage: pre_process
+          ordinal: 1
+          id: source
+          flags: 950
+          size: 11
+          source_enum: 6
+          stage_enum: 0
+          source: shared_memory_input
+          key: 4675
+          value_encoding: none
+        - stage: pre_process
+          stage_enum: 0
+          value_encoding: none
+          value: aaaaaaaaaaaaaaaaa
+          source_enum: 2
+          ordinal: 2
+          source: env_var_input
+          value_type_enum: 0
+          value_type: USE_TEXT_DIRECTLY
+          name: SS_BUFF
+  benigns:
+    - inputs:
+        - ordinal: 1
+          id: source
+          value: 15
+          stage: pre_process
+          source: shared_memory_input
+          stage_enum: 0
+          size: 11
+          value_encoding: none
+          value_type: USE_TEXT_DIRECTLY
+          flags: 950
+          key: 4675
+          value_type_enum: 0
+          source_enum: 6
+        - source_enum: 2
+          name: SS_BUFF
+          stage: pre_process
+          ordinal: 2
+          source: env_var_input
+          value_type: USE_TEXT_DIRECTLY
+          stage_enum: 0
+          value_encoding: none
+          value: hello
+          value_type_enum: 0
+    - inputs:
+        - ordinal: 1
+          id: source
+          source: shared_memory_input
+          source_enum: 6
+          key: 4675
+          stage_enum: 0
+          stage: pre_process
+          size: 11
+          value: 8
+          value_type: USE_TEXT_DIRECTLY
+          flags: 950
+          value_encoding: none
+          value_type_enum: 0
+        - stage: pre_process
+          source: env_var_input
+          stage_enum: 0
+          source_enum: 2
+          value_type_enum: 0
+          value_type: USE_TEXT_DIRECTLY
+          value: abcdefghiklmnopqrstuvwxyz
+          ordinal: 2
+          value_encoding: none
+          name: SS_BUFF
+    - inputs:
+        - size: 11
+          value_encoding: none
+          value: 1000
+          stage: pre_process
+          value_type_enum: 0
+          id: source
+          source_enum: 6
+          source: shared_memory_input
+          stage_enum: 0
+          key: 4675
+          flags: 950
+          ordinal: 1
+          value_type: USE_TEXT_DIRECTLY
+        - value: Heeellllloooooo_Wooooorrrrrllllldddddd!!!!!!
+          value_type_enum: 0
+          name: SS_BUFF
+          source_enum: 2
+          source: env_var_input
+          stage_enum: 0
+          stage: pre_process
+          ordinal: 2
+          value_type: USE_TEXT_DIRECTLY
+          value_encoding: none

@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8"?>
+<container>
+  <testcase id="1739" type="Source Code" status="Accepted" submissionDate="2006-08-21" language="C++" author="Secure Software" numberOfFiles="1" testsuiteid="59 57">
+    <description><![CDATA[Test of tool ability to identify an unchecked error condition.]]></description>
+    <file path="000/001/739/unchecked_error_condition.cc" language="C++" size="870" checksum="2e4c247d32f2790c79e6d06e4447b028562a3fe7">
+      <flaw line="29" name="CWE-391: Unchecked Error Condition"/>
+    </file>
+  </testcase>
+  <testcase id="1954" type="Source Code" status="Candidate" submissionDate="2007-07-13" language="C++" author="Jonathan Diamond" numberOfFiles="1" testsuiteid="57 59">
+    <description><![CDATA[users can add the arguments -debug -root to take advantage of leftover debug code
+]]></description>
+    <association type="pair" testcaseid="1960"/>
+    <file path="000/001/954/LeftOverDebug_bad.cpp" language="C++" size="1160" checksum="5e4291b283e40440b18576287106481b4cf590fb">
+      <flaw line="40" name="CWE-489: Leftover Debug Code"/>
+      <flaw line="36" name="CWE-489: Leftover Debug Code"/>
+    </file>
+  </testcase>
+  <testcase id="1965" type="Source Code" status="Accepted" submissionDate="2007-07-13" language="C++" numberOfFiles="1" testsuiteid="57 59">
+    <description><![CDATA[The test case is a basic CGI source code which allows Cross-Site Scripting (XSS).]]></description>
+    <association type="pair" testcaseid="1966"/>
+    <file path="000/001/965/xss_basic.cpp" language="C++" size="1591" checksum="478071a37cedcf833ea8285ab94a5a779638ef82">
+      <flaw line="41" name="CWE-079: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"/>
+    </file>
+  </testcase>
+  <testcase id="1967" type="Source Code" status="Candidate" submissionDate="2007-07-13" language="C++" author="Romain Gaucher" numberOfFiles="1" testsuiteid="57">
+    <description><![CDATA[created objects are never destroyed]]></description>
+    <association type="pair" testcaseid="1968"/>
+    <file path="000/001/967/memory_leak_container.cpp" language="C++" size="1603" checksum="8a524ba9328547d9caea557c6781835ee2074534">
+      <flaw line="55" name="CWE-401: Improper Release of Memory Before Removing Last Reference ('Memory Leak')"/>
+      <flaw line="61" name="CWE-401: Improper Release of Memory Before Removing Last Reference ('Memory Leak')"/>
+    </file>
+  </testcase>
+  <testcase id="1971" type="Source Code" status="Accepted" submissionDate="2007-07-13" language="C++" numberOfFiles="1" testsuiteid="57 59">
+    <description><![CDATA[user can input more then the max number of characters causing a stack overflow]]></description>
+    <association type="pair" testcaseid="1972"/>
+    <file path="000/001/971/StackOverflow_bad.cpp" language="C++" size="909" checksum="70731e70c7d4ff30dce5d1754e12cf1a945c8bfd">
+      <flaw line="22" name="CWE-121: Stack-based Buffer Overflow"/>
+    </file>
+  </testcase>
+  <testcase id="1973" type="Source Code" status="Accepted" submissionDate="2007-07-13" language="C++" numberOfFiles="1" testsuiteid="57">
+    <description><![CDATA[The test case is a basic CGI source code which allows Cross-Site Scripting (XSS). The code has a Scope complexity.]]></description>
+    <association type="pair" testcaseid="1974"/>
+    <file path="000/001/973/xss_scope.cpp" language="C++" size="1761" checksum="3640692b1c7892b86fb6fb3597774f11b017a176">
+      <flaw line="30" name="CWE-079: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"/>
+    </file>
+  </testcase>
+  <testcase id="1975" type="Source Code" status="Accepted" submissionDate="2007-07-13" language="C++" numberOfFiles="1" testsuiteid="57">
+    <description><![CDATA[The test case is a basic CGI source code which allows Cross-Site Scripting (XSS). The code has a Index Alias complexity.]]></description>
+    <association type="pair" testcaseid="1976"/>
+    <file path="000/001/975/xss_@alias.cpp" language="C++" size="1762" checksum="d9cb8a5b18c1c982403e83b6e9d14f103c8404d5">
+      <flaw line="41" name="CWE-079: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"/>
+    </file>
+  </testcase>
+  <testcase id="1977" type="Source Code" status="Candidate" submissionDate="2007-07-13" language="C++" author="Romain Gaucher" numberOfFiles="1" testsuiteid="57 59">
+    <description><![CDATA[Integer is not initiated before use]]></description>
+    <association type="pair" testcaseid="1978"/>
+    <file path="000/001/977/uninit_variable_datatype.cpp" language="C++" size="851" checksum="41c582a2ff2d0327ef6e21595010e274d2428f1d">
+      <flaw line="25" name="CWE-457: Use of Uninitialized Variable"/>
+      <flaw line="22" name="CWE-457: Use of Uninitialized Variable"/>
+    </file>
+  </testcase>
+  <testcase id="1979" type="Source Code" status="Accepted" submissionDate="2007-07-13" language="C++" numberOfFiles="1" testsuiteid="57 59">
+    <description><![CDATA[By using a wrong pointer type, the program will output a non-sense value due to the pointer scaling.]]></description>
+    <association type="pair" testcaseid="1980"/>
+    <file path="000/001/979/unintentional_ptr_scaling.cpp" language="C++" size="827" checksum="9a1e7a318a82217bea55a963f289cd5b859a8ab9">
+      <flaw line="23" name="CWE-468: Incorrect Pointer Scaling"/>
+    </file>
+  </testcase>
+  <testcase id="1983" type="Source Code" status="Accepted" submissionDate="2007-07-13" language="C++" numberOfFiles="1" testsuiteid="57 59">
+    <description><![CDATA[The test case has a SQL Injection weakness.]]></description>
+    <association type="pair" testcaseid="1984"/>
+    <file path="000/001/983/sql_injection_basic.cpp" language="C++" size="1287" checksum="a21c8c2c0a3940cbab134d5fa86c48e67b0aa7f5">
+      <flaw line="32" name="CWE-089: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')"/>
+    </file>
+  </testcase>
+  <testcase id="1985" type="Source Code" status="Accepted" submissionDate="2007-07-13" language="C++" numberOfFiles="1" testsuiteid="57">
+    <description><![CDATA[The test case has a SQL Injection weakness in a Scope complexity.]]></description>
+    <association type="pair" testcaseid="1986"/>
+    <file path="000/001/985/sql_injection_scope.cpp" language="C++" size="1432" checksum="c24f5bfaaf9c31569ef946f37776a064cd786c82">
+      <flaw line="21" name="CWE-089: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')"/>
+    </file>
+  </testcase>
+  <testcase id="1987" type="Source Code" status="Candidate" submissionDate="2007-07-13" language="C++" author="Romain Gaucher" numberOfFiles="1" testsuiteid="57">
+    <description><![CDATA[integer p is not initiated before its use in a for loop]]></description>
+    <association type="pair" testcaseid="1988"/>
+    <file path="000/001/987/uninit_variable_loop.cpp" language="C++" size="773" checksum="39738952eb449df08d07a8e7a7f0e984c9190f91">
+      <flaw line="20" name="CWE-457: Use of Uninitialized Variable"/>
+    </file>
+  </testcase>
+  <testcase id="1989" type="Source Code" status="Accepted" submissionDate="2007-07-13" language="C++" numberOfFiles="1" testsuiteid="57">
+    <description><![CDATA[The test case has a SQL Injection weakness in a array index complexity source code.]]></description>
+    <association type="pair" testcaseid="1990"/>
+    <file path="000/001/989/sql_injection_array.cpp" language="C++" size="1627" checksum="ea89e0320c5081b5f70c3ee04c307e3648aa2215">
+      <flaw line="41" name="CWE-089: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')"/>
+    </file>
+  </testcase>
+  <testcase id="1993" type="Source Code" status="Accepted" submissionDate="2007-07-13" language="C++" numberOfFiles="1" testsuiteid="57 59">
+    <description><![CDATA[The pointer p is dereferenced even though the value is null.]]></description>
+    <association type="pair" testcaseid="1994"/>
+    <file path="000/001/993/null_deref_basic.cpp" language="C++" size="769" checksum="eb4423881bb170f7d11949f06fb32c6ac40a4956">
+      <flaw line="22" name="CWE-476: NULL Pointer Dereference"/>
+    </file>
+  </testcase>
+  <testcase id="1995" type="Source Code" status="Accepted" submissionDate="2007-07-13" language="C++" numberOfFiles="1" testsuiteid="57">
+    <description><![CDATA[The pointer is dereferenced even though the value is null in the \'function\' call.]]></description>
+    <association type="pair" testcaseid="1996"/>
+    <file path="000/001/995/null_deref_scope.cpp" language="C++" size="836" checksum="603579c508f388e6ae21c095d40c3b54c4c25998">
+      <flaw line="20" name="CWE-476: NULL Pointer Dereference"/>
+    </file>
+  </testcase>
+  <testcase id="1997" type="Source Code" status="Accepted" submissionDate="2007-07-13" language="C++" numberOfFiles="1" testsuiteid="57">
+    <description><![CDATA[The pointer p is dereferenced even though the value is null.]]></description>
+    <association type="pair" testcaseid="1998"/>
+    <file path="000/001/997/null_deref_control_flow.cpp" language="C++" size="814" checksum="e5dbbbe11c6e3d3e67584a22e59134ff5d2f7da0">
+      <flaw line="23" name="CWE-476: NULL Pointer Dereference"/>
+    </file>
+  </testcase>
+  <testcase id="1999" type="Source Code" status="Accepted" submissionDate="2007-07-13" language="C++" numberOfFiles="1" testsuiteid="57">
+    <description><![CDATA[Null Dereference in a Index Alias complexity]]></description>
+    <association type="pair" testcaseid="2000"/>
+    <file path="000/001/999/null_deref_@alias.cpp" language="C++" size="790" checksum="caf5e37abc681de858ba0ebaf25a7853c399fda1">
+      <flaw line="22" name="CWE-476: NULL Pointer Dereference"/>
+    </file>
+  </testcase>
+  <testcase id="2013" type="Source Code" status="Accepted" submissionDate="2007-10-15" language="C++" numberOfFiles="1" testsuiteid="57 59">
+    <description><![CDATA[The test case shows a resource injection.]]></description>
+    <file path="000/002/013/ResourceInjection_basic_bad.cpp" language="C++" size="931" checksum="0b3ffdc2d332cfdb7d449073610c375632f64b55">
+      <flaw line="26" name="CWE-099: Improper Control of Resource Identifiers ('Resource Injection')"/>
+    </file>
+  </testcase>
+  <testcase id="2021" type="Source Code" status="Accepted" submissionDate="2007-11-28" language="C++" numberOfFiles="1" testsuiteid="57">
+    <description><![CDATA[Allowing user input to control resource identifiers may enable an attacker to access or modify otherwise protected system resources.]]></description>
+    <file path="000/002/021/ResourceInjection_AddressAlias_bad.cpp" language="C++" size="1006" checksum="3a8dcc6cf424a457e78c0833ab560c14c271daad">
+      <flaw line="0" name="CWE-099: Improper Control of Resource Identifiers ('Resource Injection')"/>
+      <flaw line="34" name="CWE-099: Improper Control of Resource Identifiers ('Resource Injection')"/>
+      <flaw line="35" name="CWE-099: Improper Control of Resource Identifiers ('Resource Injection')"/>
+    </file>
+  </testcase>
+  <testcase id="2023" type="Source Code" status="Accepted" submissionDate="2007-11-29" language="C++" numberOfFiles="1" testsuiteid="57">
+    <description><![CDATA[Allowing user input to control resource identifiers may enable an attacker to access or modify otherwise protected system resources.]]></description>
+    <file path="000/002/023/ResourceInjection_Scope_bad.cpp" language="C++" size="1046" checksum="9392252fe10a4ae92803980e75968a4840ce0108">
+      <flaw line="24" name="CWE-099: Improper Control of Resource Identifiers ('Resource Injection')"/>
+    </file>
+  </testcase>
+  <testcase id="2026" type="Source Code" status="Accepted" submissionDate="2007-11-29" language="C++" numberOfFiles="1" testsuiteid="57">
+    <description><![CDATA[Allowing user input to control resource identifiers may enable an attacker to access or modify otherwise protected system resources.]]></description>
+    <file path="000/002/026/ResourceInjection_Container_bad.cpp" language="C++" size="1303" checksum="9fd885817ad7750fe7d28cc858956b10109b47d2">
+      <flaw line="0" name="CWE-099: Improper Control of Resource Identifiers ('Resource Injection')"/>
+      <flaw line="0" name="Any..."/>
+    </file>
+  </testcase>
+  <testcase id="2028" type="Source Code" status="Accepted" submissionDate="2007-11-29" language="C++" numberOfFiles="1" testsuiteid="57 59">
+    <description><![CDATA[A software system that accepts and executes input in the form of operating system commands (e.g. system(), exec(), open()) could allow an attacker with lesser privileges than the target software to execute commands with the elevated privileges of the executing process.]]></description>
+    <file path="000/002/028/OSCommandInjection_bad.cpp" language="C++" size="858" checksum="47e9f6c9295e124604ffb25014a1857870b09b79">
+      <flaw line="0" name="CWE-078: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')"/>
+      <flaw line="25" name="CWE-078: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')"/>
+      <flaw line="24" name="CWE-078: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')"/>
+    </file>
+  </testcase>
+  <testcase id="2030" type="Source Code" status="Accepted" submissionDate="2007-12-03" language="C++" numberOfFiles="1" testsuiteid="57">
+    <description><![CDATA[A software system that accepts and executes input in the form of operating system commands (e.g. system()) could allow an attacker with lesser privileges than the target software to execute commands with the elevated privileges of the executing process.]]></description>
+    <file path="000/002/030/OSCommandInjection_Scope_bad.cpp" language="C++" size="920" checksum="0b8c4f5e5b3dbe59c3029a1217b2965581b2cd6b">
+      <flaw line="0" name="CWE-078: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')"/>
+      <flaw line="28" name="CWE-078: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')"/>
+      <flaw line="27" name="CWE-078: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')"/>
+    </file>
+  </testcase>
+  <testcase id="2032" type="Source Code" status="Accepted" submissionDate="2007-12-03" language="C++" numberOfFiles="1" testsuiteid="57">
+    <description><![CDATA[A software system that accepts and executes input in the form of operating system commands (e.g. system(), exec(), open()) could allow an attacker with lesser privileges than the target software to execute commands with the elevated privileges of the executing process.]]></description>
+    <file path="000/002/032/OSCommandInjection_ControlFlow_bad.cpp" language="C++" size="968" checksum="5dc1453e0e12bb091208016456b57adbf33eb10f">
+      <flaw line="0" name="CWE-078: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')"/>
+      <flaw line="26" name="CWE-078: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')"/>
+      <flaw line="27" name="CWE-078: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')"/>
+    </file>
+  </testcase>
+  <testcase id="2034" type="Source Code" status="Accepted" submissionDate="2007-12-03" language="C++" numberOfFiles="1" testsuiteid="57">
+    <description><![CDATA[A software system that accepts and executes input in the form of operating system commands (e.g. system()) could allow an attacker with lesser privileges than the target software to execute commands with the elevated privileges of the executing process.]]></description>
+    <file path="000/002/034/OSCommandInjection_LoopStructure_bad.cpp" language="C++" size="871" checksum="4e377806557a5699175678ac8b65ae81fbb19399">
+      <flaw line="0" name="CWE-078: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')"/>
+      <flaw line="23" name="CWE-078: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')"/>
+      <flaw line="24" name="CWE-078: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')"/>
+    </file>
+  </testcase>
+  <testcase id="2038" type="Source Code" status="Accepted" submissionDate="2007-12-04" language="C++" numberOfFiles="1" testsuiteid="57">
+    <description><![CDATA[A stack-based buffer overflow condition is a condition where the buffer being overwritten is allocated on the stack. In the case of C++, misusing container vector could also cause stack overflow. ]]></description>
+    <file path="000/002/038/StackOverflow_container_bad.cpp" language="C++" size="878" checksum="bf490b75f13bdaf07c8f7ef4d8528c4add1e1108">
+      <flaw line="21" name="CWE-121: Stack-based Buffer Overflow"/>
+      <flaw line="23" name="CWE-121: Stack-based Buffer Overflow"/>
+      <flaw line="0" name="CWE-121: Stack-based Buffer Overflow"/>
+      <flaw line="22" name="CWE-121: Stack-based Buffer Overflow"/>
+    </file>
+  </testcase>
+  <testcase id="2043" type="Source Code" status="Accepted" submissionDate="2007-12-11" language="C++" numberOfFiles="1" testsuiteid="59 57">
+    <description><![CDATA[The test cases shows hard-coded passwords is used.]]></description>
+    <file path="000/002/043/hardcoded_pass_basic1.cpp" language="C++" size="961" checksum="fd36b9bbbe9aaba597440260f67c1fc7db2bf88a">
+      <flaw line="27" name="CWE-259: Use of Hard-coded Password"/>
+      <flaw line="27" name="Any..."/>
+    </file>
+  </testcase>
+  <testcase id="2044" type="Source Code" status="Accepted" submissionDate="2007-12-11" language="C++" numberOfFiles="1" testsuiteid="57">
+    <description><![CDATA[The test cases shows hard-coded password is used in a function.]]></description>
+    <file path="000/002/044/hardcoded_pass_scope.cpp" language="C++" size="1147" checksum="c1b7f769d002e9f1004ec79a195716fce5821891">
+      <flaw line="21" name="CWE-259: Use of Hard-coded Password"/>
+    </file>
+  </testcase>
+  <testcase id="2045" type="Source Code" status="Accepted" submissionDate="2007-12-11" language="C++" numberOfFiles="1" testsuiteid="57">
+    <description><![CDATA[The test cases shows hard-coded passwords is used in a loop.]]></description>
+    <file path="000/002/045/hardcoded_pass_loop.cpp" language="C++" size="1035" checksum="bb4f249a5ec65f2808c8621dd87c1d58b3a491e7">
+      <flaw line="27" name="CWE-259: Use of Hard-coded Password"/>
+    </file>
+  </testcase>
+  <testcase id="2046" type="Source Code" status="Accepted" submissionDate="2007-12-11" language="C++" numberOfFiles="1" testsuiteid="57">
+    <description><![CDATA[The test cases shows hard-coded passwords is used in a container.]]></description>
+    <file path="000/002/046/hardcoded_pass_container.cpp" language="C++" size="2058" checksum="532b6bbae7c931f9228643055f40241e524b31dd">
+      <flaw line="0" name="CWE-259: Use of Hard-coded Password"/>
+    </file>
+  </testcase>
+  <testcase id="2048" type="Source Code" status="Accepted" submissionDate="2007-12-12" language="C++" numberOfFiles="1" testsuiteid="57">
+    <description><![CDATA[The test cases shows hard-coded password is used in C++ vector.]]></description>
+    <file path="000/002/048/hardcoded_pass_array.cpp" language="C++" size="1361" checksum="a8a17a7a9cccc81501d9734b2cbfbf57eb331ed4">
+      <flaw line="0" name="CWE-259: Use of Hard-coded Password"/>
+    </file>
+  </testcase>
+  <testcase id="2054" type="Source Code" status="Accepted" submissionDate="2007-12-17" language="C++" numberOfFiles="1" testsuiteid="59 57">
+    <description><![CDATA[Created short is not deleted after use.]]></description>
+    <file path="000/002/054/memory_leak_basic.cpp" language="C++" size="1070" checksum="d737ec7cf557115b8550da7d04014eea086ab3e4">
+      <flaw line="0" name="CWE-401: Improper Release of Memory Before Removing Last Reference ('Memory Leak')"/>
+    </file>
+  </testcase>
+  <testcase id="2056" type="Source Code" status="Accepted" submissionDate="2007-12-17" language="C++" numberOfFiles="1" testsuiteid="57">
+    <description><![CDATA[This test case shows memory leak in a local control flow.]]></description>
+    <file path="000/002/056/memory_leak_control_flow.cpp" language="C++" size="1019" checksum="4b4199f2432b7cdd96c308700f40f3994992bba8">
+      <flaw line="0" name="CWE-401: Improper Release of Memory Before Removing Last Reference ('Memory Leak')"/>
+    </file>
+  </testcase>
+  <testcase id="2060" type="Source Code" status="Accepted" submissionDate="2007-12-27" language="C++" numberOfFiles="1" testsuiteid="57">
+    <description><![CDATA[Uninitialized pointer is used.]]></description>
+    <file path="000/002/060/Unintialized_variable_datatype_pointer.cpp" language="C++" size="1081" checksum="e278d765ea50198723f8df49c9222e0d1410e65c">
+      <flaw line="0" name="CWE-457: Use of Uninitialized Variable"/>
+    </file>
+  </testcase>
+  <testcase id="2062" type="Source Code" status="Accepted" submissionDate="2007-12-28" language="C++" numberOfFiles="1" testsuiteid="57 59">
+    <description><![CDATA[The test case shows a Heap Overflow by trying to insert out of the bounds of the buffer a character \'a\'.]]></description>
+    <file path="000/002/062/HeapOverFlow_bad.cpp" language="C++" size="935" checksum="d86e283c9a91a38c575ff528bfe981966fa18b57">
+      <flaw line="0" name="CWE-122: Heap-based Buffer Overflow"/>
+    </file>
+  </testcase>
+  <testcase id="2063" type="Source Code" status="Accepted" submissionDate="2007-12-28" language="C++" numberOfFiles="1" testsuiteid="57">
+    <description><![CDATA[The test case shows a Heap Overflow by trying to insert out of the bounds of the buffer a character. The code has a Scope complexity.]]></description>
+    <file path="000/002/063/HeapOverFlow_Scope_bad.cpp" language="C++" size="1053" checksum="b7d976bd14799de5df794bde9666dbb699d2760e">
+      <flaw line="0" name="CWE-122: Heap-based Buffer Overflow"/>
+    </file>
+  </testcase>
+  <testcase id="2064" type="Source Code" status="Accepted" submissionDate="2007-12-28" language="C++" numberOfFiles="1" testsuiteid="57">
+    <description><![CDATA[The test case shows a Heap Overflow by trying to insert out of the bounds of the buffer a character. The code has a Array Address complexity.]]></description>
+    <file path="000/002/064/HeapOverFlow_ArrayAddress_bad.cpp" language="C++" size="994" checksum="f45bcabd9b5822c26ff1884448b938a8c0618385">
+      <flaw line="29" name="CWE-122: Heap-based Buffer Overflow"/>
+    </file>
+  </testcase>
+  <testcase id="2065" type="Source Code" status="Accepted" submissionDate="2007-12-28" language="C++" numberOfFiles="1" testsuiteid="57">
+    <description><![CDATA[The test case shows a Heap Overflow by trying to insert out of the bounds of the buffer a character. The code has a Array Index complexity.]]></description>
+    <file path="000/002/065/HeapOverFlow_ArrayIndex_bad1.cpp" language="C++" size="1227" checksum="5eb322f6b4fd651084c83ddbe85101ac1f5c1d42">
+      <flaw line="36" name="CWE-122: Heap-based Buffer Overflow"/>
+    </file>
+  </testcase>
+  <testcase id="2187" type="Source Code" status="Accepted" submissionDate="2010-11-15" language="C++" numberOfFiles="1" testsuiteid="57">
+    <description><![CDATA[Integer variable is not initialized before its use.]]></description>
+    <file path="000/002/187/uninit_variable_datatype.cpp" language="C++" size="851" checksum="41c582a2ff2d0327ef6e21595010e274d2428f1d">
+      <flaw line="22" name="CWE-457: Use of Uninitialized Variable"/>
+    </file>
+  </testcase>
+  <testcase id="2188" type="Source Code" status="Accepted" submissionDate="2010-11-15" language="C++" numberOfFiles="1" testsuiteid="57">
+    <description><![CDATA[Index variable in a loop is not initialized, but used.]]></description>
+    <file path="000/002/188/uninit_variable_loop.cpp" language="C++" size="773" checksum="39738952eb449df08d07a8e7a7f0e984c9190f91">
+      <flaw line="20" name="CWE-457: Use of Uninitialized Variable"/>
+    </file>
+  </testcase>
+  <testcase id="2196" type="Source Code" status="Accepted" submissionDate="2010-11-23" language="C++" author="Romain Gaucher" numberOfFiles="1" testsuiteid="59 57">
+    <description><![CDATA[This test case shows debugging code is left in the program]]></description>
+    <file path="000/002/196/LeftOverDebug_bad.cpp" language="C++" size="1160" checksum="5e4291b283e40440b18576287106481b4cf590fb">
+      <flaw line="0" name="CWE-489: Leftover Debug Code"/>
+    </file>
+  </testcase>
+</container>

@@ -1,0 +1,154 @@
+code_complexity_features:
+  - file_name: /tmp/tmpqMhhxN_ss_testcase/src-rose/src/dfa.c
+    function_name: dfamust
+    line_number: 0
+    feature_group: source_taint
+    feature: FILE_CONTENTS
+  - file_name: /tmp/tmpqMhhxN_ss_testcase/src-rose/src/dfa.c
+    function_name: dfamust
+    line_number: 0
+    feature_group: data_type
+    feature: simple
+  - file_name: /tmp/tmpqMhhxN_ss_testcase/src-rose/src/dfa.c
+    function_name: dfamust
+    line_number: 0
+    feature_group: data_flow
+    feature: basic
+  - file_name: /tmp/tmpqMhhxN_ss_testcase/src-rose/src/dfa.c
+    function_name: dfamust
+    line_number: 0
+    feature_group: control_flow
+    feature: sequence
+description: "Creating test case using base program.\nAdded an environment variable read to get a filename to read in the file contents using an fread operation within the function\nCompleted injection.\n"
+io_pair:
+  base_inputs:
+    - source: env_var_input
+      source_enum: 2
+      stage: pre_process
+      stage_enum: 0
+      value: /opt/stonesoup/workspace/testData/drungar_pyrographies/felones_but.txt
+      value_encoding: none
+      value_type: USE_TEXT_DIRECTLY
+      value_type_enum: 0
+      ordinal: 1
+      name: SCREWUPS_UNDECREPIT
+    - source: file_content_input
+      source_enum: 3
+      stage: pre_process
+      stage_enum: 0
+      id: source
+      ordinal: 2
+      name: /opt/stonesoup/workspace/testData/drungar_pyrographies/felones_but.txt
+  description: "Read a space-delimited string from the input.  The first element in the string is the number of elements following it.  Then read in the following elements, and output them to stderr.  If there are fewer elements than expected, a seg fault occurs.\n\n"
+  exploits:
+    - inputs:
+        - stage: pre_process
+          source: env_var_input
+          stage_enum: 0
+          value: /opt/stonesoup/workspace/testData/drungar_pyrographies/felones_but.txt
+          source_enum: 2
+          value_type_enum: 0
+          name: SCREWUPS_UNDECREPIT
+          value_encoding: none
+          value_type: USE_TEXT_DIRECTLY
+          ordinal: 1
+        - source: file_content_input
+          source_enum: 3
+          stage: pre_process
+          stage_enum: 0
+          id: source
+          ordinal: 2
+          name: /opt/stonesoup/workspace/testData/drungar_pyrographies/felones_but.txt
+          value: 2 a
+          value_encoding: none
+          value_type: USE_TEXT_DIRECTLY
+          value_type_enum: 0
+    - inputs:
+        - source: env_var_input
+          source_enum: 2
+          stage: pre_process
+          stage_enum: 0
+          value: /opt/stonesoup/workspace/testData/drungar_pyrographies/felones_but.txt
+          value_encoding: none
+          value_type: USE_TEXT_DIRECTLY
+          value_type_enum: 0
+          ordinal: 1
+          name: SCREWUPS_UNDECREPIT
+        - source: file_content_input
+          source_enum: 3
+          stage: pre_process
+          stage_enum: 0
+          id: source
+          ordinal: 2
+          name: /opt/stonesoup/workspace/testData/drungar_pyrographies/felones_but.txt
+          value: 10 a b c
+          value_encoding: none
+          value_type: USE_TEXT_DIRECTLY
+          value_type_enum: 0
+  benigns:
+    - inputs:
+        - source_enum: 2
+          source: env_var_input
+          stage: pre_process
+          stage_enum: 0
+          name: SCREWUPS_UNDECREPIT
+          value_encoding: none
+          value: /opt/stonesoup/workspace/testData/drungar_pyrographies/felones_but.txt
+          value_type: USE_TEXT_DIRECTLY
+          ordinal: 1
+          value_type_enum: 0
+        - value_encoding: none
+          id: source
+          value_type: USE_TEXT_DIRECTLY
+          stage_enum: 0
+          source_enum: 3
+          source: file_content_input
+          value_type_enum: 0
+          stage: pre_process
+          ordinal: 2
+          name: /opt/stonesoup/workspace/testData/drungar_pyrographies/felones_but.txt
+          value: 1 foo
+    - inputs:
+        - value_type: USE_TEXT_DIRECTLY
+          source: env_var_input
+          value_type_enum: 0
+          value_encoding: none
+          ordinal: 1
+          value: /opt/stonesoup/workspace/testData/drungar_pyrographies/felones_but.txt
+          source_enum: 2
+          stage: pre_process
+          stage_enum: 0
+          name: SCREWUPS_UNDECREPIT
+        - value_type: USE_TEXT_DIRECTLY
+          stage_enum: 0
+          value_type_enum: 0
+          value_encoding: none
+          source_enum: 3
+          id: source
+          name: /opt/stonesoup/workspace/testData/drungar_pyrographies/felones_but.txt
+          stage: pre_process
+          source: file_content_input
+          ordinal: 2
+          value: 2 a b
+    - inputs:
+        - stage: pre_process
+          ordinal: 1
+          stage_enum: 0
+          name: SCREWUPS_UNDECREPIT
+          value: /opt/stonesoup/workspace/testData/drungar_pyrographies/felones_but.txt
+          source: env_var_input
+          value_encoding: none
+          source_enum: 2
+          value_type: USE_TEXT_DIRECTLY
+          value_type_enum: 0
+        - source: file_content_input
+          name: /opt/stonesoup/workspace/testData/drungar_pyrographies/felones_but.txt
+          stage: pre_process
+          stage_enum: 0
+          ordinal: 2
+          value: 3 alpha bravo charlie
+          id: source
+          source_enum: 3
+          value_type_enum: 0
+          value_encoding: none
+          value_type: USE_TEXT_DIRECTLY

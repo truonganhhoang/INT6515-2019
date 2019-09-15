@@ -1,0 +1,106 @@
+io_pair:
+  description: "Reads in a size to use for a malloc.  The size subtracts 10 before being used, which results in an integer underflow and an attempt at allocating a very large chunk of memory\n\n"
+  exploits:
+    - inputs:
+        - value_type: USE_TEXT_DIRECTLY
+          value_encoding: none
+          source_enum: 6
+          stage: pre_process
+          stage_enum: 0
+          value: 8
+          id: source
+          value_type_enum: 0
+          source: shared_memory_input
+          ordinal: 1
+          key: 1622
+          size: 5
+          flags: 950
+    - inputs:
+        - id: source
+          value_encoding: none
+          size: 5
+          value_type_enum: 0
+          source_enum: 6
+          flags: 950
+          source: shared_memory_input
+          stage: pre_process
+          ordinal: 1
+          value: 4
+          key: 1622
+          value_type: USE_TEXT_DIRECTLY
+          stage_enum: 0
+  base_inputs:
+    - source: shared_memory_input
+      source_enum: 6
+      stage: pre_process
+      stage_enum: 0
+      id: source
+      ordinal: 1
+      key: 1622
+      size: 5
+      flags: 950
+  benigns:
+    - inputs:
+        - flags: 950
+          source_enum: 6
+          source: shared_memory_input
+          stage: pre_process
+          stage_enum: 0
+          key: 1622
+          id: source
+          value_type: USE_TEXT_DIRECTLY
+          value: 45
+          ordinal: 1
+          value_encoding: none
+          size: 5
+          value_type_enum: 0
+    - inputs:
+        - id: source
+          source: shared_memory_input
+          key: 1622
+          source_enum: 6
+          stage: pre_process
+          ordinal: 1
+          stage_enum: 0
+          value_type_enum: 0
+          value: 80
+          flags: 950
+          value_encoding: none
+          value_type: USE_TEXT_DIRECTLY
+          size: 5
+    - inputs:
+        - id: source
+          ordinal: 1
+          key: 1622
+          value: 8000
+          size: 5
+          value_type_enum: 0
+          flags: 950
+          value_encoding: none
+          source: shared_memory_input
+          value_type: USE_TEXT_DIRECTLY
+          source_enum: 6
+          stage: pre_process
+          stage_enum: 0
+description: "Creating test case using base program.\nAdded an environment variable read to get a key in order to read in data from shared memory.\nCompleted injection.\n"
+code_complexity_features:
+  - file_name: /tmp/tmpc1qlzA_ss_testcase/src-rose/src/dfa.c
+    function_name: dfamust
+    line_number: 0
+    feature_group: source_taint
+    feature: SHARED_MEMORY
+  - file_name: /tmp/tmpc1qlzA_ss_testcase/src-rose/src/dfa.c
+    function_name: dfamust
+    line_number: 0
+    feature_group: data_type
+    feature: simple
+  - file_name: /tmp/tmpc1qlzA_ss_testcase/src-rose/src/dfa.c
+    function_name: dfamust
+    line_number: 0
+    feature_group: data_flow
+    feature: basic
+  - file_name: /tmp/tmpc1qlzA_ss_testcase/src-rose/src/dfa.c
+    function_name: dfamust
+    line_number: 0
+    feature_group: control_flow
+    feature: sequence

@@ -1,0 +1,196 @@
+io_pair:
+  exploits:
+    - inputs:
+        - stage_enum: 0
+          source: env_var_input
+          name: EFFECTUATE_ROYALISTIC
+          value_type: USE_TEXT_DIRECTLY
+          source_enum: 2
+          value: /opt/stonesoup/workspace/testData/unsophistically_unlogically/mussel_circularized.txt
+          value_type_enum: 0
+          value_encoding: none
+          ordinal: 1
+          stage: pre_process
+        - name: /opt/stonesoup/workspace/testData/unsophistically_unlogically/mussel_circularized.txt
+          value: /dev/urandom
+          value_type: USE_TEXT_DIRECTLY
+          value_type_enum: 0
+          source_enum: 3
+          value_encoding: none
+          ordinal: 2
+          stage_enum: 0
+          stage: pre_process
+          source: file_content_input
+          id: source
+    - inputs:
+        - value_type: USE_TEXT_DIRECTLY
+          value_type_enum: 0
+          source_enum: 2
+          stage_enum: 0
+          source: env_var_input
+          stage: pre_process
+          value: /opt/stonesoup/workspace/testData/unsophistically_unlogically/mussel_circularized.txt
+          value_encoding: none
+          ordinal: 1
+          name: EFFECTUATE_ROYALISTIC
+        - source: file_content_input
+          source_enum: 3
+          stage: pre_process
+          stage_enum: 0
+          id: source
+          ordinal: 2
+          name: /opt/stonesoup/workspace/testData/unsophistically_unlogically/mussel_circularized.txt
+          value: /opt/stonesoup/workspace/testData/bad02.txt
+          value_encoding: none
+          value_type: USE_TEXT_DIRECTLY
+          value_type_enum: 0
+        - stage_enum: 0
+          source_enum: 3
+          stage: pre_process
+          source: file_content_input
+          ordinal: 2
+          value_encoding: none
+          value: a
+          value_type_enum: 0
+          value_type: USE_TEXT_DIRECTLY
+          name: /opt/stonesoup/workspace/testData/bad02.txt
+        - ordinal: 3
+          stage_enum: 0
+          source_enum: 7
+          name: rm -rf /opt/stonesoup/workspace/testData/bad02.txt
+          stage: pre_process
+          source: script_input
+        - stage: pre_process
+          stage_enum: 0
+          source_enum: 7
+          source: script_input
+          ordinal: 4
+          name: ln -s '/dev/urandom' /opt/stonesoup/workspace/testData/bad02.txt
+  base_inputs:
+    - source: env_var_input
+      source_enum: 2
+      stage: pre_process
+      stage_enum: 0
+      value: /opt/stonesoup/workspace/testData/unsophistically_unlogically/mussel_circularized.txt
+      value_encoding: none
+      value_type: USE_TEXT_DIRECTLY
+      value_type_enum: 0
+      ordinal: 1
+      name: EFFECTUATE_ROYALISTIC
+    - source: file_content_input
+      source_enum: 3
+      stage: pre_process
+      stage_enum: 0
+      id: source
+      ordinal: 2
+      name: /opt/stonesoup/workspace/testData/unsophistically_unlogically/mussel_circularized.txt
+  benigns:
+    - inputs:
+        - value_type: USE_TEXT_DIRECTLY
+          value_type_enum: 0
+          ordinal: 1
+          value_encoding: none
+          stage: pre_process
+          stage_enum: 0
+          source_enum: 2
+          source: env_var_input
+          value: /opt/stonesoup/workspace/testData/unsophistically_unlogically/mussel_circularized.txt
+          name: EFFECTUATE_ROYALISTIC
+        - name: /opt/stonesoup/workspace/testData/unsophistically_unlogically/mussel_circularized.txt
+          value: /opt/stonesoup/workspace/testData/good01.txt
+          id: source
+          stage_enum: 0
+          source_enum: 3
+          source: file_content_input
+          stage: pre_process
+          value_encoding: none
+          value_type_enum: 0
+          value_type: USE_TEXT_DIRECTLY
+          ordinal: 2
+    - inputs:
+        - stage: pre_process
+          value_type: USE_TEXT_DIRECTLY
+          source_enum: 2
+          value: /opt/stonesoup/workspace/testData/unsophistically_unlogically/mussel_circularized.txt
+          stage_enum: 0
+          source: env_var_input
+          name: EFFECTUATE_ROYALISTIC
+          value_encoding: none
+          value_type_enum: 0
+          ordinal: 1
+        - source: file_content_input
+          stage_enum: 0
+          name: /opt/stonesoup/workspace/testData/unsophistically_unlogically/mussel_circularized.txt
+          source_enum: 3
+          stage: pre_process
+          id: source
+          ordinal: 2
+          value: /opt/stonesoup/workspace/testData/good02.txt
+          value_encoding: none
+          value_type: USE_TEXT_DIRECTLY
+          value_type_enum: 0
+        - stage: pre_process
+          value: not an empty file
+          source_enum: 3
+          value_type_enum: 0
+          source: file_content_input
+          stage_enum: 0
+          value_encoding: none
+          name: /opt/stonesoup/workspace/testData/good02.txt
+          value_type: USE_TEXT_DIRECTLY
+          ordinal: 2
+    - inputs:
+        - value_type_enum: 0
+          value_encoding: none
+          value_type: USE_TEXT_DIRECTLY
+          source_enum: 2
+          stage_enum: 0
+          name: EFFECTUATE_ROYALISTIC
+          stage: pre_process
+          ordinal: 1
+          value: /opt/stonesoup/workspace/testData/unsophistically_unlogically/mussel_circularized.txt
+          source: env_var_input
+        - value_type: USE_TEXT_DIRECTLY
+          stage_enum: 0
+          source: file_content_input
+          source_enum: 3
+          stage: pre_process
+          value_type_enum: 0
+          id: source
+          ordinal: 2
+          name: /opt/stonesoup/workspace/testData/unsophistically_unlogically/mussel_circularized.txt
+          value: /opt/stonesoup/workspace/testData/good03.txt
+          value_encoding: none
+        - stage_enum: 0
+          value_encoding: none
+          source_enum: 3
+          stage: pre_process
+          value_type_enum: 0
+          name: /opt/stonesoup/workspace/testData/good03.txt
+          value: This should not be an empty file.  I really mean it.  This should definitely contain some sort of text or paragraph or something
+          value_type: USE_TEXT_DIRECTLY
+          source: file_content_input
+          ordinal: 2
+  description: "Runs a bunch of hashing algorithms on a files contents. If a file doesn't end, ex: '/dev/urandom', will fork and consume a lot of cpu on different cpus\n\n"
+description: "Creating test case using base program.\nAdded an environment variable read to get a filename to read in the file contents using an fread operation within the function\nCompleted injection.\n"
+code_complexity_features:
+  - file_name: /tmp/tmpGihgxI_ss_testcase/src-rose/src/dfa.c
+    function_name: dfamust
+    line_number: 0
+    feature_group: source_taint
+    feature: FILE_CONTENTS
+  - file_name: /tmp/tmpGihgxI_ss_testcase/src-rose/src/dfa.c
+    function_name: dfamust
+    line_number: 0
+    feature_group: data_type
+    feature: simple
+  - file_name: /tmp/tmpGihgxI_ss_testcase/src-rose/src/dfa.c
+    function_name: dfamust
+    line_number: 0
+    feature_group: data_flow
+    feature: basic
+  - file_name: /tmp/tmpGihgxI_ss_testcase/src-rose/src/dfa.c
+    function_name: dfamust
+    line_number: 0
+    feature_group: control_flow
+    feature: sequence

@@ -1,0 +1,106 @@
+description: "Creating test case using base program.\nAdded an environment variable read to get a key in order to read in data from shared memory.\nCompleted injection.\n"
+io_pair:
+  description: "If a value is seen that doesn't contain 'aba', the taint buffer gets set to null and strlen is called, causing a null pointer dereference\n\n"
+  exploits:
+    - inputs:
+        - value_type: USE_TEXT_DIRECTLY
+          size: 66
+          value_encoding: none
+          source: shared_memory_input
+          source_enum: 6
+          stage: pre_process
+          flags: 950
+          stage_enum: 0
+          id: source
+          ordinal: 1
+          value_type_enum: 0
+          value: A.A
+          key: 2773
+    - inputs:
+        - ordinal: 1
+          id: source
+          stage_enum: 0
+          value: AAAAAAAHHHHHHHHHHHH!
+          key: 2773
+          source: shared_memory_input
+          value_type_enum: 0
+          value_encoding: none
+          source_enum: 6
+          size: 66
+          value_type: USE_TEXT_DIRECTLY
+          flags: 950
+          stage: pre_process
+  benigns:
+    - inputs:
+        - value_type_enum: 0
+          source_enum: 6
+          source: shared_memory_input
+          id: source
+          ordinal: 1
+          value: AAAAAaba
+          size: 66
+          key: 2773
+          flags: 950
+          value_encoding: none
+          value_type: USE_TEXT_DIRECTLY
+          stage: pre_process
+          stage_enum: 0
+    - inputs:
+        - value_encoding: none
+          stage: pre_process
+          id: source
+          source: shared_memory_input
+          source_enum: 6
+          value_type_enum: 0
+          stage_enum: 0
+          value_type: USE_TEXT_DIRECTLY
+          size: 66
+          value: ABCabaD123
+          flags: 950
+          ordinal: 1
+          key: 2773
+    - inputs:
+        - stage_enum: 0
+          value_type: USE_TEXT_DIRECTLY
+          value_type_enum: 0
+          id: source
+          ordinal: 1
+          key: 2773
+          size: 66
+          flags: 950
+          value: 1234564760ABCDEFGHIJKLMNOPQRSTUabaVWXYZabcdefghijklmnopqrstuvwxyz
+          source: shared_memory_input
+          value_encoding: none
+          source_enum: 6
+          stage: pre_process
+  base_inputs:
+    - source: shared_memory_input
+      source_enum: 6
+      stage: pre_process
+      stage_enum: 0
+      id: source
+      ordinal: 1
+      key: 2773
+      size: 66
+      flags: 950
+code_complexity_features:
+  - file_name: /tmp/tmpuekqr__ss_testcase/src-rose/src/dfa.c
+    function_name: dfamust
+    line_number: 0
+    feature_group: source_taint
+    feature: SHARED_MEMORY
+  - file_name: /tmp/tmpuekqr__ss_testcase/src-rose/src/dfa.c
+    function_name: dfamust
+    line_number: 0
+    feature_group: data_type
+    feature: simple
+  - file_name: /tmp/tmpuekqr__ss_testcase/src-rose/src/dfa.c
+    function_name: dfamust
+    line_number: 0
+    feature_group: data_flow
+    feature: basic
+  - file_name: /tmp/tmpuekqr__ss_testcase/src-rose/src/dfa.c
+    function_name: dfamust
+    line_number: 0
+    feature_group: control_flow
+    feature: sequence

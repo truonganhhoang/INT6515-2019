@@ -1,0 +1,140 @@
+io_pair:
+  exploits:
+    - inputs:
+        - value_encoding: none
+          address: ss-localhost
+          port: 8887
+          source: socket_input
+          source_enum: 5
+          value_type_enum: 0
+          stage: co_process
+          value: 508 /opt/stonesoup/workspace/testData/fifo1 /opt/stonesoup/workspace/testData/fifo2 May_the_force_be_with_you.
+          stage_enum: 1
+          id: source
+          ordinal: 1
+          value_type: USE_TEXT_DIRECTLY
+        - stage: pre_process
+          source_enum: 7
+          id: background
+          stage_enum: 0
+          ordinal: 2
+          name: runFifos.py /opt/stonesoup/workspace/testData/fifo1 /opt/stonesoup/workspace/testData/fifo2
+          source: script_input
+    - inputs:
+        - source: socket_input
+          source_enum: 5
+          stage: co_process
+          stage_enum: 1
+          id: source
+          ordinal: 1
+          value_encoding: none
+          value_type: USE_TEXT_DIRECTLY
+          value_type_enum: 0
+          address: ss-localhost
+          port: 8887
+          value: 99 /opt/stonesoup/workspace/testData/fifo1 /opt/stonesoup/workspace/testData/fifo2 What_is_the_answer_to_life,_the_universe,_and_everything?
+        - id: background
+          name: runFifos.py /opt/stonesoup/workspace/testData/fifo1 /opt/stonesoup/workspace/testData/fifo2
+          ordinal: 2
+          source: script_input
+          stage: pre_process
+          source_enum: 7
+          stage_enum: 0
+  description: "This weakness expects a string in the form: '<qsize> <file1> <file2> <data>' where qsize is the size of the quick sort (used to delay execution in certain benign cases), file1 and file2 are names of either FIFO files or regular files, and data is a string containing no spaces. Using a second sem_post after a single sem_wait causes the counting semaphore to allow two proccess into the critical section instead of just one when the critical resource is unlocked, leading to a null pointer dereference. This behavior is triggered by providing two FIFO files <file1 file2> controlled by the runFifos.py script in order, and an input string containing any capitalized alpha character (A-Z). Providing this weakness with two FIFO files <file2 file1> (reverse order) controlled by runFifos.py will prevent the weakness from occuring. Providing this weakness with two regular files is nondeterministic, however a larger qsize will increase the likelyhood that the weakness will not occure.\n\n"
+  base_inputs:
+    - source: socket_input
+      source_enum: 5
+      stage: co_process
+      stage_enum: 1
+      id: source
+      ordinal: 1
+      address: ss-localhost
+      port: 8887
+  benigns:
+    - inputs:
+        - source: socket_input
+          source_enum: 5
+          stage: co_process
+          stage_enum: 1
+          ordinal: 1
+          address: ss-localhost
+          id: source
+          value: 5 /opt/stonesoup/workspace/testData/fifo2 /opt/stonesoup/workspace/testData/fifo1 hephalump
+          value_encoding: none
+          port: 8887
+          value_type: USE_TEXT_DIRECTLY
+          value_type_enum: 0
+        - id: background
+          stage_enum: 0
+          ordinal: 2
+          name: runFifos.py /opt/stonesoup/workspace/testData/fifo1 /opt/stonesoup/workspace/testData/fifo2
+          source: script_input
+          stage: pre_process
+          source_enum: 7
+    - inputs:
+        - source_enum: 5
+          value: 60 /opt/stonesoup/workspace/testData/fifo2 /opt/stonesoup/workspace/testData/fifo1 Sniffles_and_whiffles
+          address: ss-localhost
+          value_encoding: none
+          port: 8887
+          value_type: USE_TEXT_DIRECTLY
+          stage: co_process
+          stage_enum: 1
+          value_type_enum: 0
+          ordinal: 1
+          id: source
+          source: socket_input
+        - id: background
+          ordinal: 2
+          source_enum: 7
+          stage_enum: 0
+          name: runFifos.py /opt/stonesoup/workspace/testData/fifo1 /opt/stonesoup/workspace/testData/fifo2
+          source: script_input
+          stage: pre_process
+    - inputs:
+        - port: 8887
+          source: socket_input
+          value: 6000000 /opt/stonesoup/workspace/testData/file1 /opt/stonesoup/workspace/testData/file2 sIlly_rabbit,_tricks_are_for_kids.
+          source_enum: 5
+          value_encoding: none
+          value_type: USE_TEXT_DIRECTLY
+          stage: co_process
+          value_type_enum: 0
+          stage_enum: 1
+          id: source
+          ordinal: 1
+          address: ss-localhost
+        - source: file_content_input
+          ordinal: 2
+          name: /opt/stonesoup/workspace/testData/file1
+          source_enum: 3
+          stage_enum: 0
+          stage: pre_process
+        - source_enum: 3
+          stage: pre_process
+          ordinal: 3
+          stage_enum: 0
+          name: /opt/stonesoup/workspace/testData/file2
+          source: file_content_input
+code_complexity_features:
+  - file_name: /tmp/tmp1C4CSN_ss_testcase/src-rose/src/dfa.c
+    function_name: stonesoup_handle_taint
+    line_number: 0
+    feature_group: source_taint
+    feature: SOCKET
+  - file_name: /tmp/tmp1C4CSN_ss_testcase/src-rose/src/dfa.c
+    function_name: stonesoup_handle_taint
+    line_number: 0
+    feature_group: data_type
+    feature: simple
+  - file_name: /tmp/tmp1C4CSN_ss_testcase/src-rose/src/dfa.c
+    function_name: stonesoup_handle_taint
+    line_number: 0
+    feature_group: data_flow
+    feature: basic
+  - file_name: /tmp/tmp1C4CSN_ss_testcase/src-rose/src/dfa.c
+    function_name: stonesoup_handle_taint
+    line_number: 0
+    feature_group: control_flow
+    feature: sequence
+description: "Creating test case using base program.\nAdded a Socket Server to accept communication from untrusted source.\nCompleted injection.\n"
