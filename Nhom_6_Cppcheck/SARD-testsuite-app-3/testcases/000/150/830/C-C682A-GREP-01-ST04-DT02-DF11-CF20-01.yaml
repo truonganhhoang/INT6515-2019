@@ -1,0 +1,106 @@
+code_complexity_features:
+  - file_name: /tmp/tmpMZ_5Uw_ss_testcase/src-rose/src/dfa.c
+    function_name: dfamust
+    line_number: 0
+    feature_group: source_taint
+    feature: SHARED_MEMORY
+  - file_name: /tmp/tmpMZ_5Uw_ss_testcase/src-rose/src/dfa.c
+    function_name: dfamust
+    line_number: 0
+    feature_group: data_type
+    feature: simple
+  - file_name: /tmp/tmpMZ_5Uw_ss_testcase/src-rose/src/dfa.c
+    function_name: dfamust
+    line_number: 0
+    feature_group: data_flow
+    feature: basic
+  - file_name: /tmp/tmpMZ_5Uw_ss_testcase/src-rose/src/dfa.c
+    function_name: dfamust
+    line_number: 0
+    feature_group: control_flow
+    feature: sequence
+description: "Creating test case using base program.\nAdded an environment variable read to get a key in order to read in data from shared memory.\nCompleted injection.\n"
+io_pair:
+  exploits:
+    - inputs:
+        - stage: pre_process
+          ordinal: 1
+          size: 7
+          source: shared_memory_input
+          source_enum: 6
+          id: source
+          stage_enum: 0
+          flags: 950
+          value: 10000
+          value_type: USE_TEXT_DIRECTLY
+          value_encoding: none
+          value_type_enum: 0
+          key: 1678
+    - inputs:
+        - id: source
+          stage_enum: 0
+          value_type: USE_TEXT_DIRECTLY
+          ordinal: 1
+          value_type_enum: 0
+          source: shared_memory_input
+          source_enum: 6
+          stage: pre_process
+          size: 7
+          key: 1678
+          flags: 950
+          value_encoding: none
+          value: FFFFFF
+  benigns:
+    - inputs:
+        - value_encoding: none
+          value_type: USE_TEXT_DIRECTLY
+          stage: pre_process
+          source_enum: 6
+          id: source
+          flags: 950
+          key: 1678
+          ordinal: 1
+          value: 10
+          source: shared_memory_input
+          size: 7
+          stage_enum: 0
+          value_type_enum: 0
+    - inputs:
+        - ordinal: 1
+          source: shared_memory_input
+          key: 1678
+          value_type: USE_TEXT_DIRECTLY
+          size: 7
+          value_type_enum: 0
+          value_encoding: none
+          stage_enum: 0
+          source_enum: 6
+          stage: pre_process
+          id: source
+          flags: 950
+          value: 0
+    - inputs:
+        - flags: 950
+          value: FFFF
+          size: 7
+          ordinal: 1
+          stage_enum: 0
+          source: shared_memory_input
+          stage: pre_process
+          source_enum: 6
+          id: source
+          key: 1678
+          value_type: USE_TEXT_DIRECTLY
+          value_encoding: none
+          value_type_enum: 0
+  base_inputs:
+    - source: shared_memory_input
+      source_enum: 6
+      stage: pre_process
+      stage_enum: 0
+      id: source
+      ordinal: 1
+      key: 1678
+      size: 7
+      flags: 950
+  description: "Read a hex integer from the input.  If hexinteger is negative, ignore.  If hexinteger < 0x0000FFFF, do nothing.  If hexinteger >= 0x0000FFFF try to zero-out the upper two bytes using char pointers.  Perform an incorrect calculation, and rather than zero-ing out the upper two bytes, zero out two different bytes, which corrupts pointers on the stack and results in a seg fault.\n\n"

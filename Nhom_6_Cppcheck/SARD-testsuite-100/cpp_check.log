@@ -1,0 +1,162 @@
+000\149\049\mem-bad.c:21:3: error: Memory pointed to by 'p' is freed twice. [doubleFree]
+  free(p);   /* FLAW */
+  ^
+000\149\067\gets2-bad.c:37:11: error: Buffer is accessed out of bounds: buf [bufferAccessOutOfBounds]
+ if(fgets(buf, 1024, stdin))   /* FLAW */
+          ^
+000\149\075\mem3-bad.c:41:2: error: Returning/dereferencing 'p' after it is deallocated / released [deallocret]
+ return p;
+ ^
+000\149\089\uninitialized_variable-bad.c:16:28: error: Uninitialized variable: k [uninitvar]
+        printf("%d\n", k = k+1); /* FLAW */
+                           ^
+000\149\093\cgic.c:315:3: error: Memory leak: input [memleak]
+  return cgiParseIO;
+  ^
+000\149\093\cgic.c:2268:13: error: Uninitialized variable: i [uninitvar]
+ if (!fread(i, sizeof(int), 1, out)) {
+            ^
+000\149\093\cgic.c:2152:23: note: Calling function 'cgiReadInt', 2nd argument '&fileFlag' value is <Uninit>
+  if (!cgiReadInt(in, &fileFlag)) {
+                      ^
+000\149\093\cgic.c:2268:13: note: Uninitialized variable: i
+ if (!fread(i, sizeof(int), 1, out)) {
+            ^
+000\149\137\misused_string_fct-bad.c:24:9: error: Buffer is accessed out of bounds: str [bufferAccessOutOfBounds]
+ strcpy(str, myLongString);       /* FLAW */
+        ^
+000\149\149\null_deref_scope-bad.c:17:14: warning: Possible null pointer dereference: b [nullPointer]
+ double k = *b;         /* FLAW */
+             ^
+000\149\149\null_deref_scope-bad.c:24:14: note: Assignment 't=(double*)NULL', assigned value is 0
+ double *t = (double *)NULL;
+             ^
+000\149\149\null_deref_scope-bad.c:25:10: note: Calling function 'execute', 1st argument 't' value is 0
+ execute(t);
+         ^
+000\149\149\null_deref_scope-bad.c:17:14: note: Null pointer dereference
+ double k = *b;         /* FLAW */
+             ^
+000\149\167\stack_overflow_index_alias-bad.c:19:8: error: Array 'buffer[1][256]' accessed at index buffer[0][256], which is out of bounds. [arrayIndexOutOfBounds]
+ buffer[0][256] = '!';        /* FLAW */
+       ^
+000\149\169\stack_overflow_loop-bad.c:22:7: error: Array 'bStr[10]' accessed at index 10, which is out of bounds. [arrayIndexOutOfBounds]
+  bStr[i] = (char)i + 'a';      /* FLAW */
+      ^
+000\149\173\cgic.c:315:3: error: Memory leak: input [memleak]
+  return cgiParseIO;
+  ^
+000\149\173\cgic.c:2268:13: error: Uninitialized variable: i [uninitvar]
+ if (!fread(i, sizeof(int), 1, out)) {
+            ^
+000\149\173\cgic.c:2152:23: note: Calling function 'cgiReadInt', 2nd argument '&fileFlag' value is <Uninit>
+  if (!cgiReadInt(in, &fileFlag)) {
+                      ^
+000\149\173\cgic.c:2268:13: note: Uninitialized variable: i
+ if (!fread(i, sizeof(int), 1, out)) {
+            ^
+000\149\175\cgic.c:315:3: error: Memory leak: input [memleak]
+  return cgiParseIO;
+  ^
+000\149\175\cgic.c:2268:13: error: Uninitialized variable: i [uninitvar]
+ if (!fread(i, sizeof(int), 1, out)) {
+            ^
+000\149\175\cgic.c:2152:23: note: Calling function 'cgiReadInt', 2nd argument '&fileFlag' value is <Uninit>
+  if (!cgiReadInt(in, &fileFlag)) {
+                      ^
+000\149\175\cgic.c:2268:13: note: Uninitialized variable: i
+ if (!fread(i, sizeof(int), 1, out)) {
+            ^
+000\149\177\cgic.c:315:3: error: Memory leak: input [memleak]
+  return cgiParseIO;
+  ^
+000\149\177\cgic.c:2268:13: error: Uninitialized variable: i [uninitvar]
+ if (!fread(i, sizeof(int), 1, out)) {
+            ^
+000\149\177\cgic.c:2152:23: note: Calling function 'cgiReadInt', 2nd argument '&fileFlag' value is <Uninit>
+  if (!cgiReadInt(in, &fileFlag)) {
+                      ^
+000\149\177\cgic.c:2268:13: note: Uninitialized variable: i
+ if (!fread(i, sizeof(int), 1, out)) {
+            ^
+000\149\179\memory_leak_container-bad.c:32:2: error: Memory leak: buffer.mem [memleak]
+ return 0;
+ ^
+000\149\189\memory_leak_basic-bad.c:26:2: error: Memory leak: buff [memleak]
+ buff = NULL;                                        /* FLAW */
+ ^
+000\149\191\UninitializedVariable_pointer-bad.c:18:6: error: Uninitialized variable: px [uninitvar]
+ if(*px == 1) printf("%6.1f", foo);     /* FLAW */
+     ^
+000\149\197\Uninitialized_variable-bad.c:7:6: error: Uninitialized variable: foo [uninitvar]
+ if (foo==0) printf("foo= 0");       /* FLAW */
+     ^
+000\149\203\UseAfterFree_container-bad.c:44:19: error: Dereferencing 'b' after it is deallocated / released [deallocuse]
+   {container.foo.b[0] = 'S'; printf("%s\n", container.foo.b);} /* FLAW */
+                  ^
+000\149\207\UninitializedVariable_DataType-bad.c:20:7: error: Uninitialized variable: ptr [uninitvar]
+ if (!ptr) {         /* FLAW */
+      ^
+000\149\209\NullPointerDereference-bad.c:18:7: error: Null pointer dereference: p [nullPointer]
+ x = *p;                  /* FLAW */
+      ^
+000\149\209\NullPointerDereference-bad.c:17:6: note: Assignment 'p=NULL', assigned value is 0
+ p = NULL;
+     ^
+000\149\209\NullPointerDereference-bad.c:18:7: note: Null pointer dereference
+ x = *p;                  /* FLAW */
+      ^
+000\149\211\null_deref_local_flow-bad.c:23:9: warning: Possible null pointer dereference: p [nullPointer]
+   k = *p;        /* FLAW */
+        ^
+000\149\211\null_deref_local_flow-bad.c:19:12: note: Assignment 'p=(char*)NULL', assigned value is 0
+ char *p = (char *)NULL;
+           ^
+000\149\211\null_deref_local_flow-bad.c:23:9: note: Null pointer dereference
+   k = *p;        /* FLAW */
+        ^
+000\149\215\cgic.c:315:3: error: Memory leak: input [memleak]
+  return cgiParseIO;
+  ^
+000\149\215\cgic.c:2268:13: error: Uninitialized variable: i [uninitvar]
+ if (!fread(i, sizeof(int), 1, out)) {
+            ^
+000\149\215\cgic.c:2152:23: note: Calling function 'cgiReadInt', 2nd argument '&fileFlag' value is <Uninit>
+  if (!cgiReadInt(in, &fileFlag)) {
+                      ^
+000\149\215\cgic.c:2268:13: note: Uninitialized variable: i
+ if (!fread(i, sizeof(int), 1, out)) {
+            ^
+000\149\217\double_free-bad.c:16:5: error: Memory pointed to by 'x' is freed twice. [doubleFree]
+    free(x);          /* FLAW */
+    ^
+000\149\219\useafterfree-bad.c:35:14: error: Dereferencing 'x' after it is deallocated / released [deallocuse]
+      if(x) *x = 'a';         /* FLAW */
+             ^
+000\149\223\use_after_free_container-bad.c:38:18: error: Dereferencing 'b' after it is deallocated / released [deallocuse]
+   container.foo.b[0] = 'S';     /* FLAW */
+                 ^
+000\149\229\double_free-bad.c:31:2: error: Memory pointed to by 'shellcode_location' is freed twice. [doubleFree]
+ free(shellcode_location);       /* FLAW */
+ ^
+000\149\245\null_deref-bad.c:23:7: error: Null pointer dereference: ptr [nullPointer]
+ c = *ptr;         /* FLAW */
+      ^
+000\149\245\null_deref-bad.c:18:14: note: Assignment 'ptr=NULL', assigned value is 0
+ char *ptr = NULL;
+             ^
+000\149\245\null_deref-bad.c:23:7: note: Null pointer dereference
+ c = *ptr;         /* FLAW */
+      ^
+000\149\149\null_deref_scope-bad.c:17:0: error: Null pointer dereference: b [ctunullpointer]
+
+^
+000\149\149\null_deref_scope-bad.c:24:0: note: Assignment 't=(double*)NULL', assigned value is 0
+
+^
+000\149\149\null_deref_scope-bad.c:25:0: note: Calling function execute, 1st argument is null
+
+^
+000\149\149\null_deref_scope-bad.c:17:0: note: Dereferencing argument b that is null
+
+^

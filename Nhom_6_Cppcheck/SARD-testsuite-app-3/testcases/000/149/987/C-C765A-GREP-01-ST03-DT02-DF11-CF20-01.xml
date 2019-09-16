@@ -1,0 +1,796 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project base_program="C-GREP" language="C" name="C-C765A-GREP-01-ST03-DT02-DF11-CF20-01" targeted_architecture="ANY" targeted_os="LINUX" test_case_type="ALL" xmlns="urn:stonesoup:project">
+    <description>Creating test case using base program.
+Added a Socket Server to accept communication from untrusted source.
+Completed injection.
+</description>
+    <additional_information>
+        <keyvalue key="algorithmic_variant_name">UNSPECIFIED</keyvalue>
+        <keyvalue key="root_cause">UNSPECIFIED</keyvalue>
+    </additional_information>
+    <structure install="install" iodata="testData" scoredata="testOutput" scripts="scripts" source="src"/>
+    <run_command>$SS_TC_ROOT/$SS_TC_INSTALL/bin/grep</run_command>
+    <weakness generation_method="FAULT_INJECTED">
+        <variant cwe="CWE-765" name="CWE-765-A"/>
+        <features>
+            <taint_source file_name="/src/dfa.c" line_number="0" type="SOCKET">
+                <method name="stonesoup_handle_taint"/>
+            </taint_source>
+            <data_type file_name="/src/dfa.c" line_number="0" type="SIMPLE">
+                <method name="stonesoup_handle_taint"/>
+            </data_type>
+            <data_flow file_name="/src/dfa.c" line_number="0" type="BASIC">
+                <method name="stonesoup_handle_taint"/>
+            </data_flow>
+            <control_flow file_name="/src/dfa.c" line_number="0" type="SEQUENCE">
+                <method name="stonesoup_handle_taint"/>
+            </control_flow>
+        </features>
+    </weakness>
+    <build_commands cppflags="-DSTONESOUP_TRACE=1" libs="-lpthread -lmongoose -ldl">
+        <command>./configure --prefix=&quot;$SS_TC_ROOT/$SS_TC_INSTALL&quot; --exec-prefix=&quot;$SS_TC_ROOT/$SS_TC_INSTALL&quot; --with-included-regex</command>
+        <command>make V=1 CC=&quot;$SS_CC&quot; CCLD=&quot;$SS_LNK&quot;</command>
+        <command>make V=1 install CC=&quot;$SS_CC&quot; CCLD=&quot;$SS_LNK&quot;</command>
+    </build_commands>
+    <iopairs>
+        <iopair name="C-C765A-GREP-01-ST03-DT02-DF11-CF20-01-GOOD-01" reset_scheme="NONE" timeout="300" type="GOOD">
+            <description>all words beginning with e or x, case sensitive
+This weakness expects a string in the form: '&lt;qsize&gt; &lt;file1&gt; &lt;file2&gt; &lt;data&gt;' where qsize is the size of the quick sort (used to delay execution in certain benign cases), file1 and file2 are names of either FIFO files or regular files, and data is a string containing no spaces. Using a second sem_post after a single sem_wait causes the counting semaphore to allow two proccess into the critical section instead of just one when the critical resource is unlocked, leading to a null pointer dereference. This behavior is triggered by providing two FIFO files &lt;file1 file2&gt; controlled by the runFifos.py script in order, and an input string containing any capitalized alpha character (A-Z). Providing this weakness with two FIFO files &lt;file2 file1&gt; (reverse order) controlled by runFifos.py will prevent the weakness from occuring. Providing this weakness with two regular files is nondeterministic, however a larger qsize will increase the likelyhood that the weakness will not occure.
+
+</description>
+            <technical_impact>NONE</technical_impact>
+            <pre_processes scheme="SEQUENCE">
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">printf '' | tee nginx_conf_env.txt</script>
+                </process>
+                <process delay_after="2">
+                    <script background="false" encoding="STRING" type="USE_TEXT">nohup runFifos.py /opt/stonesoup/workspace/testData/fifo1 /opt/stonesoup/workspace/testData/fifo2 &gt; /opt/stonesoup/workspace/inputDaemons/preprocess_daemon_script_01.out 2&gt;&amp;1 &amp; echo $! &gt; /opt/stonesoup/workspace/inputDaemons/preprocess_daemon_script_01.pid &amp;&amp; echo &quot;Script spawned&quot;</script>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">mkdir $SS_TC_ROOT/logs/execute/lttng</script>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="LTTNG_HOME" type="USE_TEXT">$SS_TC_ROOT/logs/execute/lttng</environment_variable>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="SS_RUN_COMMAND_LD_PRELOAD" type="USE_TEXT">$SS_TC_DEPS/lib64/liblttng-stonesoup-c.so:$SS_TC_DEPS/lib64/liblttng-ust-fork.so</environment_variable>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">mkdir -p $SS_TC_DEPS/var/run/lttng</script>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">$SS_TC_DEPS/bin/lttng create &amp;&amp; $SS_TC_DEPS/bin/lttng enable-event -u -a &amp;&amp; $SS_TC_DEPS/bin/lttng start</script>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">rm -rf $SS_TC_ROOT/lockDir</script>
+                </process>
+            </pre_processes>
+            <run_command encoding="STRING" preprend_runcommand="true" type="USE_TEXT">^[ex] input/dict.txt</run_command>
+            <co_processes scheme="SEQUENCE">
+                <process>
+                    <script background="false" encoding="STRING" input_id="socket_Qdflp4x8uG" type="USE_TEXT">/opt/stonesoup/workspace/scripts/service_mon.sh ss-localhost 8887 &amp;&amp; curl -v --data-urlencode data=&quot;5 /opt/stonesoup/workspace/testData/fifo2 /opt/stonesoup/workspace/testData/fifo1 hephalump&quot; --header &quot;If-Match: weak_taint_source_value&quot; --request POST --no-buffer --output /opt/stonesoup/workspace/testData/logfile.txt --silent --show-error http://ss-localhost:8887</script>
+                </process>
+            </co_processes>
+            <post_processes scheme="SEQUENCE">
+                <process>
+                    <script background="false" encoding="STRING" input_id="lttng_output_7LQAO0qYKj" type="USE_TEXT">$SS_TC_DEPS/bin/lttng stop &amp;&amp; $SS_TC_DEPS/bin/lttng view &amp;&amp; $SS_TC_DEPS/bin/lttng destroy</script>
+                </process>
+                <process delay_after="2">
+                    <script background="false" encoding="STRING" type="USE_TEXT">if [[ -f &quot;/opt/stonesoup/workspace/inputDaemons/preprocess_daemon_script_01.pid&quot; ]]; then killtree.sh -s 9 -p $(cat &quot;/opt/stonesoup/workspace/inputDaemons/preprocess_daemon_script_01.pid&quot;) &amp;&amp; echo &quot;Killed script.&quot;; else echo &quot;Failed: Script PID file does not exist.&quot;; fi</script>
+                </process>
+            </post_processes>
+            <scoring_formula default="GOOD-01-Default">
+                <formula name="GOOD-01-Default">STDOUT-01 AND NOT TIMEOUT AND NOT CONTROLLED_EXIT</formula>
+            </scoring_formula>
+            <output_checks>
+                <compare_check check_type="CONTAINS" name="STDOUT-01">
+                    <actual output_type="STANDARD_OUT"></actual>
+                    <expected encoding="STRING" type="USE_FILE_CONTENTS">good-01/std-out.txt</expected>
+                </compare_check>
+                <simple_check check_type="SPECIAL" encoding="STRING" name="TIMEOUT" type="USE_TEXT">DOES_NOT_RETURN</simple_check>
+                <simple_check check_type="SPECIAL" encoding="STRING" name="CONTROLLED_EXIT" type="USE_TEXT">CONTROLLED_EXIT</simple_check>
+            </output_checks>
+        </iopair>
+        <iopair name="C-C765A-GREP-01-ST03-DT02-DF11-CF20-01-GOOD-02" reset_scheme="NONE" timeout="300" type="GOOD">
+            <description>find BIRMINGHAM, ignore case, recursive
+This weakness expects a string in the form: '&lt;qsize&gt; &lt;file1&gt; &lt;file2&gt; &lt;data&gt;' where qsize is the size of the quick sort (used to delay execution in certain benign cases), file1 and file2 are names of either FIFO files or regular files, and data is a string containing no spaces. Using a second sem_post after a single sem_wait causes the counting semaphore to allow two proccess into the critical section instead of just one when the critical resource is unlocked, leading to a null pointer dereference. This behavior is triggered by providing two FIFO files &lt;file1 file2&gt; controlled by the runFifos.py script in order, and an input string containing any capitalized alpha character (A-Z). Providing this weakness with two FIFO files &lt;file2 file1&gt; (reverse order) controlled by runFifos.py will prevent the weakness from occuring. Providing this weakness with two regular files is nondeterministic, however a larger qsize will increase the likelyhood that the weakness will not occure.
+
+</description>
+            <technical_impact>NONE</technical_impact>
+            <pre_processes scheme="SEQUENCE">
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">printf '' | tee nginx_conf_env.txt</script>
+                </process>
+                <process delay_after="2">
+                    <script background="false" encoding="STRING" type="USE_TEXT">nohup runFifos.py /opt/stonesoup/workspace/testData/fifo1 /opt/stonesoup/workspace/testData/fifo2 &gt; /opt/stonesoup/workspace/inputDaemons/preprocess_daemon_script_01.out 2&gt;&amp;1 &amp; echo $! &gt; /opt/stonesoup/workspace/inputDaemons/preprocess_daemon_script_01.pid &amp;&amp; echo &quot;Script spawned&quot;</script>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">mkdir $SS_TC_ROOT/logs/execute/lttng</script>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="LTTNG_HOME" type="USE_TEXT">$SS_TC_ROOT/logs/execute/lttng</environment_variable>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="SS_RUN_COMMAND_LD_PRELOAD" type="USE_TEXT">$SS_TC_DEPS/lib64/liblttng-stonesoup-c.so:$SS_TC_DEPS/lib64/liblttng-ust-fork.so</environment_variable>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">mkdir -p $SS_TC_DEPS/var/run/lttng</script>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">$SS_TC_DEPS/bin/lttng create &amp;&amp; $SS_TC_DEPS/bin/lttng enable-event -u -a &amp;&amp; $SS_TC_DEPS/bin/lttng start</script>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">rm -rf $SS_TC_ROOT/lockDir</script>
+                </process>
+            </pre_processes>
+            <run_command encoding="STRING" preprend_runcommand="true" type="USE_TEXT">-r -i BIRMINGHAM input/zip/</run_command>
+            <co_processes scheme="SEQUENCE">
+                <process>
+                    <script background="false" encoding="STRING" input_id="socket_0PxmpBYK9N" type="USE_TEXT">/opt/stonesoup/workspace/scripts/service_mon.sh ss-localhost 8887 &amp;&amp; curl -v --data-urlencode data=&quot;60 /opt/stonesoup/workspace/testData/fifo2 /opt/stonesoup/workspace/testData/fifo1 Sniffles_and_whiffles&quot; --header &quot;If-Match: weak_taint_source_value&quot; --request POST --no-buffer --output /opt/stonesoup/workspace/testData/logfile.txt --silent --show-error http://ss-localhost:8887</script>
+                </process>
+            </co_processes>
+            <post_processes scheme="SEQUENCE">
+                <process delay_after="0" delay_before="0">
+                    <script background="false" encoding="STRING" type="USE_TEXT">sort $SS_LOG_EXECUTE_STDOUT -o $SS_LOG_EXECUTE_STDOUT_tmp &amp;&amp; mv $SS_LOG_EXECUTE_STDOUT_tmp $SS_LOG_EXECUTE_STDOUT</script>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" input_id="lttng_output_5A00cfB0bN" type="USE_TEXT">$SS_TC_DEPS/bin/lttng stop &amp;&amp; $SS_TC_DEPS/bin/lttng view &amp;&amp; $SS_TC_DEPS/bin/lttng destroy</script>
+                </process>
+                <process delay_after="2">
+                    <script background="false" encoding="STRING" type="USE_TEXT">if [[ -f &quot;/opt/stonesoup/workspace/inputDaemons/preprocess_daemon_script_01.pid&quot; ]]; then killtree.sh -s 9 -p $(cat &quot;/opt/stonesoup/workspace/inputDaemons/preprocess_daemon_script_01.pid&quot;) &amp;&amp; echo &quot;Killed script.&quot;; else echo &quot;Failed: Script PID file does not exist.&quot;; fi</script>
+                </process>
+            </post_processes>
+            <scoring_formula default="GOOD-02-Default">
+                <formula name="GOOD-02-Default">STDOUT-02 AND NOT TIMEOUT AND NOT CONTROLLED_EXIT</formula>
+            </scoring_formula>
+            <output_checks>
+                <compare_check check_type="CONTAINS" name="STDOUT-02">
+                    <actual output_type="STANDARD_OUT"></actual>
+                    <expected encoding="STRING" type="USE_FILE_CONTENTS">good-02/std-out.txt</expected>
+                </compare_check>
+                <simple_check check_type="SPECIAL" encoding="STRING" name="TIMEOUT" type="USE_TEXT">DOES_NOT_RETURN</simple_check>
+                <simple_check check_type="SPECIAL" encoding="STRING" name="CONTROLLED_EXIT" type="USE_TEXT">CONTROLLED_EXIT</simple_check>
+            </output_checks>
+        </iopair>
+        <iopair name="C-C765A-GREP-01-ST03-DT02-DF11-CF20-01-GOOD-03" reset_scheme="NONE" timeout="300" type="GOOD">
+            <description>read extented regular expressions from file
+This weakness expects a string in the form: '&lt;qsize&gt; &lt;file1&gt; &lt;file2&gt; &lt;data&gt;' where qsize is the size of the quick sort (used to delay execution in certain benign cases), file1 and file2 are names of either FIFO files or regular files, and data is a string containing no spaces. Using a second sem_post after a single sem_wait causes the counting semaphore to allow two proccess into the critical section instead of just one when the critical resource is unlocked, leading to a null pointer dereference. This behavior is triggered by providing two FIFO files &lt;file1 file2&gt; controlled by the runFifos.py script in order, and an input string containing any capitalized alpha character (A-Z). Providing this weakness with two FIFO files &lt;file2 file1&gt; (reverse order) controlled by runFifos.py will prevent the weakness from occuring. Providing this weakness with two regular files is nondeterministic, however a larger qsize will increase the likelyhood that the weakness will not occure.
+
+</description>
+            <technical_impact>NONE</technical_impact>
+            <pre_processes scheme="SEQUENCE">
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">printf '' | tee nginx_conf_env.txt</script>
+                </process>
+                <process>
+                    <file encoding="STRING" path="/opt/stonesoup/workspace/testData/file1" type="USE_TEXT">None</file>
+                </process>
+                <process>
+                    <file encoding="STRING" path="/opt/stonesoup/workspace/testData/file2" type="USE_TEXT">None</file>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">mkdir $SS_TC_ROOT/logs/execute/lttng</script>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="LTTNG_HOME" type="USE_TEXT">$SS_TC_ROOT/logs/execute/lttng</environment_variable>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="SS_RUN_COMMAND_LD_PRELOAD" type="USE_TEXT">$SS_TC_DEPS/lib64/liblttng-stonesoup-c.so:$SS_TC_DEPS/lib64/liblttng-ust-fork.so</environment_variable>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">mkdir -p $SS_TC_DEPS/var/run/lttng</script>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">$SS_TC_DEPS/bin/lttng create &amp;&amp; $SS_TC_DEPS/bin/lttng enable-event -u -a &amp;&amp; $SS_TC_DEPS/bin/lttng start</script>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">rm -rf $SS_TC_ROOT/lockDir</script>
+                </process>
+            </pre_processes>
+            <run_command encoding="STRING" preprend_runcommand="true" type="USE_TEXT">-E -f input/grep-good-03-expr.txt input/mktsymbols.txt</run_command>
+            <co_processes scheme="SEQUENCE">
+                <process>
+                    <script background="false" encoding="STRING" input_id="socket_J6MiVKb5zY" type="USE_TEXT">/opt/stonesoup/workspace/scripts/service_mon.sh ss-localhost 8887 &amp;&amp; curl -v --data-urlencode data=&quot;6000000 /opt/stonesoup/workspace/testData/file1 /opt/stonesoup/workspace/testData/file2 sIlly_rabbit,_tricks_are_for_kids.&quot; --header &quot;If-Match: weak_taint_source_value&quot; --request POST --no-buffer --output /opt/stonesoup/workspace/testData/logfile.txt --silent --show-error http://ss-localhost:8887</script>
+                </process>
+            </co_processes>
+            <post_processes scheme="SEQUENCE">
+                <process>
+                    <script background="false" encoding="STRING" input_id="lttng_output_9zqUfCr4kx" type="USE_TEXT">$SS_TC_DEPS/bin/lttng stop &amp;&amp; $SS_TC_DEPS/bin/lttng view &amp;&amp; $SS_TC_DEPS/bin/lttng destroy</script>
+                </process>
+            </post_processes>
+            <scoring_formula default="GOOD-03-Default">
+                <formula name="GOOD-03-Default">STDOUT-03 AND NOT TIMEOUT AND NOT CONTROLLED_EXIT</formula>
+            </scoring_formula>
+            <output_checks>
+                <compare_check check_type="CONTAINS" name="STDOUT-03">
+                    <actual output_type="STANDARD_OUT"></actual>
+                    <expected encoding="STRING" type="USE_FILE_CONTENTS">good-03/std-out.txt</expected>
+                </compare_check>
+                <simple_check check_type="SPECIAL" encoding="STRING" name="TIMEOUT" type="USE_TEXT">DOES_NOT_RETURN</simple_check>
+                <simple_check check_type="SPECIAL" encoding="STRING" name="CONTROLLED_EXIT" type="USE_TEXT">CONTROLLED_EXIT</simple_check>
+            </output_checks>
+        </iopair>
+        <iopair name="C-C765A-GREP-01-ST03-DT02-DF11-CF20-01-GOOD-04" reset_scheme="NONE" timeout="300" type="GOOD">
+            <description>search for entire words matching a specific pattern
+This weakness expects a string in the form: '&lt;qsize&gt; &lt;file1&gt; &lt;file2&gt; &lt;data&gt;' where qsize is the size of the quick sort (used to delay execution in certain benign cases), file1 and file2 are names of either FIFO files or regular files, and data is a string containing no spaces. Using a second sem_post after a single sem_wait causes the counting semaphore to allow two proccess into the critical section instead of just one when the critical resource is unlocked, leading to a null pointer dereference. This behavior is triggered by providing two FIFO files &lt;file1 file2&gt; controlled by the runFifos.py script in order, and an input string containing any capitalized alpha character (A-Z). Providing this weakness with two FIFO files &lt;file2 file1&gt; (reverse order) controlled by runFifos.py will prevent the weakness from occuring. Providing this weakness with two regular files is nondeterministic, however a larger qsize will increase the likelyhood that the weakness will not occure.
+
+</description>
+            <technical_impact>NONE</technical_impact>
+            <pre_processes scheme="SEQUENCE">
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">printf '' | tee nginx_conf_env.txt</script>
+                </process>
+                <process delay_after="2">
+                    <script background="false" encoding="STRING" type="USE_TEXT">nohup runFifos.py /opt/stonesoup/workspace/testData/fifo1 /opt/stonesoup/workspace/testData/fifo2 &gt; /opt/stonesoup/workspace/inputDaemons/preprocess_daemon_script_01.out 2&gt;&amp;1 &amp; echo $! &gt; /opt/stonesoup/workspace/inputDaemons/preprocess_daemon_script_01.pid &amp;&amp; echo &quot;Script spawned&quot;</script>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">mkdir $SS_TC_ROOT/logs/execute/lttng</script>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="LTTNG_HOME" type="USE_TEXT">$SS_TC_ROOT/logs/execute/lttng</environment_variable>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="SS_RUN_COMMAND_LD_PRELOAD" type="USE_TEXT">$SS_TC_DEPS/lib64/liblttng-stonesoup-c.so:$SS_TC_DEPS/lib64/liblttng-ust-fork.so</environment_variable>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">mkdir -p $SS_TC_DEPS/var/run/lttng</script>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">$SS_TC_DEPS/bin/lttng create &amp;&amp; $SS_TC_DEPS/bin/lttng enable-event -u -a &amp;&amp; $SS_TC_DEPS/bin/lttng start</script>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">rm -rf $SS_TC_ROOT/lockDir</script>
+                </process>
+            </pre_processes>
+            <run_command encoding="STRING" preprend_runcommand="true" type="USE_TEXT">-w -f input/grep-good-04-expr.txt input/mktsymbols.txt</run_command>
+            <co_processes scheme="SEQUENCE">
+                <process>
+                    <script background="false" encoding="STRING" input_id="socket_PojjX49TwU" type="USE_TEXT">/opt/stonesoup/workspace/scripts/service_mon.sh ss-localhost 8887 &amp;&amp; curl -v --data-urlencode data=&quot;5 /opt/stonesoup/workspace/testData/fifo2 /opt/stonesoup/workspace/testData/fifo1 hephalump&quot; --header &quot;If-Match: weak_taint_source_value&quot; --request POST --no-buffer --output /opt/stonesoup/workspace/testData/logfile.txt --silent --show-error http://ss-localhost:8887</script>
+                </process>
+            </co_processes>
+            <post_processes scheme="SEQUENCE">
+                <process>
+                    <script background="false" encoding="STRING" input_id="lttng_output_Lnc6GtpOjD" type="USE_TEXT">$SS_TC_DEPS/bin/lttng stop &amp;&amp; $SS_TC_DEPS/bin/lttng view &amp;&amp; $SS_TC_DEPS/bin/lttng destroy</script>
+                </process>
+                <process delay_after="2">
+                    <script background="false" encoding="STRING" type="USE_TEXT">if [[ -f &quot;/opt/stonesoup/workspace/inputDaemons/preprocess_daemon_script_01.pid&quot; ]]; then killtree.sh -s 9 -p $(cat &quot;/opt/stonesoup/workspace/inputDaemons/preprocess_daemon_script_01.pid&quot;) &amp;&amp; echo &quot;Killed script.&quot;; else echo &quot;Failed: Script PID file does not exist.&quot;; fi</script>
+                </process>
+            </post_processes>
+            <scoring_formula default="GOOD-04-Default">
+                <formula name="GOOD-04-Default">STDOUT-04 AND NOT TIMEOUT AND NOT CONTROLLED_EXIT</formula>
+            </scoring_formula>
+            <output_checks>
+                <compare_check check_type="CONTAINS" name="STDOUT-04">
+                    <actual output_type="STANDARD_OUT"></actual>
+                    <expected encoding="STRING" type="USE_FILE_CONTENTS">good-04/std-out.txt</expected>
+                </compare_check>
+                <simple_check check_type="SPECIAL" encoding="STRING" name="TIMEOUT" type="USE_TEXT">DOES_NOT_RETURN</simple_check>
+                <simple_check check_type="SPECIAL" encoding="STRING" name="CONTROLLED_EXIT" type="USE_TEXT">CONTROLLED_EXIT</simple_check>
+            </output_checks>
+        </iopair>
+        <iopair name="C-C765A-GREP-01-ST03-DT02-DF11-CF20-01-GOOD-05" reset_scheme="NONE" timeout="300" type="GOOD">
+            <description>use mmap(), find NASDAQ in file
+This weakness expects a string in the form: '&lt;qsize&gt; &lt;file1&gt; &lt;file2&gt; &lt;data&gt;' where qsize is the size of the quick sort (used to delay execution in certain benign cases), file1 and file2 are names of either FIFO files or regular files, and data is a string containing no spaces. Using a second sem_post after a single sem_wait causes the counting semaphore to allow two proccess into the critical section instead of just one when the critical resource is unlocked, leading to a null pointer dereference. This behavior is triggered by providing two FIFO files &lt;file1 file2&gt; controlled by the runFifos.py script in order, and an input string containing any capitalized alpha character (A-Z). Providing this weakness with two FIFO files &lt;file2 file1&gt; (reverse order) controlled by runFifos.py will prevent the weakness from occuring. Providing this weakness with two regular files is nondeterministic, however a larger qsize will increase the likelyhood that the weakness will not occure.
+
+</description>
+            <technical_impact>NONE</technical_impact>
+            <pre_processes scheme="SEQUENCE">
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">printf '' | tee nginx_conf_env.txt</script>
+                </process>
+                <process delay_after="2">
+                    <script background="false" encoding="STRING" type="USE_TEXT">nohup runFifos.py /opt/stonesoup/workspace/testData/fifo1 /opt/stonesoup/workspace/testData/fifo2 &gt; /opt/stonesoup/workspace/inputDaemons/preprocess_daemon_script_01.out 2&gt;&amp;1 &amp; echo $! &gt; /opt/stonesoup/workspace/inputDaemons/preprocess_daemon_script_01.pid &amp;&amp; echo &quot;Script spawned&quot;</script>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">mkdir $SS_TC_ROOT/logs/execute/lttng</script>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="LTTNG_HOME" type="USE_TEXT">$SS_TC_ROOT/logs/execute/lttng</environment_variable>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="SS_RUN_COMMAND_LD_PRELOAD" type="USE_TEXT">$SS_TC_DEPS/lib64/liblttng-stonesoup-c.so:$SS_TC_DEPS/lib64/liblttng-ust-fork.so</environment_variable>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">mkdir -p $SS_TC_DEPS/var/run/lttng</script>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">$SS_TC_DEPS/bin/lttng create &amp;&amp; $SS_TC_DEPS/bin/lttng enable-event -u -a &amp;&amp; $SS_TC_DEPS/bin/lttng start</script>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">rm -rf $SS_TC_ROOT/lockDir</script>
+                </process>
+            </pre_processes>
+            <run_command encoding="STRING" preprend_runcommand="true" type="USE_TEXT">--mmap NASDAQ input/mktsymbols.txt</run_command>
+            <co_processes scheme="SEQUENCE">
+                <process>
+                    <script background="false" encoding="STRING" input_id="socket_Lozrpx81b6" type="USE_TEXT">/opt/stonesoup/workspace/scripts/service_mon.sh ss-localhost 8887 &amp;&amp; curl -v --data-urlencode data=&quot;60 /opt/stonesoup/workspace/testData/fifo2 /opt/stonesoup/workspace/testData/fifo1 Sniffles_and_whiffles&quot; --header &quot;If-Match: weak_taint_source_value&quot; --request POST --no-buffer --output /opt/stonesoup/workspace/testData/logfile.txt --silent --show-error http://ss-localhost:8887</script>
+                </process>
+            </co_processes>
+            <post_processes scheme="SEQUENCE">
+                <process>
+                    <script background="false" encoding="STRING" input_id="lttng_output_eOkbRHPNoC" type="USE_TEXT">$SS_TC_DEPS/bin/lttng stop &amp;&amp; $SS_TC_DEPS/bin/lttng view &amp;&amp; $SS_TC_DEPS/bin/lttng destroy</script>
+                </process>
+                <process delay_after="2">
+                    <script background="false" encoding="STRING" type="USE_TEXT">if [[ -f &quot;/opt/stonesoup/workspace/inputDaemons/preprocess_daemon_script_01.pid&quot; ]]; then killtree.sh -s 9 -p $(cat &quot;/opt/stonesoup/workspace/inputDaemons/preprocess_daemon_script_01.pid&quot;) &amp;&amp; echo &quot;Killed script.&quot;; else echo &quot;Failed: Script PID file does not exist.&quot;; fi</script>
+                </process>
+            </post_processes>
+            <scoring_formula default="GOOD-05-Default">
+                <formula name="GOOD-05-Default">STDOUT-05 AND NOT TIMEOUT AND NOT CONTROLLED_EXIT</formula>
+            </scoring_formula>
+            <output_checks>
+                <compare_check check_type="CONTAINS" name="STDOUT-05">
+                    <actual output_type="STANDARD_OUT"></actual>
+                    <expected encoding="STRING" type="USE_FILE_CONTENTS">good-05/std-out.txt</expected>
+                </compare_check>
+                <simple_check check_type="SPECIAL" encoding="STRING" name="TIMEOUT" type="USE_TEXT">DOES_NOT_RETURN</simple_check>
+                <simple_check check_type="SPECIAL" encoding="STRING" name="CONTROLLED_EXIT" type="USE_TEXT">CONTROLLED_EXIT</simple_check>
+            </output_checks>
+        </iopair>
+        <iopair name="C-C765A-GREP-01-ST03-DT02-DF11-CF20-01-GOOD-06" reset_scheme="NONE" timeout="300" type="GOOD">
+            <description>match lines not containing NASDAQ, ignore case, count
+This weakness expects a string in the form: '&lt;qsize&gt; &lt;file1&gt; &lt;file2&gt; &lt;data&gt;' where qsize is the size of the quick sort (used to delay execution in certain benign cases), file1 and file2 are names of either FIFO files or regular files, and data is a string containing no spaces. Using a second sem_post after a single sem_wait causes the counting semaphore to allow two proccess into the critical section instead of just one when the critical resource is unlocked, leading to a null pointer dereference. This behavior is triggered by providing two FIFO files &lt;file1 file2&gt; controlled by the runFifos.py script in order, and an input string containing any capitalized alpha character (A-Z). Providing this weakness with two FIFO files &lt;file2 file1&gt; (reverse order) controlled by runFifos.py will prevent the weakness from occuring. Providing this weakness with two regular files is nondeterministic, however a larger qsize will increase the likelyhood that the weakness will not occure.
+
+</description>
+            <technical_impact>NONE</technical_impact>
+            <pre_processes scheme="SEQUENCE">
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">printf '' | tee nginx_conf_env.txt</script>
+                </process>
+                <process>
+                    <file encoding="STRING" path="/opt/stonesoup/workspace/testData/file1" type="USE_TEXT">None</file>
+                </process>
+                <process>
+                    <file encoding="STRING" path="/opt/stonesoup/workspace/testData/file2" type="USE_TEXT">None</file>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">mkdir $SS_TC_ROOT/logs/execute/lttng</script>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="LTTNG_HOME" type="USE_TEXT">$SS_TC_ROOT/logs/execute/lttng</environment_variable>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="SS_RUN_COMMAND_LD_PRELOAD" type="USE_TEXT">$SS_TC_DEPS/lib64/liblttng-stonesoup-c.so:$SS_TC_DEPS/lib64/liblttng-ust-fork.so</environment_variable>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">mkdir -p $SS_TC_DEPS/var/run/lttng</script>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">$SS_TC_DEPS/bin/lttng create &amp;&amp; $SS_TC_DEPS/bin/lttng enable-event -u -a &amp;&amp; $SS_TC_DEPS/bin/lttng start</script>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">rm -rf $SS_TC_ROOT/lockDir</script>
+                </process>
+            </pre_processes>
+            <run_command encoding="STRING" preprend_runcommand="true" type="USE_TEXT">-v -i -c NASDAQ input/mktsymbols.txt</run_command>
+            <co_processes scheme="SEQUENCE">
+                <process>
+                    <script background="false" encoding="STRING" input_id="socket_JCcMgxWUeC" type="USE_TEXT">/opt/stonesoup/workspace/scripts/service_mon.sh ss-localhost 8887 &amp;&amp; curl -v --data-urlencode data=&quot;6000000 /opt/stonesoup/workspace/testData/file1 /opt/stonesoup/workspace/testData/file2 sIlly_rabbit,_tricks_are_for_kids.&quot; --header &quot;If-Match: weak_taint_source_value&quot; --request POST --no-buffer --output /opt/stonesoup/workspace/testData/logfile.txt --silent --show-error http://ss-localhost:8887</script>
+                </process>
+            </co_processes>
+            <post_processes scheme="SEQUENCE">
+                <process>
+                    <script background="false" encoding="STRING" input_id="lttng_output_m62kAuZMUN" type="USE_TEXT">$SS_TC_DEPS/bin/lttng stop &amp;&amp; $SS_TC_DEPS/bin/lttng view &amp;&amp; $SS_TC_DEPS/bin/lttng destroy</script>
+                </process>
+            </post_processes>
+            <scoring_formula default="GOOD-06-Default">
+                <formula name="GOOD-06-Default">STDOUT-06 AND NOT TIMEOUT AND NOT CONTROLLED_EXIT</formula>
+            </scoring_formula>
+            <output_checks>
+                <compare_check check_type="CONTAINS" name="STDOUT-06">
+                    <actual output_type="STANDARD_OUT"></actual>
+                    <expected encoding="STRING" type="USE_FILE_CONTENTS">good-06/std-out.txt</expected>
+                </compare_check>
+                <simple_check check_type="SPECIAL" encoding="STRING" name="TIMEOUT" type="USE_TEXT">DOES_NOT_RETURN</simple_check>
+                <simple_check check_type="SPECIAL" encoding="STRING" name="CONTROLLED_EXIT" type="USE_TEXT">CONTROLLED_EXIT</simple_check>
+            </output_checks>
+        </iopair>
+        <iopair name="C-C765A-GREP-01-ST03-DT02-DF11-CF20-01-GOOD-07" reset_scheme="NONE" timeout="300" type="GOOD">
+            <description>grep stdin (a device), match words beginning w/ D, P, or Z, redirect file into stdin
+This weakness expects a string in the form: '&lt;qsize&gt; &lt;file1&gt; &lt;file2&gt; &lt;data&gt;' where qsize is the size of the quick sort (used to delay execution in certain benign cases), file1 and file2 are names of either FIFO files or regular files, and data is a string containing no spaces. Using a second sem_post after a single sem_wait causes the counting semaphore to allow two proccess into the critical section instead of just one when the critical resource is unlocked, leading to a null pointer dereference. This behavior is triggered by providing two FIFO files &lt;file1 file2&gt; controlled by the runFifos.py script in order, and an input string containing any capitalized alpha character (A-Z). Providing this weakness with two FIFO files &lt;file2 file1&gt; (reverse order) controlled by runFifos.py will prevent the weakness from occuring. Providing this weakness with two regular files is nondeterministic, however a larger qsize will increase the likelyhood that the weakness will not occure.
+
+</description>
+            <technical_impact>NONE</technical_impact>
+            <pre_processes scheme="SEQUENCE">
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">printf '' | tee nginx_conf_env.txt</script>
+                </process>
+                <process delay_after="2">
+                    <script background="false" encoding="STRING" type="USE_TEXT">nohup runFifos.py /opt/stonesoup/workspace/testData/fifo1 /opt/stonesoup/workspace/testData/fifo2 &gt; /opt/stonesoup/workspace/inputDaemons/preprocess_daemon_script_01.out 2&gt;&amp;1 &amp; echo $! &gt; /opt/stonesoup/workspace/inputDaemons/preprocess_daemon_script_01.pid &amp;&amp; echo &quot;Script spawned&quot;</script>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">mkdir $SS_TC_ROOT/logs/execute/lttng</script>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="LTTNG_HOME" type="USE_TEXT">$SS_TC_ROOT/logs/execute/lttng</environment_variable>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="SS_RUN_COMMAND_LD_PRELOAD" type="USE_TEXT">$SS_TC_DEPS/lib64/liblttng-stonesoup-c.so:$SS_TC_DEPS/lib64/liblttng-ust-fork.so</environment_variable>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">mkdir -p $SS_TC_DEPS/var/run/lttng</script>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">$SS_TC_DEPS/bin/lttng create &amp;&amp; $SS_TC_DEPS/bin/lttng enable-event -u -a &amp;&amp; $SS_TC_DEPS/bin/lttng start</script>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">rm -rf $SS_TC_ROOT/lockDir</script>
+                </process>
+            </pre_processes>
+            <run_command encoding="STRING" preprend_runcommand="true" type="USE_TEXT">-D read -e ^[DPZ] /dev/stdin &lt; input/mktsymbols.txt</run_command>
+            <co_processes scheme="SEQUENCE">
+                <process>
+                    <script background="false" encoding="STRING" input_id="socket_h1AtWjgzIn" type="USE_TEXT">/opt/stonesoup/workspace/scripts/service_mon.sh ss-localhost 8887 &amp;&amp; curl -v --data-urlencode data=&quot;5 /opt/stonesoup/workspace/testData/fifo2 /opt/stonesoup/workspace/testData/fifo1 hephalump&quot; --header &quot;If-Match: weak_taint_source_value&quot; --request POST --no-buffer --output /opt/stonesoup/workspace/testData/logfile.txt --silent --show-error http://ss-localhost:8887</script>
+                </process>
+            </co_processes>
+            <post_processes scheme="SEQUENCE">
+                <process>
+                    <script background="false" encoding="STRING" input_id="lttng_output_YXO2FLSWWk" type="USE_TEXT">$SS_TC_DEPS/bin/lttng stop &amp;&amp; $SS_TC_DEPS/bin/lttng view &amp;&amp; $SS_TC_DEPS/bin/lttng destroy</script>
+                </process>
+                <process delay_after="2">
+                    <script background="false" encoding="STRING" type="USE_TEXT">if [[ -f &quot;/opt/stonesoup/workspace/inputDaemons/preprocess_daemon_script_01.pid&quot; ]]; then killtree.sh -s 9 -p $(cat &quot;/opt/stonesoup/workspace/inputDaemons/preprocess_daemon_script_01.pid&quot;) &amp;&amp; echo &quot;Killed script.&quot;; else echo &quot;Failed: Script PID file does not exist.&quot;; fi</script>
+                </process>
+            </post_processes>
+            <scoring_formula default="GOOD-07-Default">
+                <formula name="GOOD-07-Default">STDOUT-07 AND NOT TIMEOUT AND NOT CONTROLLED_EXIT</formula>
+            </scoring_formula>
+            <output_checks>
+                <compare_check check_type="CONTAINS" name="STDOUT-07">
+                    <actual output_type="STANDARD_OUT"></actual>
+                    <expected encoding="STRING" type="USE_FILE_CONTENTS">good-07/std-out.txt</expected>
+                </compare_check>
+                <simple_check check_type="SPECIAL" encoding="STRING" name="TIMEOUT" type="USE_TEXT">DOES_NOT_RETURN</simple_check>
+                <simple_check check_type="SPECIAL" encoding="STRING" name="CONTROLLED_EXIT" type="USE_TEXT">CONTROLLED_EXIT</simple_check>
+            </output_checks>
+        </iopair>
+        <iopair name="C-C765A-GREP-01-ST03-DT02-DF11-CF20-01-GOOD-08" reset_scheme="NONE" timeout="300" type="GOOD">
+            <description>extended grep, print number of lines of context
+This weakness expects a string in the form: '&lt;qsize&gt; &lt;file1&gt; &lt;file2&gt; &lt;data&gt;' where qsize is the size of the quick sort (used to delay execution in certain benign cases), file1 and file2 are names of either FIFO files or regular files, and data is a string containing no spaces. Using a second sem_post after a single sem_wait causes the counting semaphore to allow two proccess into the critical section instead of just one when the critical resource is unlocked, leading to a null pointer dereference. This behavior is triggered by providing two FIFO files &lt;file1 file2&gt; controlled by the runFifos.py script in order, and an input string containing any capitalized alpha character (A-Z). Providing this weakness with two FIFO files &lt;file2 file1&gt; (reverse order) controlled by runFifos.py will prevent the weakness from occuring. Providing this weakness with two regular files is nondeterministic, however a larger qsize will increase the likelyhood that the weakness will not occure.
+
+</description>
+            <technical_impact>NONE</technical_impact>
+            <pre_processes scheme="SEQUENCE">
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">printf '' | tee nginx_conf_env.txt</script>
+                </process>
+                <process delay_after="2">
+                    <script background="false" encoding="STRING" type="USE_TEXT">nohup runFifos.py /opt/stonesoup/workspace/testData/fifo1 /opt/stonesoup/workspace/testData/fifo2 &gt; /opt/stonesoup/workspace/inputDaemons/preprocess_daemon_script_01.out 2&gt;&amp;1 &amp; echo $! &gt; /opt/stonesoup/workspace/inputDaemons/preprocess_daemon_script_01.pid &amp;&amp; echo &quot;Script spawned&quot;</script>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">mkdir $SS_TC_ROOT/logs/execute/lttng</script>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="LTTNG_HOME" type="USE_TEXT">$SS_TC_ROOT/logs/execute/lttng</environment_variable>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="SS_RUN_COMMAND_LD_PRELOAD" type="USE_TEXT">$SS_TC_DEPS/lib64/liblttng-stonesoup-c.so:$SS_TC_DEPS/lib64/liblttng-ust-fork.so</environment_variable>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">mkdir -p $SS_TC_DEPS/var/run/lttng</script>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">$SS_TC_DEPS/bin/lttng create &amp;&amp; $SS_TC_DEPS/bin/lttng enable-event -u -a &amp;&amp; $SS_TC_DEPS/bin/lttng start</script>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">rm -rf $SS_TC_ROOT/lockDir</script>
+                </process>
+            </pre_processes>
+            <run_command encoding="STRING" preprend_runcommand="true" type="USE_TEXT">-E -C 15 ^[BRT] input/mktsymbols.txt</run_command>
+            <co_processes scheme="SEQUENCE">
+                <process>
+                    <script background="false" encoding="STRING" input_id="socket_RhNVYM1Tul" type="USE_TEXT">/opt/stonesoup/workspace/scripts/service_mon.sh ss-localhost 8887 &amp;&amp; curl -v --data-urlencode data=&quot;60 /opt/stonesoup/workspace/testData/fifo2 /opt/stonesoup/workspace/testData/fifo1 Sniffles_and_whiffles&quot; --header &quot;If-Match: weak_taint_source_value&quot; --request POST --no-buffer --output /opt/stonesoup/workspace/testData/logfile.txt --silent --show-error http://ss-localhost:8887</script>
+                </process>
+            </co_processes>
+            <post_processes scheme="SEQUENCE">
+                <process>
+                    <script background="false" encoding="STRING" input_id="lttng_output_QXCkMpXwmQ" type="USE_TEXT">$SS_TC_DEPS/bin/lttng stop &amp;&amp; $SS_TC_DEPS/bin/lttng view &amp;&amp; $SS_TC_DEPS/bin/lttng destroy</script>
+                </process>
+                <process delay_after="2">
+                    <script background="false" encoding="STRING" type="USE_TEXT">if [[ -f &quot;/opt/stonesoup/workspace/inputDaemons/preprocess_daemon_script_01.pid&quot; ]]; then killtree.sh -s 9 -p $(cat &quot;/opt/stonesoup/workspace/inputDaemons/preprocess_daemon_script_01.pid&quot;) &amp;&amp; echo &quot;Killed script.&quot;; else echo &quot;Failed: Script PID file does not exist.&quot;; fi</script>
+                </process>
+            </post_processes>
+            <scoring_formula default="GOOD-08-Default">
+                <formula name="GOOD-08-Default">STDOUT-08 AND NOT TIMEOUT AND NOT CONTROLLED_EXIT</formula>
+            </scoring_formula>
+            <output_checks>
+                <compare_check check_type="CONTAINS" name="STDOUT-08">
+                    <actual output_type="STANDARD_OUT"></actual>
+                    <expected encoding="STRING" type="USE_FILE_CONTENTS">good-08/std-out.txt</expected>
+                </compare_check>
+                <simple_check check_type="SPECIAL" encoding="STRING" name="TIMEOUT" type="USE_TEXT">DOES_NOT_RETURN</simple_check>
+                <simple_check check_type="SPECIAL" encoding="STRING" name="CONTROLLED_EXIT" type="USE_TEXT">CONTROLLED_EXIT</simple_check>
+            </output_checks>
+        </iopair>
+        <iopair name="C-C765A-GREP-01-ST03-DT02-DF11-CF20-01-GOOD-09" reset_scheme="NONE" timeout="300" type="GOOD">
+            <description>lines not beginning w/ B, R or T
+This weakness expects a string in the form: '&lt;qsize&gt; &lt;file1&gt; &lt;file2&gt; &lt;data&gt;' where qsize is the size of the quick sort (used to delay execution in certain benign cases), file1 and file2 are names of either FIFO files or regular files, and data is a string containing no spaces. Using a second sem_post after a single sem_wait causes the counting semaphore to allow two proccess into the critical section instead of just one when the critical resource is unlocked, leading to a null pointer dereference. This behavior is triggered by providing two FIFO files &lt;file1 file2&gt; controlled by the runFifos.py script in order, and an input string containing any capitalized alpha character (A-Z). Providing this weakness with two FIFO files &lt;file2 file1&gt; (reverse order) controlled by runFifos.py will prevent the weakness from occuring. Providing this weakness with two regular files is nondeterministic, however a larger qsize will increase the likelyhood that the weakness will not occure.
+
+</description>
+            <technical_impact>NONE</technical_impact>
+            <pre_processes scheme="SEQUENCE">
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">printf '' | tee nginx_conf_env.txt</script>
+                </process>
+                <process>
+                    <file encoding="STRING" path="/opt/stonesoup/workspace/testData/file1" type="USE_TEXT">None</file>
+                </process>
+                <process>
+                    <file encoding="STRING" path="/opt/stonesoup/workspace/testData/file2" type="USE_TEXT">None</file>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">mkdir $SS_TC_ROOT/logs/execute/lttng</script>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="LTTNG_HOME" type="USE_TEXT">$SS_TC_ROOT/logs/execute/lttng</environment_variable>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="SS_RUN_COMMAND_LD_PRELOAD" type="USE_TEXT">$SS_TC_DEPS/lib64/liblttng-stonesoup-c.so:$SS_TC_DEPS/lib64/liblttng-ust-fork.so</environment_variable>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">mkdir -p $SS_TC_DEPS/var/run/lttng</script>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">$SS_TC_DEPS/bin/lttng create &amp;&amp; $SS_TC_DEPS/bin/lttng enable-event -u -a &amp;&amp; $SS_TC_DEPS/bin/lttng start</script>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">rm -rf $SS_TC_ROOT/lockDir</script>
+                </process>
+            </pre_processes>
+            <run_command encoding="STRING" preprend_runcommand="true" type="USE_TEXT">-v ^[BRT] input/mktsymbols.txt</run_command>
+            <co_processes scheme="SEQUENCE">
+                <process>
+                    <script background="false" encoding="STRING" input_id="socket_dFzTYn6pt6" type="USE_TEXT">/opt/stonesoup/workspace/scripts/service_mon.sh ss-localhost 8887 &amp;&amp; curl -v --data-urlencode data=&quot;6000000 /opt/stonesoup/workspace/testData/file1 /opt/stonesoup/workspace/testData/file2 sIlly_rabbit,_tricks_are_for_kids.&quot; --header &quot;If-Match: weak_taint_source_value&quot; --request POST --no-buffer --output /opt/stonesoup/workspace/testData/logfile.txt --silent --show-error http://ss-localhost:8887</script>
+                </process>
+            </co_processes>
+            <post_processes scheme="SEQUENCE">
+                <process>
+                    <script background="false" encoding="STRING" input_id="lttng_output_7lJ8us7UQn" type="USE_TEXT">$SS_TC_DEPS/bin/lttng stop &amp;&amp; $SS_TC_DEPS/bin/lttng view &amp;&amp; $SS_TC_DEPS/bin/lttng destroy</script>
+                </process>
+            </post_processes>
+            <scoring_formula default="GOOD-09-Default">
+                <formula name="GOOD-09-Default">STDOUT-09 AND NOT TIMEOUT AND NOT CONTROLLED_EXIT</formula>
+            </scoring_formula>
+            <output_checks>
+                <compare_check check_type="CONTAINS" name="STDOUT-09">
+                    <actual output_type="STANDARD_OUT"></actual>
+                    <expected encoding="STRING" type="USE_FILE_CONTENTS">good-09/std-out.txt</expected>
+                </compare_check>
+                <simple_check check_type="SPECIAL" encoding="STRING" name="TIMEOUT" type="USE_TEXT">DOES_NOT_RETURN</simple_check>
+                <simple_check check_type="SPECIAL" encoding="STRING" name="CONTROLLED_EXIT" type="USE_TEXT">CONTROLLED_EXIT</simple_check>
+            </output_checks>
+        </iopair>
+        <iopair name="C-C765A-GREP-01-ST03-DT02-DF11-CF20-01-GOOD-10" reset_scheme="NONE" timeout="300" type="GOOD">
+            <description>count lines not beginning w/ B, R or T
+This weakness expects a string in the form: '&lt;qsize&gt; &lt;file1&gt; &lt;file2&gt; &lt;data&gt;' where qsize is the size of the quick sort (used to delay execution in certain benign cases), file1 and file2 are names of either FIFO files or regular files, and data is a string containing no spaces. Using a second sem_post after a single sem_wait causes the counting semaphore to allow two proccess into the critical section instead of just one when the critical resource is unlocked, leading to a null pointer dereference. This behavior is triggered by providing two FIFO files &lt;file1 file2&gt; controlled by the runFifos.py script in order, and an input string containing any capitalized alpha character (A-Z). Providing this weakness with two FIFO files &lt;file2 file1&gt; (reverse order) controlled by runFifos.py will prevent the weakness from occuring. Providing this weakness with two regular files is nondeterministic, however a larger qsize will increase the likelyhood that the weakness will not occure.
+
+</description>
+            <technical_impact>NONE</technical_impact>
+            <pre_processes scheme="SEQUENCE">
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">printf '' | tee nginx_conf_env.txt</script>
+                </process>
+                <process delay_after="2">
+                    <script background="false" encoding="STRING" type="USE_TEXT">nohup runFifos.py /opt/stonesoup/workspace/testData/fifo1 /opt/stonesoup/workspace/testData/fifo2 &gt; /opt/stonesoup/workspace/inputDaemons/preprocess_daemon_script_01.out 2&gt;&amp;1 &amp; echo $! &gt; /opt/stonesoup/workspace/inputDaemons/preprocess_daemon_script_01.pid &amp;&amp; echo &quot;Script spawned&quot;</script>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">mkdir $SS_TC_ROOT/logs/execute/lttng</script>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="LTTNG_HOME" type="USE_TEXT">$SS_TC_ROOT/logs/execute/lttng</environment_variable>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="SS_RUN_COMMAND_LD_PRELOAD" type="USE_TEXT">$SS_TC_DEPS/lib64/liblttng-stonesoup-c.so:$SS_TC_DEPS/lib64/liblttng-ust-fork.so</environment_variable>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">mkdir -p $SS_TC_DEPS/var/run/lttng</script>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">$SS_TC_DEPS/bin/lttng create &amp;&amp; $SS_TC_DEPS/bin/lttng enable-event -u -a &amp;&amp; $SS_TC_DEPS/bin/lttng start</script>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">rm -rf $SS_TC_ROOT/lockDir</script>
+                </process>
+            </pre_processes>
+            <run_command encoding="STRING" preprend_runcommand="true" type="USE_TEXT">-c -v ^[BRT] input/mktsymbols.txt</run_command>
+            <co_processes scheme="SEQUENCE">
+                <process>
+                    <script background="false" encoding="STRING" input_id="socket_HOr1lTVMVR" type="USE_TEXT">/opt/stonesoup/workspace/scripts/service_mon.sh ss-localhost 8887 &amp;&amp; curl -v --data-urlencode data=&quot;5 /opt/stonesoup/workspace/testData/fifo2 /opt/stonesoup/workspace/testData/fifo1 hephalump&quot; --header &quot;If-Match: weak_taint_source_value&quot; --request POST --no-buffer --output /opt/stonesoup/workspace/testData/logfile.txt --silent --show-error http://ss-localhost:8887</script>
+                </process>
+            </co_processes>
+            <post_processes scheme="SEQUENCE">
+                <process>
+                    <script background="false" encoding="STRING" input_id="lttng_output_jjfFE4wvCv" type="USE_TEXT">$SS_TC_DEPS/bin/lttng stop &amp;&amp; $SS_TC_DEPS/bin/lttng view &amp;&amp; $SS_TC_DEPS/bin/lttng destroy</script>
+                </process>
+                <process delay_after="2">
+                    <script background="false" encoding="STRING" type="USE_TEXT">if [[ -f &quot;/opt/stonesoup/workspace/inputDaemons/preprocess_daemon_script_01.pid&quot; ]]; then killtree.sh -s 9 -p $(cat &quot;/opt/stonesoup/workspace/inputDaemons/preprocess_daemon_script_01.pid&quot;) &amp;&amp; echo &quot;Killed script.&quot;; else echo &quot;Failed: Script PID file does not exist.&quot;; fi</script>
+                </process>
+            </post_processes>
+            <scoring_formula default="GOOD-10-Default">
+                <formula name="GOOD-10-Default">STDOUT-10 AND NOT TIMEOUT AND NOT CONTROLLED_EXIT</formula>
+            </scoring_formula>
+            <output_checks>
+                <compare_check check_type="CONTAINS" name="STDOUT-10">
+                    <actual output_type="STANDARD_OUT"></actual>
+                    <expected encoding="STRING" type="USE_FILE_CONTENTS">good-10/std-out.txt</expected>
+                </compare_check>
+                <simple_check check_type="SPECIAL" encoding="STRING" name="TIMEOUT" type="USE_TEXT">DOES_NOT_RETURN</simple_check>
+                <simple_check check_type="SPECIAL" encoding="STRING" name="CONTROLLED_EXIT" type="USE_TEXT">CONTROLLED_EXIT</simple_check>
+            </output_checks>
+        </iopair>
+        <iopair name="C-C765A-GREP-01-ST03-DT02-DF11-CF20-01-BAD-01" reset_scheme="NONE" timeout="300" type="BAD">
+            <description>This weakness expects a string in the form: '&lt;qsize&gt; &lt;file1&gt; &lt;file2&gt; &lt;data&gt;' where qsize is the size of the quick sort (used to delay execution in certain benign cases), file1 and file2 are names of either FIFO files or regular files, and data is a string containing no spaces. Using a second sem_post after a single sem_wait causes the counting semaphore to allow two proccess into the critical section instead of just one when the critical resource is unlocked, leading to a null pointer dereference. This behavior is triggered by providing two FIFO files &lt;file1 file2&gt; controlled by the runFifos.py script in order, and an input string containing any capitalized alpha character (A-Z). Providing this weakness with two FIFO files &lt;file2 file1&gt; (reverse order) controlled by runFifos.py will prevent the weakness from occuring. Providing this weakness with two regular files is nondeterministic, however a larger qsize will increase the likelyhood that the weakness will not occure.
+
+</description>
+            <technical_impact>UNEXPECTED_STATE</technical_impact>
+            <technical_impact>DOS_UNCONTROLLED_EXIT</technical_impact>
+            <pre_processes scheme="SEQUENCE">
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">printf '' | tee nginx_conf_env.txt</script>
+                </process>
+                <process delay_after="2">
+                    <script background="false" encoding="STRING" type="USE_TEXT">nohup runFifos.py /opt/stonesoup/workspace/testData/fifo1 /opt/stonesoup/workspace/testData/fifo2 &gt; /opt/stonesoup/workspace/inputDaemons/preprocess_daemon_script_01.out 2&gt;&amp;1 &amp; echo $! &gt; /opt/stonesoup/workspace/inputDaemons/preprocess_daemon_script_01.pid &amp;&amp; echo &quot;Script spawned&quot;</script>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">mkdir $SS_TC_ROOT/logs/execute/lttng</script>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="LTTNG_HOME" type="USE_TEXT">$SS_TC_ROOT/logs/execute/lttng</environment_variable>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="SS_RUN_COMMAND_LD_PRELOAD" type="USE_TEXT">$SS_TC_DEPS/lib64/liblttng-stonesoup-c.so:$SS_TC_DEPS/lib64/liblttng-ust-fork.so</environment_variable>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">mkdir -p $SS_TC_DEPS/var/run/lttng</script>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">$SS_TC_DEPS/bin/lttng create &amp;&amp; $SS_TC_DEPS/bin/lttng enable-event -u -a &amp;&amp; $SS_TC_DEPS/bin/lttng start</script>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">rm -rf $SS_TC_ROOT/lockDir</script>
+                </process>
+            </pre_processes>
+            <run_command encoding="STRING" preprend_runcommand="true" type="USE_TEXT">-c -v ^[BRT] input/mktsymbols.txt</run_command>
+            <co_processes scheme="SEQUENCE">
+                <process>
+                    <script background="false" encoding="STRING" input_id="socket_wk5Z1mzcy3RuS0oW4Pc0" type="USE_TEXT">/opt/stonesoup/workspace/scripts/service_mon.sh ss-localhost 8887 &amp;&amp; curl -v --data-urlencode data=&quot;508 /opt/stonesoup/workspace/testData/fifo1 /opt/stonesoup/workspace/testData/fifo2 May_the_force_be_with_you.&quot; --header &quot;If-Match: weak_taint_source_value&quot; --request POST --no-buffer --output /opt/stonesoup/workspace/testData/logfile.txt --silent --show-error http://ss-localhost:8887</script>
+                </process>
+            </co_processes>
+            <post_processes scheme="SEQUENCE">
+                <process>
+                    <script background="false" encoding="STRING" input_id="lttng_output_nNCYE6tLswREzqaqJFBM" type="USE_TEXT">$SS_TC_DEPS/bin/lttng stop &amp;&amp; $SS_TC_DEPS/bin/lttng view &amp;&amp; $SS_TC_DEPS/bin/lttng destroy</script>
+                </process>
+                <process delay_after="2">
+                    <script background="false" encoding="STRING" type="USE_TEXT">if [[ -f &quot;/opt/stonesoup/workspace/inputDaemons/preprocess_daemon_script_01.pid&quot; ]]; then killtree.sh -s 9 -p $(cat &quot;/opt/stonesoup/workspace/inputDaemons/preprocess_daemon_script_01.pid&quot;) &amp;&amp; echo &quot;Killed script.&quot;; else echo &quot;Failed: Script PID file does not exist.&quot;; fi</script>
+                </process>
+            </post_processes>
+            <scoring_formula default="segfault_formula_n5FL1jeCVh">
+                <formula name="segfault_formula_n5FL1jeCVh">weakness_started_ieltyFkKDP69Dk6d3zZg AND ((NOT PERFORMER AND (segfault_code_PAkOM7xnuk OR segfault_code_yVl1C2tn8t OR segfault_code_BlgabId88E OR segfault_code_WiVaoO0jWj OR segfault_code_mp5efA3zmu OR segfault_msg_zpF11hHx9p OR illegal_inst_msg_VCR8dQkdOY) AND NOT timeout_yMlmnX8s4O) or (PERFORMER AND NOT ((segfault_code_PAkOM7xnuk OR segfault_code_yVl1C2tn8t OR segfault_code_BlgabId88E OR segfault_code_WiVaoO0jWj OR segfault_code_mp5efA3zmu OR segfault_msg_zpF11hHx9p OR illegal_inst_msg_VCR8dQkdOY) OR timeout_yMlmnX8s4O OR controlled_exit_BPSFoEMBvJ)))</formula>
+                <formula name="no_weakness_started_formula_3BG7k7wGu5">(NOT PERFORMER AND (segfault_code_PAkOM7xnuk OR segfault_code_yVl1C2tn8t OR segfault_code_BlgabId88E OR segfault_code_WiVaoO0jWj OR segfault_code_mp5efA3zmu OR segfault_msg_zpF11hHx9p OR illegal_inst_msg_VCR8dQkdOY) AND NOT timeout_yMlmnX8s4O) or (PERFORMER AND NOT ((segfault_code_PAkOM7xnuk OR segfault_code_yVl1C2tn8t OR segfault_code_BlgabId88E OR segfault_code_WiVaoO0jWj OR segfault_code_mp5efA3zmu OR segfault_msg_zpF11hHx9p OR illegal_inst_msg_VCR8dQkdOY) OR timeout_yMlmnX8s4O OR controlled_exit_BPSFoEMBvJ))</formula>
+            </scoring_formula>
+            <output_checks>
+                <simple_check check_type="SPECIAL" encoding="STRING" name="timeout_yMlmnX8s4O" type="USE_TEXT">DOES_NOT_RETURN</simple_check>
+                <simple_check check_type="SPECIAL" encoding="STRING" name="controlled_exit_BPSFoEMBvJ" type="USE_TEXT">CONTROLLED_EXIT</simple_check>
+                <simple_check check_type="SPECIAL" encoding="STRING" name="continued_execution_HTA5AU0gMg" type="USE_TEXT">CONTINUED_EXECUTION</simple_check>
+                <compare_check check_type="EXACT_MATCH" name="segfault_code_PAkOM7xnuk">
+                    <actual encoding="STRING" output_type="RETURN_CODE">None</actual>
+                    <expected encoding="STRING" type="USE_TEXT">132</expected>
+                </compare_check>
+                <compare_check check_type="EXACT_MATCH" name="segfault_code_yVl1C2tn8t">
+                    <actual encoding="STRING" output_type="RETURN_CODE">None</actual>
+                    <expected encoding="STRING" type="USE_TEXT">134</expected>
+                </compare_check>
+                <compare_check check_type="EXACT_MATCH" name="segfault_code_BlgabId88E">
+                    <actual encoding="STRING" output_type="RETURN_CODE">None</actual>
+                    <expected encoding="STRING" type="USE_TEXT">135</expected>
+                </compare_check>
+                <compare_check check_type="EXACT_MATCH" name="segfault_code_WiVaoO0jWj">
+                    <actual encoding="STRING" output_type="RETURN_CODE">None</actual>
+                    <expected encoding="STRING" type="USE_TEXT">136</expected>
+                </compare_check>
+                <compare_check check_type="EXACT_MATCH" name="segfault_code_mp5efA3zmu">
+                    <actual encoding="STRING" output_type="RETURN_CODE">None</actual>
+                    <expected encoding="STRING" type="USE_TEXT">139</expected>
+                </compare_check>
+                <compare_check check_type="CONTAINS" name="segfault_msg_zpF11hHx9p">
+                    <actual encoding="STRING" output_type="STANDARD_ERROR">None</actual>
+                    <expected encoding="STRING" type="USE_TEXT">Segmentation fault</expected>
+                </compare_check>
+                <compare_check check_type="CONTAINS" name="illegal_inst_msg_VCR8dQkdOY">
+                    <actual encoding="STRING" output_type="STANDARD_ERROR">None</actual>
+                    <expected encoding="STRING" type="USE_TEXT">Illegal instruction</expected>
+                </compare_check>
+                <compare_check check_type="CONTAINS" name="weakness_started_ieltyFkKDP69Dk6d3zZg">
+                    <actual encoding="STRING" input_id_ref="lttng_output_nNCYE6tLswREzqaqJFBM" output_type="STANDARD_OUT">None</actual>
+                    <expected encoding="STRING" type="USE_TEXT">stonesoup_trace:weakness_start</expected>
+                </compare_check>
+            </output_checks>
+        </iopair>
+        <iopair name="C-C765A-GREP-01-ST03-DT02-DF11-CF20-01-BAD-02" reset_scheme="NONE" timeout="300" type="BAD">
+            <description>This weakness expects a string in the form: '&lt;qsize&gt; &lt;file1&gt; &lt;file2&gt; &lt;data&gt;' where qsize is the size of the quick sort (used to delay execution in certain benign cases), file1 and file2 are names of either FIFO files or regular files, and data is a string containing no spaces. Using a second sem_post after a single sem_wait causes the counting semaphore to allow two proccess into the critical section instead of just one when the critical resource is unlocked, leading to a null pointer dereference. This behavior is triggered by providing two FIFO files &lt;file1 file2&gt; controlled by the runFifos.py script in order, and an input string containing any capitalized alpha character (A-Z). Providing this weakness with two FIFO files &lt;file2 file1&gt; (reverse order) controlled by runFifos.py will prevent the weakness from occuring. Providing this weakness with two regular files is nondeterministic, however a larger qsize will increase the likelyhood that the weakness will not occure.
+
+</description>
+            <technical_impact>UNEXPECTED_STATE</technical_impact>
+            <technical_impact>DOS_UNCONTROLLED_EXIT</technical_impact>
+            <pre_processes scheme="SEQUENCE">
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">printf '' | tee nginx_conf_env.txt</script>
+                </process>
+                <process delay_after="2">
+                    <script background="false" encoding="STRING" type="USE_TEXT">nohup runFifos.py /opt/stonesoup/workspace/testData/fifo1 /opt/stonesoup/workspace/testData/fifo2 &gt; /opt/stonesoup/workspace/inputDaemons/preprocess_daemon_script_01.out 2&gt;&amp;1 &amp; echo $! &gt; /opt/stonesoup/workspace/inputDaemons/preprocess_daemon_script_01.pid &amp;&amp; echo &quot;Script spawned&quot;</script>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">mkdir $SS_TC_ROOT/logs/execute/lttng</script>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="LTTNG_HOME" type="USE_TEXT">$SS_TC_ROOT/logs/execute/lttng</environment_variable>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="SS_RUN_COMMAND_LD_PRELOAD" type="USE_TEXT">$SS_TC_DEPS/lib64/liblttng-stonesoup-c.so:$SS_TC_DEPS/lib64/liblttng-ust-fork.so</environment_variable>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">mkdir -p $SS_TC_DEPS/var/run/lttng</script>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">$SS_TC_DEPS/bin/lttng create &amp;&amp; $SS_TC_DEPS/bin/lttng enable-event -u -a &amp;&amp; $SS_TC_DEPS/bin/lttng start</script>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">rm -rf $SS_TC_ROOT/lockDir</script>
+                </process>
+            </pre_processes>
+            <run_command encoding="STRING" preprend_runcommand="true" type="USE_TEXT">-c -v ^[BRT] input/mktsymbols.txt</run_command>
+            <co_processes scheme="SEQUENCE">
+                <process>
+                    <script background="false" encoding="STRING" input_id="socket_O0HyhcIvZ1eG4t1WjLt8" type="USE_TEXT">/opt/stonesoup/workspace/scripts/service_mon.sh ss-localhost 8887 &amp;&amp; curl -v --data-urlencode data=&quot;99 /opt/stonesoup/workspace/testData/fifo1 /opt/stonesoup/workspace/testData/fifo2 What_is_the_answer_to_life,_the_universe,_and_everything?&quot; --header &quot;If-Match: weak_taint_source_value&quot; --request POST --no-buffer --output /opt/stonesoup/workspace/testData/logfile.txt --silent --show-error http://ss-localhost:8887</script>
+                </process>
+            </co_processes>
+            <post_processes scheme="SEQUENCE">
+                <process>
+                    <script background="false" encoding="STRING" input_id="lttng_output_SWXGZSZaTvQGkWEgNgAR" type="USE_TEXT">$SS_TC_DEPS/bin/lttng stop &amp;&amp; $SS_TC_DEPS/bin/lttng view &amp;&amp; $SS_TC_DEPS/bin/lttng destroy</script>
+                </process>
+                <process delay_after="2">
+                    <script background="false" encoding="STRING" type="USE_TEXT">if [[ -f &quot;/opt/stonesoup/workspace/inputDaemons/preprocess_daemon_script_01.pid&quot; ]]; then killtree.sh -s 9 -p $(cat &quot;/opt/stonesoup/workspace/inputDaemons/preprocess_daemon_script_01.pid&quot;) &amp;&amp; echo &quot;Killed script.&quot;; else echo &quot;Failed: Script PID file does not exist.&quot;; fi</script>
+                </process>
+            </post_processes>
+            <scoring_formula default="segfault_formula_hizQwcMKD8">
+                <formula name="segfault_formula_hizQwcMKD8">weakness_started_DV2Ra27BsCR55XgwYt3d AND ((NOT PERFORMER AND (segfault_code_bfTclMdoHH OR segfault_code_u461jxKLPK OR segfault_code_0Or6bX8ski OR segfault_code_HLWVSSWWPa OR segfault_code_bO4Xbl5lBu OR segfault_msg_E2mtBpy4a4 OR illegal_inst_msg_bouXOkPnr5) AND NOT timeout_z2t07k4hCN) or (PERFORMER AND NOT ((segfault_code_bfTclMdoHH OR segfault_code_u461jxKLPK OR segfault_code_0Or6bX8ski OR segfault_code_HLWVSSWWPa OR segfault_code_bO4Xbl5lBu OR segfault_msg_E2mtBpy4a4 OR illegal_inst_msg_bouXOkPnr5) OR timeout_z2t07k4hCN OR controlled_exit_e8EunM1Zj7)))</formula>
+                <formula name="no_weakness_started_formula_OdlNAqLJXf">(NOT PERFORMER AND (segfault_code_bfTclMdoHH OR segfault_code_u461jxKLPK OR segfault_code_0Or6bX8ski OR segfault_code_HLWVSSWWPa OR segfault_code_bO4Xbl5lBu OR segfault_msg_E2mtBpy4a4 OR illegal_inst_msg_bouXOkPnr5) AND NOT timeout_z2t07k4hCN) or (PERFORMER AND NOT ((segfault_code_bfTclMdoHH OR segfault_code_u461jxKLPK OR segfault_code_0Or6bX8ski OR segfault_code_HLWVSSWWPa OR segfault_code_bO4Xbl5lBu OR segfault_msg_E2mtBpy4a4 OR illegal_inst_msg_bouXOkPnr5) OR timeout_z2t07k4hCN OR controlled_exit_e8EunM1Zj7))</formula>
+            </scoring_formula>
+            <output_checks>
+                <simple_check check_type="SPECIAL" encoding="STRING" name="timeout_z2t07k4hCN" type="USE_TEXT">DOES_NOT_RETURN</simple_check>
+                <simple_check check_type="SPECIAL" encoding="STRING" name="controlled_exit_e8EunM1Zj7" type="USE_TEXT">CONTROLLED_EXIT</simple_check>
+                <simple_check check_type="SPECIAL" encoding="STRING" name="continued_execution_JN4jJL9ho4" type="USE_TEXT">CONTINUED_EXECUTION</simple_check>
+                <compare_check check_type="EXACT_MATCH" name="segfault_code_bfTclMdoHH">
+                    <actual encoding="STRING" output_type="RETURN_CODE">None</actual>
+                    <expected encoding="STRING" type="USE_TEXT">132</expected>
+                </compare_check>
+                <compare_check check_type="EXACT_MATCH" name="segfault_code_u461jxKLPK">
+                    <actual encoding="STRING" output_type="RETURN_CODE">None</actual>
+                    <expected encoding="STRING" type="USE_TEXT">134</expected>
+                </compare_check>
+                <compare_check check_type="EXACT_MATCH" name="segfault_code_0Or6bX8ski">
+                    <actual encoding="STRING" output_type="RETURN_CODE">None</actual>
+                    <expected encoding="STRING" type="USE_TEXT">135</expected>
+                </compare_check>
+                <compare_check check_type="EXACT_MATCH" name="segfault_code_HLWVSSWWPa">
+                    <actual encoding="STRING" output_type="RETURN_CODE">None</actual>
+                    <expected encoding="STRING" type="USE_TEXT">136</expected>
+                </compare_check>
+                <compare_check check_type="EXACT_MATCH" name="segfault_code_bO4Xbl5lBu">
+                    <actual encoding="STRING" output_type="RETURN_CODE">None</actual>
+                    <expected encoding="STRING" type="USE_TEXT">139</expected>
+                </compare_check>
+                <compare_check check_type="CONTAINS" name="segfault_msg_E2mtBpy4a4">
+                    <actual encoding="STRING" output_type="STANDARD_ERROR">None</actual>
+                    <expected encoding="STRING" type="USE_TEXT">Segmentation fault</expected>
+                </compare_check>
+                <compare_check check_type="CONTAINS" name="illegal_inst_msg_bouXOkPnr5">
+                    <actual encoding="STRING" output_type="STANDARD_ERROR">None</actual>
+                    <expected encoding="STRING" type="USE_TEXT">Illegal instruction</expected>
+                </compare_check>
+                <compare_check check_type="CONTAINS" name="weakness_started_DV2Ra27BsCR55XgwYt3d">
+                    <actual encoding="STRING" input_id_ref="lttng_output_SWXGZSZaTvQGkWEgNgAR" output_type="STANDARD_OUT">None</actual>
+                    <expected encoding="STRING" type="USE_TEXT">stonesoup_trace:weakness_start</expected>
+                </compare_check>
+            </output_checks>
+        </iopair>
+    </iopairs>
+</project>

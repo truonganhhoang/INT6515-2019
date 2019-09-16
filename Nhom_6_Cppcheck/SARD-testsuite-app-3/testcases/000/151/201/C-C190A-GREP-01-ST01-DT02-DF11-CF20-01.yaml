@@ -1,0 +1,94 @@
+code_complexity_features:
+  - file_name: /tmp/tmp_vx8gm_ss_testcase/src-rose/src/dfa.c
+    function_name: dfamust
+    line_number: 0
+    feature_group: source_taint
+    feature: ENVIRONMENT_VARIABLE
+  - file_name: /tmp/tmp_vx8gm_ss_testcase/src-rose/src/dfa.c
+    function_name: dfamust
+    line_number: 0
+    feature_group: data_type
+    feature: simple
+  - file_name: /tmp/tmp_vx8gm_ss_testcase/src-rose/src/dfa.c
+    function_name: dfamust
+    line_number: 0
+    feature_group: data_flow
+    feature: basic
+  - file_name: /tmp/tmp_vx8gm_ss_testcase/src-rose/src/dfa.c
+    function_name: dfamust
+    line_number: 0
+    feature_group: control_flow
+    feature: sequence
+description: "Creating test case using base program.\nAdded an environment variable read to the function definition.\nCompleted injection.\n"
+io_pair:
+  description: "INT_MAX=2147483647  Any input that is more than the square root of INT_MAX will cause an integer overflow.  Good inputs are any number less than or equal to 46340.  Bad inputs are greater than 46341.  If an overflow occurs, it will result in an infinite loop\n\n"
+  benigns:
+    - inputs:
+        - id: source
+          value: 50
+          source_enum: 2
+          stage_enum: 0
+          name: ITALIANIZATION_TENONTOGRAPHY
+          stage: pre_process
+          source: env_var_input
+          ordinal: 1
+          value_type: USE_TEXT_DIRECTLY
+          value_type_enum: 0
+          value_encoding: none
+    - inputs:
+        - value_type_enum: 0
+          id: source
+          stage_enum: 0
+          source: env_var_input
+          ordinal: 1
+          name: ITALIANIZATION_TENONTOGRAPHY
+          value: 100
+          value_type: USE_TEXT_DIRECTLY
+          value_encoding: none
+          source_enum: 2
+          stage: pre_process
+    - inputs:
+        - source_enum: 2
+          stage: pre_process
+          id: source
+          source: env_var_input
+          stage_enum: 0
+          name: ITALIANIZATION_TENONTOGRAPHY
+          value_encoding: none
+          value: 10000
+          ordinal: 1
+          value_type_enum: 0
+          value_type: USE_TEXT_DIRECTLY
+  base_inputs:
+    - source: env_var_input
+      source_enum: 2
+      stage: pre_process
+      stage_enum: 0
+      id: source
+      ordinal: 1
+      name: ITALIANIZATION_TENONTOGRAPHY
+  exploits:
+    - inputs:
+        - stage_enum: 0
+          source_enum: 2
+          value_type_enum: 0
+          stage: pre_process
+          source: env_var_input
+          id: source
+          name: ITALIANIZATION_TENONTOGRAPHY
+          ordinal: 1
+          value: 46400
+          value_type: USE_TEXT_DIRECTLY
+          value_encoding: none
+    - inputs:
+        - source: env_var_input
+          source_enum: 2
+          stage_enum: 0
+          name: ITALIANIZATION_TENONTOGRAPHY
+          stage: pre_process
+          ordinal: 1
+          value: 55000
+          id: source
+          value_type: USE_TEXT_DIRECTLY
+          value_encoding: none
+          value_type_enum: 0

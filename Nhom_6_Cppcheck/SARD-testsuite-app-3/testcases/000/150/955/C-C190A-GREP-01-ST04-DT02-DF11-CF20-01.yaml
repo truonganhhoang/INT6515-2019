@@ -1,0 +1,106 @@
+io_pair:
+  exploits:
+    - inputs:
+        - value_type_enum: 0
+          ordinal: 1
+          stage: pre_process
+          source: shared_memory_input
+          source_enum: 6
+          flags: 950
+          stage_enum: 0
+          id: source
+          size: 6
+          value: 46400
+          value_encoding: none
+          key: 9016
+          value_type: USE_TEXT_DIRECTLY
+    - inputs:
+        - stage_enum: 0
+          id: source
+          size: 6
+          value_type: USE_TEXT_DIRECTLY
+          ordinal: 1
+          source: shared_memory_input
+          source_enum: 6
+          flags: 950
+          value: 55000
+          stage: pre_process
+          key: 9016
+          value_type_enum: 0
+          value_encoding: none
+  description: "INT_MAX=2147483647  Any input that is more than the square root of INT_MAX will cause an integer overflow.  Good inputs are any number less than or equal to 46340.  Bad inputs are greater than 46341.  If an overflow occurs, it will result in an infinite loop\n\n"
+  base_inputs:
+    - source: shared_memory_input
+      source_enum: 6
+      stage: pre_process
+      stage_enum: 0
+      id: source
+      ordinal: 1
+      key: 9016
+      size: 6
+      flags: 950
+  benigns:
+    - inputs:
+        - value_type: USE_TEXT_DIRECTLY
+          id: source
+          ordinal: 1
+          size: 6
+          flags: 950
+          stage: pre_process
+          stage_enum: 0
+          source: shared_memory_input
+          key: 9016
+          value_encoding: none
+          value_type_enum: 0
+          value: 50
+          source_enum: 6
+    - inputs:
+        - source_enum: 6
+          stage_enum: 0
+          ordinal: 1
+          value_type_enum: 0
+          stage: pre_process
+          source: shared_memory_input
+          id: source
+          size: 6
+          value: 100
+          key: 9016
+          flags: 950
+          value_type: USE_TEXT_DIRECTLY
+          value_encoding: none
+    - inputs:
+        - value_type_enum: 0
+          value: 10000
+          value_encoding: none
+          flags: 950
+          source_enum: 6
+          source: shared_memory_input
+          stage_enum: 0
+          stage: pre_process
+          ordinal: 1
+          id: source
+          key: 9016
+          value_type: USE_TEXT_DIRECTLY
+          size: 6
+code_complexity_features:
+  - file_name: /tmp/tmpi6lgaB_ss_testcase/src-rose/src/dfa.c
+    function_name: dfamust
+    line_number: 0
+    feature_group: source_taint
+    feature: SHARED_MEMORY
+  - file_name: /tmp/tmpi6lgaB_ss_testcase/src-rose/src/dfa.c
+    function_name: dfamust
+    line_number: 0
+    feature_group: data_type
+    feature: simple
+  - file_name: /tmp/tmpi6lgaB_ss_testcase/src-rose/src/dfa.c
+    function_name: dfamust
+    line_number: 0
+    feature_group: data_flow
+    feature: basic
+  - file_name: /tmp/tmpi6lgaB_ss_testcase/src-rose/src/dfa.c
+    function_name: dfamust
+    line_number: 0
+    feature_group: control_flow
+    feature: sequence
+description: "Creating test case using base program.\nAdded an environment variable read to get a key in order to read in data from shared memory.\nCompleted injection.\n"

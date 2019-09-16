@@ -1,0 +1,94 @@
+io_pair:
+  exploits:
+    - inputs:
+        - stage: pre_process
+          stage_enum: 0
+          id: source
+          value_type: USE_TEXT_DIRECTLY
+          ordinal: 1
+          value_type_enum: 0
+          source: env_var_input
+          name: COTYLOSACRAL_PROCEEDS
+          value: A.A
+          source_enum: 2
+          value_encoding: none
+    - inputs:
+        - value: AAAAAAAHHHHHHHHHHHH!
+          id: source
+          ordinal: 1
+          value_type_enum: 0
+          name: COTYLOSACRAL_PROCEEDS
+          source: env_var_input
+          source_enum: 2
+          value_encoding: none
+          value_type: USE_TEXT_DIRECTLY
+          stage: pre_process
+          stage_enum: 0
+  base_inputs:
+    - source: env_var_input
+      source_enum: 2
+      stage: pre_process
+      stage_enum: 0
+      id: source
+      ordinal: 1
+      name: COTYLOSACRAL_PROCEEDS
+  description: "If a non alphanumeric value is seen, the taint buffer gets set to null and the a strcpy is called, causing a null pointer dereference\n\n"
+  benigns:
+    - inputs:
+        - id: source
+          source_enum: 2
+          value: AAAAA
+          ordinal: 1
+          stage: pre_process
+          stage_enum: 0
+          name: COTYLOSACRAL_PROCEEDS
+          source: env_var_input
+          value_type: USE_TEXT_DIRECTLY
+          value_encoding: none
+          value_type_enum: 0
+    - inputs:
+        - source: env_var_input
+          value_type_enum: 0
+          source_enum: 2
+          stage: pre_process
+          value_type: USE_TEXT_DIRECTLY
+          id: source
+          value_encoding: none
+          ordinal: 1
+          stage_enum: 0
+          value: ABCD123
+          name: COTYLOSACRAL_PROCEEDS
+    - inputs:
+        - name: COTYLOSACRAL_PROCEEDS
+          source: env_var_input
+          value_type_enum: 0
+          value: 1234564760ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz
+          value_encoding: none
+          value_type: USE_TEXT_DIRECTLY
+          stage: pre_process
+          stage_enum: 0
+          id: source
+          source_enum: 2
+          ordinal: 1
+description: "Creating test case using base program.\nAdded an environment variable read to the function definition.\nCompleted injection.\n"
+code_complexity_features:
+  - file_name: /tmp/tmpks2Uow_ss_testcase/src-rose/src/dfa.c
+    function_name: dfamust
+    line_number: 0
+    feature_group: source_taint
+    feature: ENVIRONMENT_VARIABLE
+  - file_name: /tmp/tmpks2Uow_ss_testcase/src-rose/src/dfa.c
+    function_name: dfamust
+    line_number: 0
+    feature_group: data_type
+    feature: simple
+  - file_name: /tmp/tmpks2Uow_ss_testcase/src-rose/src/dfa.c
+    function_name: dfamust
+    line_number: 0
+    feature_group: data_flow
+    feature: basic
+  - file_name: /tmp/tmpks2Uow_ss_testcase/src-rose/src/dfa.c
+    function_name: dfamust
+    line_number: 0
+    feature_group: control_flow
+    feature: sequence

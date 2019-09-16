@@ -1,0 +1,146 @@
+description: "Creating test case using base program.\nAdded an environment variable read to get a key in order to read in data from shared memory.\nCompleted injection.\n"
+code_complexity_features:
+  - file_name: /tmp/tmpRxrbHu_ss_testcase/src-rose/src/dfa.c
+    function_name: dfamust
+    line_number: 0
+    feature_group: source_taint
+    feature: SHARED_MEMORY
+  - file_name: /tmp/tmpRxrbHu_ss_testcase/src-rose/src/dfa.c
+    function_name: dfamust
+    line_number: 0
+    feature_group: data_type
+    feature: simple
+  - file_name: /tmp/tmpRxrbHu_ss_testcase/src-rose/src/dfa.c
+    function_name: dfamust
+    line_number: 0
+    feature_group: data_flow
+    feature: basic
+  - file_name: /tmp/tmpRxrbHu_ss_testcase/src-rose/src/dfa.c
+    function_name: dfamust
+    line_number: 0
+    feature_group: control_flow
+    feature: sequence
+io_pair:
+  exploits:
+    - inputs:
+        - value_type_enum: 0
+          id: source
+          value: 508 /opt/stonesoup/workspace/testData/fifo1 /opt/stonesoup/workspace/testData/fifo2 As_he_lay_watching_the_fireflies_over_head,_he_couldn't_shake_the_feeling_that_maybe_it_was_they_who_were_watching_him.
+          value_type: USE_TEXT_DIRECTLY
+          flags: 950
+          stage_enum: 0
+          stage: pre_process
+          value_encoding: none
+          source: shared_memory_input
+          ordinal: 1
+          key: 2400
+          size: 204
+          source_enum: 6
+        - name: runFifos.py /opt/stonesoup/workspace/testData/fifo1 /opt/stonesoup/workspace/testData/fifo2
+          id: background
+          stage: pre_process
+          source: script_input
+          source_enum: 7
+          stage_enum: 0
+          ordinal: 2
+    - inputs:
+        - size: 204
+          id: source
+          flags: 950
+          value_type_enum: 0
+          ordinal: 1
+          key: 2400
+          value: 99 /opt/stonesoup/workspace/testData/fifo1 /opt/stonesoup/workspace/testData/fifo2 Answering_question_after_question,_our_unlikely_hero_was_finally_winning_the_scholastic_challenge_for_us.
+          source_enum: 6
+          value_encoding: none
+          stage: pre_process
+          stage_enum: 0
+          source: shared_memory_input
+          value_type: USE_TEXT_DIRECTLY
+        - source: script_input
+          name: runFifos.py /opt/stonesoup/workspace/testData/fifo1 /opt/stonesoup/workspace/testData/fifo2
+          stage: pre_process
+          id: background
+          source_enum: 7
+          stage_enum: 0
+          ordinal: 2
+  description: "This weakness expects a string in the form: '<qsize> <file1> <file2> <data>' where qsize is the size of the quick sort (used to delay execution in certan benign cases), file1 and file2 are files used to dealy execution and data is a string containing no spaces. If the input starts with an A and is greater than 50 characters in length, and the qsize is large enough, incorrect syncronization (two separate locks) will lead to division by zero.  For the weakness to occur, the input must begin with an 'A', be greater than 50 characters in length, and file1 and file2 must be FIFO files controlled by runFifo.py fifo1 fifo2.\n\n"
+  base_inputs:
+    - stage: pre_process
+      source: shared_memory_input
+      source_enum: 6
+      stage_enum: 0
+      id: source
+      ordinal: 1
+      key: 2400
+      size: 204
+      flags: 950
+  benigns:
+    - inputs:
+        - stage: pre_process
+          source: shared_memory_input
+          source_enum: 6
+          stage_enum: 0
+          ordinal: 1
+          id: source
+          size: 204
+          flags: 950
+          value: 5 /opt/stonesoup/workspace/testData/fifo2 /opt/stonesoup/workspace/testData/fifo1 Another_test_case
+          key: 2400
+          value_encoding: none
+          value_type: USE_TEXT_DIRECTLY
+          value_type_enum: 0
+        - stage: pre_process
+          id: background
+          name: runFifos.py /opt/stonesoup/workspace/testData/fifo1 /opt/stonesoup/workspace/testData/fifo2
+          stage_enum: 0
+          source: script_input
+          source_enum: 7
+          ordinal: 2
+    - inputs:
+        - ordinal: 1
+          flags: 950
+          stage_enum: 0
+          id: source
+          key: 2400
+          value_type_enum: 0
+          value_encoding: none
+          size: 204
+          value_type: USE_TEXT_DIRECTLY
+          stage: pre_process
+          source: shared_memory_input
+          source_enum: 6
+          value: 1 /opt/stonesoup/workspace/testData/fifo2 /opt/stonesoup/workspace/testData/fifo1 hello_world
+        - name: runFifos.py /opt/stonesoup/workspace/testData/fifo1 /opt/stonesoup/workspace/testData/fifo2
+          source_enum: 7
+          stage_enum: 0
+          source: script_input
+          stage: pre_process
+          id: background
+          ordinal: 2
+    - inputs:
+        - size: 204
+          flags: 950
+          stage: pre_process
+          value: 6000000 /opt/stonesoup/workspace/testData/file1 /opt/stonesoup/workspace/testData/file2 1,_2,_skip_to_my_lou
+          source: shared_memory_input
+          value_encoding: none
+          source_enum: 6
+          value_type: USE_TEXT_DIRECTLY
+          stage_enum: 0
+          value_type_enum: 0
+          id: source
+          ordinal: 1
+          key: 2400
+        - ordinal: 2
+          stage_enum: 0
+          source_enum: 3
+          stage: pre_process
+          source: file_content_input
+          name: /opt/stonesoup/workspace/testData/file1
+        - stage: pre_process
+          name: /opt/stonesoup/workspace/testData/file2
+          stage_enum: 0
+          source: file_content_input
+          ordinal: 3
+          source_enum: 3

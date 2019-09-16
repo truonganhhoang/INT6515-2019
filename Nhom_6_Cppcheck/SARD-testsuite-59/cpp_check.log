@@ -1,0 +1,18 @@
+000\001\977\uninit_variable_datatype.cpp:22:6: error: Uninitialized variable: integer [uninitvar]
+ if (integer == 0)
+     ^
+000\001\977\uninit_variable_datatype.cpp:23:31: error: Uninitialized variable: integer [uninitvar]
+  cout << "integer == 0: " << integer << endl;
+                              ^
+000\001\977\uninit_variable_datatype.cpp:25:31: error: Uninitialized variable: integer [uninitvar]
+  cout << "integer != 0: " << integer << endl;
+                              ^
+000\001\993\null_deref_basic.cpp:22:7: error: Null pointer dereference: p [nullPointer]
+ k = *p;
+      ^
+000\001\993\null_deref_basic.cpp:20:11: note: Assignment 'p=0', assigned value is 0
+ int *p = 0, k;
+          ^
+000\001\993\null_deref_basic.cpp:22:7: note: Null pointer dereference
+ k = *p;
+      ^

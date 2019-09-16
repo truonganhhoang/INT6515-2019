@@ -1,0 +1,60 @@
+000\149\094\cgic.c:315:3: error: Memory leak: input [memleak]
+  return cgiParseIO;
+  ^
+000\149\094\cgic.c:2268:13: error: Uninitialized variable: i [uninitvar]
+ if (!fread(i, sizeof(int), 1, out)) {
+            ^
+000\149\094\cgic.c:2152:23: note: Calling function 'cgiReadInt', 2nd argument '&fileFlag' value is <Uninit>
+  if (!cgiReadInt(in, &fileFlag)) {
+                      ^
+000\149\094\cgic.c:2268:13: note: Uninitialized variable: i
+ if (!fread(i, sizeof(int), 1, out)) {
+            ^
+000\149\174\cgic.c:315:3: error: Memory leak: input [memleak]
+  return cgiParseIO;
+  ^
+000\149\174\cgic.c:2268:13: error: Uninitialized variable: i [uninitvar]
+ if (!fread(i, sizeof(int), 1, out)) {
+            ^
+000\149\174\cgic.c:2152:23: note: Calling function 'cgiReadInt', 2nd argument '&fileFlag' value is <Uninit>
+  if (!cgiReadInt(in, &fileFlag)) {
+                      ^
+000\149\174\cgic.c:2268:13: note: Uninitialized variable: i
+ if (!fread(i, sizeof(int), 1, out)) {
+            ^
+000\149\176\cgic.c:315:3: error: Memory leak: input [memleak]
+  return cgiParseIO;
+  ^
+000\149\176\cgic.c:2268:13: error: Uninitialized variable: i [uninitvar]
+ if (!fread(i, sizeof(int), 1, out)) {
+            ^
+000\149\176\cgic.c:2152:23: note: Calling function 'cgiReadInt', 2nd argument '&fileFlag' value is <Uninit>
+  if (!cgiReadInt(in, &fileFlag)) {
+                      ^
+000\149\176\cgic.c:2268:13: note: Uninitialized variable: i
+ if (!fread(i, sizeof(int), 1, out)) {
+            ^
+000\149\178\cgic.c:315:3: error: Memory leak: input [memleak]
+  return cgiParseIO;
+  ^
+000\149\178\cgic.c:2268:13: error: Uninitialized variable: i [uninitvar]
+ if (!fread(i, sizeof(int), 1, out)) {
+            ^
+000\149\178\cgic.c:2152:23: note: Calling function 'cgiReadInt', 2nd argument '&fileFlag' value is <Uninit>
+  if (!cgiReadInt(in, &fileFlag)) {
+                      ^
+000\149\178\cgic.c:2268:13: note: Uninitialized variable: i
+ if (!fread(i, sizeof(int), 1, out)) {
+            ^
+000\149\216\cgic.c:315:3: error: Memory leak: input [memleak]
+  return cgiParseIO;
+  ^
+000\149\216\cgic.c:2268:13: error: Uninitialized variable: i [uninitvar]
+ if (!fread(i, sizeof(int), 1, out)) {
+            ^
+000\149\216\cgic.c:2152:23: note: Calling function 'cgiReadInt', 2nd argument '&fileFlag' value is <Uninit>
+  if (!cgiReadInt(in, &fileFlag)) {
+                      ^
+000\149\216\cgic.c:2268:13: note: Uninitialized variable: i
+ if (!fread(i, sizeof(int), 1, out)) {
+            ^

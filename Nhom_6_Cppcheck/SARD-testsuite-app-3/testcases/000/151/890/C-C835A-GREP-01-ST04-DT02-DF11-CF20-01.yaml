@@ -1,0 +1,106 @@
+code_complexity_features:
+  - line_number: 0
+    feature_group: source_taint
+    feature: SHARED_MEMORY
+    file_name: /tmp/tmpq5H7BN_ss_testcase/src-rose/src/dfa.c
+    function_name: dfamust
+  - file_name: /tmp/tmpq5H7BN_ss_testcase/src-rose/src/dfa.c
+    function_name: dfamust
+    line_number: 0
+    feature_group: data_type
+    feature: simple
+  - file_name: /tmp/tmpq5H7BN_ss_testcase/src-rose/src/dfa.c
+    function_name: dfamust
+    line_number: 0
+    feature_group: data_flow
+    feature: basic
+  - file_name: /tmp/tmpq5H7BN_ss_testcase/src-rose/src/dfa.c
+    function_name: dfamust
+    line_number: 0
+    feature_group: control_flow
+    feature: sequence
+description: "Creating test case using base program.\nAdded an environment variable read to get a key in order to read in data from shared memory.\nCompleted injection.\n"
+io_pair:
+  exploits:
+    - inputs:
+        - source_enum: 6
+          ordinal: 1
+          source: shared_memory_input
+          flags: 950
+          stage: pre_process
+          key: 4929
+          stage_enum: 0
+          id: source
+          value: AAAAA.AAAAAAAA
+          size: 29
+          value_type_enum: 0
+          value_encoding: none
+          value_type: USE_TEXT_DIRECTLY
+    - inputs:
+        - size: 29
+          value_type_enum: 0
+          flags: 950
+          source_enum: 6
+          source: shared_memory_input
+          stage_enum: 0
+          key: 4929
+          stage: pre_process
+          ordinal: 1
+          value: This statement will break it
+          value_encoding: none
+          value_type: USE_TEXT_DIRECTLY
+          id: source
+  base_inputs:
+    - source: shared_memory_input
+      source_enum: 6
+      stage: pre_process
+      stage_enum: 0
+      id: source
+      ordinal: 1
+      key: 4929
+      size: 29
+      flags: 950
+  description: "Infinite Loop that checks each character of input and if it is ascii val 48 or higher, updates the exit counter.  Otherwise it doesn't, resulting in an infinite loop\n\n"
+  benigns:
+    - inputs:
+        - ordinal: 1
+          stage: pre_process
+          id: source
+          stage_enum: 0
+          size: 29
+          flags: 950
+          source: shared_memory_input
+          key: 4929
+          value_encoding: none
+          value_type_enum: 0
+          value: AAA
+          value_type: USE_TEXT_DIRECTLY
+          source_enum: 6
+    - inputs:
+        - value_type_enum: 0
+          source: shared_memory_input
+          ordinal: 1
+          stage_enum: 0
+          value_encoding: none
+          id: source
+          key: 4929
+          value: Hellowworld
+          source_enum: 6
+          value_type: USE_TEXT_DIRECTLY
+          stage: pre_process
+          size: 29
+          flags: 950
+    - inputs:
+        - id: source
+          value_type: USE_TEXT_DIRECTLY
+          stage: pre_process
+          source: shared_memory_input
+          source_enum: 6
+          value_type_enum: 0
+          stage_enum: 0
+          key: 4929
+          flags: 950
+          ordinal: 1
+          value_encoding: none
+          size: 29
+          value: Goodbyecruelworld

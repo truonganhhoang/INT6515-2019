@@ -1,0 +1,94 @@
+io_pair:
+  exploits:
+    - inputs:
+        - stage_enum: 0
+          value_type_enum: 0
+          id: source
+          ordinal: 1
+          name: UNSIGHTLIER_PROPLASMA
+          source: env_var_input
+          value: AAAAA.AAAAAAAA
+          source_enum: 2
+          value_encoding: none
+          stage: pre_process
+          value_type: USE_TEXT_DIRECTLY
+    - inputs:
+        - value_encoding: none
+          stage: pre_process
+          stage_enum: 0
+          id: source
+          ordinal: 1
+          value_type: USE_TEXT_DIRECTLY
+          name: UNSIGHTLIER_PROPLASMA
+          source: env_var_input
+          source_enum: 2
+          value_type_enum: 0
+          value: This statement will break it
+  description: "Infinite Loop that checks each character of input and if it is ascii val 48 or higher, updates the exit counter.  Otherwise it doesn't, resulting in an infinite loop\n\n"
+  base_inputs:
+    - source: env_var_input
+      source_enum: 2
+      stage: pre_process
+      stage_enum: 0
+      id: source
+      ordinal: 1
+      name: UNSIGHTLIER_PROPLASMA
+  benigns:
+    - inputs:
+        - stage: pre_process
+          id: source
+          stage_enum: 0
+          value: AAA
+          value_encoding: none
+          source: env_var_input
+          name: UNSIGHTLIER_PROPLASMA
+          value_type: USE_TEXT_DIRECTLY
+          value_type_enum: 0
+          ordinal: 1
+          source_enum: 2
+    - inputs:
+        - stage: pre_process
+          source: env_var_input
+          value_encoding: none
+          id: source
+          source_enum: 2
+          value: Hellowworld
+          stage_enum: 0
+          ordinal: 1
+          name: UNSIGHTLIER_PROPLASMA
+          value_type: USE_TEXT_DIRECTLY
+          value_type_enum: 0
+    - inputs:
+        - name: UNSIGHTLIER_PROPLASMA
+          value_encoding: none
+          source_enum: 2
+          value_type: USE_TEXT_DIRECTLY
+          stage: pre_process
+          stage_enum: 0
+          value_type_enum: 0
+          id: source
+          ordinal: 1
+          value: Goodbyecruelworld
+          source: env_var_input
+description: "Creating test case using base program.\nAdded an environment variable read to the function definition.\nCompleted injection.\n"
+code_complexity_features:
+  - file_name: /tmp/tmpl3Ri0D_ss_testcase/src-rose/src/dfa.c
+    function_name: dfamust
+    line_number: 0
+    feature_group: source_taint
+    feature: ENVIRONMENT_VARIABLE
+  - file_name: /tmp/tmpl3Ri0D_ss_testcase/src-rose/src/dfa.c
+    function_name: dfamust
+    line_number: 0
+    feature_group: data_type
+    feature: simple
+  - file_name: /tmp/tmpl3Ri0D_ss_testcase/src-rose/src/dfa.c
+    function_name: dfamust
+    line_number: 0
+    feature_group: data_flow
+    feature: basic
+  - file_name: /tmp/tmpl3Ri0D_ss_testcase/src-rose/src/dfa.c
+    function_name: dfamust
+    line_number: 0
+    feature_group: control_flow
+    feature: sequence

@@ -1,0 +1,784 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project base_program="C-GREP" language="C" name="C-C197A-GREP-01-ST02-DT02-DF11-CF20-01" targeted_architecture="ANY" targeted_os="LINUX" test_case_type="ALL" xmlns="urn:stonesoup:project">
+    <description>Creating test case using base program.
+Added an environment variable read to get a filename to read in the file contents using an fread operation within the function
+Completed injection.
+</description>
+    <additional_information>
+        <keyvalue key="algorithmic_variant_name">UNSPECIFIED</keyvalue>
+        <keyvalue key="root_cause">UNSPECIFIED</keyvalue>
+    </additional_information>
+    <structure install="install" iodata="testData" scoredata="testOutput" scripts="scripts" source="src"/>
+    <run_command>$SS_TC_ROOT/$SS_TC_INSTALL/bin/grep</run_command>
+    <weakness generation_method="FAULT_INJECTED">
+        <variant cwe="CWE-197" name="CWE-197-A"/>
+        <features>
+            <taint_source file_name="/src/dfa.c" line_number="0" type="FILE_CONTENTS">
+                <method name="dfamust"/>
+            </taint_source>
+            <data_type file_name="/src/dfa.c" line_number="0" type="SIMPLE">
+                <method name="dfamust"/>
+            </data_type>
+            <data_flow file_name="/src/dfa.c" line_number="0" type="BASIC">
+                <method name="dfamust"/>
+            </data_flow>
+            <control_flow file_name="/src/dfa.c" line_number="0" type="SEQUENCE">
+                <method name="dfamust"/>
+            </control_flow>
+        </features>
+    </weakness>
+    <build_commands cppflags="-DSTONESOUP_TRACE=1" libs="-ldl">
+        <command>./configure --prefix=&quot;$SS_TC_ROOT/$SS_TC_INSTALL&quot; --exec-prefix=&quot;$SS_TC_ROOT/$SS_TC_INSTALL&quot; --with-included-regex</command>
+        <command>make V=1 CC=&quot;$SS_CC&quot; CCLD=&quot;$SS_LNK&quot;</command>
+        <command>make V=1 install CC=&quot;$SS_CC&quot; CCLD=&quot;$SS_LNK&quot;</command>
+    </build_commands>
+    <iopairs>
+        <iopair name="C-C197A-GREP-01-ST02-DT02-DF11-CF20-01-GOOD-01" reset_scheme="NONE" timeout="300" type="GOOD">
+            <description>all words beginning with e or x, case sensitive
+Read a number from the input.  Create a struct with two fields: size (unsigned short) and buffer (char*).  Initialize the struct using the unsigned short value as a size, and malloc the unsigned short value worth of bytes.  Later, memset the buffer in the struct using the number passed in as input.  Since the input is a long, and we only allocated an unsigned short amount, we will corrupt the heap, leading to seg fault or glib error. Good inputs: 65535 or less. Bad inputs: more than 65535
+
+</description>
+            <technical_impact>NONE</technical_impact>
+            <pre_processes scheme="SEQUENCE">
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">printf 'env FELONWEED_MOUNTAINEERED;\n' | tee nginx_conf_env.txt</script>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="FELONWEED_MOUNTAINEERED" type="USE_TEXT">/opt/stonesoup/workspace/testData/brighteyes_prespecifically/vertible_acephali.txt</environment_variable>
+                </process>
+                <process>
+                    <file encoding="STRING" path="/opt/stonesoup/workspace/testData/brighteyes_prespecifically/vertible_acephali.txt" type="USE_TEXT">1</file>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">mkdir $SS_TC_ROOT/logs/execute/lttng</script>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="LTTNG_HOME" type="USE_TEXT">$SS_TC_ROOT/logs/execute/lttng</environment_variable>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="SS_RUN_COMMAND_LD_PRELOAD" type="USE_TEXT">$SS_TC_DEPS/lib64/liblttng-stonesoup-c.so:$SS_TC_DEPS/lib64/liblttng-ust-fork.so</environment_variable>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">mkdir -p $SS_TC_DEPS/var/run/lttng</script>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">$SS_TC_DEPS/bin/lttng create &amp;&amp; $SS_TC_DEPS/bin/lttng enable-event -u -a &amp;&amp; $SS_TC_DEPS/bin/lttng start</script>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">rm -rf $SS_TC_ROOT/lockDir</script>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="MALLOC_CHECK_" type="USE_TEXT">1</environment_variable>
+                </process>
+            </pre_processes>
+            <run_command encoding="STRING" preprend_runcommand="true" type="USE_TEXT">^[ex] input/dict.txt</run_command>
+            <post_processes scheme="SEQUENCE">
+                <process>
+                    <script background="false" encoding="STRING" input_id="lttng_output_1OXhPLQmdT" type="USE_TEXT">$SS_TC_DEPS/bin/lttng stop &amp;&amp; $SS_TC_DEPS/bin/lttng view &amp;&amp; $SS_TC_DEPS/bin/lttng destroy</script>
+                </process>
+            </post_processes>
+            <scoring_formula default="GOOD-01-Default">
+                <formula name="GOOD-01-Default">STDOUT-01 AND NOT TIMEOUT AND NOT CONTROLLED_EXIT</formula>
+            </scoring_formula>
+            <output_checks>
+                <compare_check check_type="CONTAINS" name="STDOUT-01">
+                    <actual output_type="STANDARD_OUT"></actual>
+                    <expected encoding="STRING" type="USE_FILE_CONTENTS">good-01/std-out.txt</expected>
+                </compare_check>
+                <simple_check check_type="SPECIAL" encoding="STRING" name="TIMEOUT" type="USE_TEXT">DOES_NOT_RETURN</simple_check>
+                <simple_check check_type="SPECIAL" encoding="STRING" name="CONTROLLED_EXIT" type="USE_TEXT">CONTROLLED_EXIT</simple_check>
+            </output_checks>
+        </iopair>
+        <iopair name="C-C197A-GREP-01-ST02-DT02-DF11-CF20-01-GOOD-02" reset_scheme="NONE" timeout="300" type="GOOD">
+            <description>find BIRMINGHAM, ignore case, recursive
+Read a number from the input.  Create a struct with two fields: size (unsigned short) and buffer (char*).  Initialize the struct using the unsigned short value as a size, and malloc the unsigned short value worth of bytes.  Later, memset the buffer in the struct using the number passed in as input.  Since the input is a long, and we only allocated an unsigned short amount, we will corrupt the heap, leading to seg fault or glib error. Good inputs: 65535 or less. Bad inputs: more than 65535
+
+</description>
+            <technical_impact>NONE</technical_impact>
+            <pre_processes scheme="SEQUENCE">
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">printf 'env FELONWEED_MOUNTAINEERED;\n' | tee nginx_conf_env.txt</script>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="FELONWEED_MOUNTAINEERED" type="USE_TEXT">/opt/stonesoup/workspace/testData/brighteyes_prespecifically/vertible_acephali.txt</environment_variable>
+                </process>
+                <process>
+                    <file encoding="STRING" path="/opt/stonesoup/workspace/testData/brighteyes_prespecifically/vertible_acephali.txt" type="USE_TEXT">10</file>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">mkdir $SS_TC_ROOT/logs/execute/lttng</script>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="LTTNG_HOME" type="USE_TEXT">$SS_TC_ROOT/logs/execute/lttng</environment_variable>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="SS_RUN_COMMAND_LD_PRELOAD" type="USE_TEXT">$SS_TC_DEPS/lib64/liblttng-stonesoup-c.so:$SS_TC_DEPS/lib64/liblttng-ust-fork.so</environment_variable>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">mkdir -p $SS_TC_DEPS/var/run/lttng</script>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">$SS_TC_DEPS/bin/lttng create &amp;&amp; $SS_TC_DEPS/bin/lttng enable-event -u -a &amp;&amp; $SS_TC_DEPS/bin/lttng start</script>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">rm -rf $SS_TC_ROOT/lockDir</script>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="MALLOC_CHECK_" type="USE_TEXT">1</environment_variable>
+                </process>
+            </pre_processes>
+            <run_command encoding="STRING" preprend_runcommand="true" type="USE_TEXT">-r -i BIRMINGHAM input/zip/</run_command>
+            <post_processes scheme="SEQUENCE">
+                <process delay_after="0" delay_before="0">
+                    <script background="false" encoding="STRING" type="USE_TEXT">sort $SS_LOG_EXECUTE_STDOUT -o $SS_LOG_EXECUTE_STDOUT_tmp &amp;&amp; mv $SS_LOG_EXECUTE_STDOUT_tmp $SS_LOG_EXECUTE_STDOUT</script>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" input_id="lttng_output_3BtuEErdP8" type="USE_TEXT">$SS_TC_DEPS/bin/lttng stop &amp;&amp; $SS_TC_DEPS/bin/lttng view &amp;&amp; $SS_TC_DEPS/bin/lttng destroy</script>
+                </process>
+            </post_processes>
+            <scoring_formula default="GOOD-02-Default">
+                <formula name="GOOD-02-Default">STDOUT-02 AND NOT TIMEOUT AND NOT CONTROLLED_EXIT</formula>
+            </scoring_formula>
+            <output_checks>
+                <compare_check check_type="CONTAINS" name="STDOUT-02">
+                    <actual output_type="STANDARD_OUT"></actual>
+                    <expected encoding="STRING" type="USE_FILE_CONTENTS">good-02/std-out.txt</expected>
+                </compare_check>
+                <simple_check check_type="SPECIAL" encoding="STRING" name="TIMEOUT" type="USE_TEXT">DOES_NOT_RETURN</simple_check>
+                <simple_check check_type="SPECIAL" encoding="STRING" name="CONTROLLED_EXIT" type="USE_TEXT">CONTROLLED_EXIT</simple_check>
+            </output_checks>
+        </iopair>
+        <iopair name="C-C197A-GREP-01-ST02-DT02-DF11-CF20-01-GOOD-03" reset_scheme="NONE" timeout="300" type="GOOD">
+            <description>read extented regular expressions from file
+Read a number from the input.  Create a struct with two fields: size (unsigned short) and buffer (char*).  Initialize the struct using the unsigned short value as a size, and malloc the unsigned short value worth of bytes.  Later, memset the buffer in the struct using the number passed in as input.  Since the input is a long, and we only allocated an unsigned short amount, we will corrupt the heap, leading to seg fault or glib error. Good inputs: 65535 or less. Bad inputs: more than 65535
+
+</description>
+            <technical_impact>NONE</technical_impact>
+            <pre_processes scheme="SEQUENCE">
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">printf 'env FELONWEED_MOUNTAINEERED;\n' | tee nginx_conf_env.txt</script>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="FELONWEED_MOUNTAINEERED" type="USE_TEXT">/opt/stonesoup/workspace/testData/brighteyes_prespecifically/vertible_acephali.txt</environment_variable>
+                </process>
+                <process>
+                    <file encoding="STRING" path="/opt/stonesoup/workspace/testData/brighteyes_prespecifically/vertible_acephali.txt" type="USE_TEXT">1000</file>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">mkdir $SS_TC_ROOT/logs/execute/lttng</script>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="LTTNG_HOME" type="USE_TEXT">$SS_TC_ROOT/logs/execute/lttng</environment_variable>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="SS_RUN_COMMAND_LD_PRELOAD" type="USE_TEXT">$SS_TC_DEPS/lib64/liblttng-stonesoup-c.so:$SS_TC_DEPS/lib64/liblttng-ust-fork.so</environment_variable>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">mkdir -p $SS_TC_DEPS/var/run/lttng</script>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">$SS_TC_DEPS/bin/lttng create &amp;&amp; $SS_TC_DEPS/bin/lttng enable-event -u -a &amp;&amp; $SS_TC_DEPS/bin/lttng start</script>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">rm -rf $SS_TC_ROOT/lockDir</script>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="MALLOC_CHECK_" type="USE_TEXT">1</environment_variable>
+                </process>
+            </pre_processes>
+            <run_command encoding="STRING" preprend_runcommand="true" type="USE_TEXT">-E -f input/grep-good-03-expr.txt input/mktsymbols.txt</run_command>
+            <post_processes scheme="SEQUENCE">
+                <process>
+                    <script background="false" encoding="STRING" input_id="lttng_output_2Kvw6YUh41" type="USE_TEXT">$SS_TC_DEPS/bin/lttng stop &amp;&amp; $SS_TC_DEPS/bin/lttng view &amp;&amp; $SS_TC_DEPS/bin/lttng destroy</script>
+                </process>
+            </post_processes>
+            <scoring_formula default="GOOD-03-Default">
+                <formula name="GOOD-03-Default">STDOUT-03 AND NOT TIMEOUT AND NOT CONTROLLED_EXIT</formula>
+            </scoring_formula>
+            <output_checks>
+                <compare_check check_type="CONTAINS" name="STDOUT-03">
+                    <actual output_type="STANDARD_OUT"></actual>
+                    <expected encoding="STRING" type="USE_FILE_CONTENTS">good-03/std-out.txt</expected>
+                </compare_check>
+                <simple_check check_type="SPECIAL" encoding="STRING" name="TIMEOUT" type="USE_TEXT">DOES_NOT_RETURN</simple_check>
+                <simple_check check_type="SPECIAL" encoding="STRING" name="CONTROLLED_EXIT" type="USE_TEXT">CONTROLLED_EXIT</simple_check>
+            </output_checks>
+        </iopair>
+        <iopair name="C-C197A-GREP-01-ST02-DT02-DF11-CF20-01-GOOD-04" reset_scheme="NONE" timeout="300" type="GOOD">
+            <description>search for entire words matching a specific pattern
+Read a number from the input.  Create a struct with two fields: size (unsigned short) and buffer (char*).  Initialize the struct using the unsigned short value as a size, and malloc the unsigned short value worth of bytes.  Later, memset the buffer in the struct using the number passed in as input.  Since the input is a long, and we only allocated an unsigned short amount, we will corrupt the heap, leading to seg fault or glib error. Good inputs: 65535 or less. Bad inputs: more than 65535
+
+</description>
+            <technical_impact>NONE</technical_impact>
+            <pre_processes scheme="SEQUENCE">
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">printf 'env FELONWEED_MOUNTAINEERED;\n' | tee nginx_conf_env.txt</script>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="FELONWEED_MOUNTAINEERED" type="USE_TEXT">/opt/stonesoup/workspace/testData/brighteyes_prespecifically/vertible_acephali.txt</environment_variable>
+                </process>
+                <process>
+                    <file encoding="STRING" path="/opt/stonesoup/workspace/testData/brighteyes_prespecifically/vertible_acephali.txt" type="USE_TEXT">1</file>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">mkdir $SS_TC_ROOT/logs/execute/lttng</script>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="LTTNG_HOME" type="USE_TEXT">$SS_TC_ROOT/logs/execute/lttng</environment_variable>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="SS_RUN_COMMAND_LD_PRELOAD" type="USE_TEXT">$SS_TC_DEPS/lib64/liblttng-stonesoup-c.so:$SS_TC_DEPS/lib64/liblttng-ust-fork.so</environment_variable>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">mkdir -p $SS_TC_DEPS/var/run/lttng</script>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">$SS_TC_DEPS/bin/lttng create &amp;&amp; $SS_TC_DEPS/bin/lttng enable-event -u -a &amp;&amp; $SS_TC_DEPS/bin/lttng start</script>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">rm -rf $SS_TC_ROOT/lockDir</script>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="MALLOC_CHECK_" type="USE_TEXT">1</environment_variable>
+                </process>
+            </pre_processes>
+            <run_command encoding="STRING" preprend_runcommand="true" type="USE_TEXT">-w -f input/grep-good-04-expr.txt input/mktsymbols.txt</run_command>
+            <post_processes scheme="SEQUENCE">
+                <process>
+                    <script background="false" encoding="STRING" input_id="lttng_output_uutzjQt5Fk" type="USE_TEXT">$SS_TC_DEPS/bin/lttng stop &amp;&amp; $SS_TC_DEPS/bin/lttng view &amp;&amp; $SS_TC_DEPS/bin/lttng destroy</script>
+                </process>
+            </post_processes>
+            <scoring_formula default="GOOD-04-Default">
+                <formula name="GOOD-04-Default">STDOUT-04 AND NOT TIMEOUT AND NOT CONTROLLED_EXIT</formula>
+            </scoring_formula>
+            <output_checks>
+                <compare_check check_type="CONTAINS" name="STDOUT-04">
+                    <actual output_type="STANDARD_OUT"></actual>
+                    <expected encoding="STRING" type="USE_FILE_CONTENTS">good-04/std-out.txt</expected>
+                </compare_check>
+                <simple_check check_type="SPECIAL" encoding="STRING" name="TIMEOUT" type="USE_TEXT">DOES_NOT_RETURN</simple_check>
+                <simple_check check_type="SPECIAL" encoding="STRING" name="CONTROLLED_EXIT" type="USE_TEXT">CONTROLLED_EXIT</simple_check>
+            </output_checks>
+        </iopair>
+        <iopair name="C-C197A-GREP-01-ST02-DT02-DF11-CF20-01-GOOD-05" reset_scheme="NONE" timeout="300" type="GOOD">
+            <description>use mmap(), find NASDAQ in file
+Read a number from the input.  Create a struct with two fields: size (unsigned short) and buffer (char*).  Initialize the struct using the unsigned short value as a size, and malloc the unsigned short value worth of bytes.  Later, memset the buffer in the struct using the number passed in as input.  Since the input is a long, and we only allocated an unsigned short amount, we will corrupt the heap, leading to seg fault or glib error. Good inputs: 65535 or less. Bad inputs: more than 65535
+
+</description>
+            <technical_impact>NONE</technical_impact>
+            <pre_processes scheme="SEQUENCE">
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">printf 'env FELONWEED_MOUNTAINEERED;\n' | tee nginx_conf_env.txt</script>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="FELONWEED_MOUNTAINEERED" type="USE_TEXT">/opt/stonesoup/workspace/testData/brighteyes_prespecifically/vertible_acephali.txt</environment_variable>
+                </process>
+                <process>
+                    <file encoding="STRING" path="/opt/stonesoup/workspace/testData/brighteyes_prespecifically/vertible_acephali.txt" type="USE_TEXT">10</file>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">mkdir $SS_TC_ROOT/logs/execute/lttng</script>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="LTTNG_HOME" type="USE_TEXT">$SS_TC_ROOT/logs/execute/lttng</environment_variable>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="SS_RUN_COMMAND_LD_PRELOAD" type="USE_TEXT">$SS_TC_DEPS/lib64/liblttng-stonesoup-c.so:$SS_TC_DEPS/lib64/liblttng-ust-fork.so</environment_variable>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">mkdir -p $SS_TC_DEPS/var/run/lttng</script>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">$SS_TC_DEPS/bin/lttng create &amp;&amp; $SS_TC_DEPS/bin/lttng enable-event -u -a &amp;&amp; $SS_TC_DEPS/bin/lttng start</script>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">rm -rf $SS_TC_ROOT/lockDir</script>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="MALLOC_CHECK_" type="USE_TEXT">1</environment_variable>
+                </process>
+            </pre_processes>
+            <run_command encoding="STRING" preprend_runcommand="true" type="USE_TEXT">--mmap NASDAQ input/mktsymbols.txt</run_command>
+            <post_processes scheme="SEQUENCE">
+                <process>
+                    <script background="false" encoding="STRING" input_id="lttng_output_uR3jKJK6d7" type="USE_TEXT">$SS_TC_DEPS/bin/lttng stop &amp;&amp; $SS_TC_DEPS/bin/lttng view &amp;&amp; $SS_TC_DEPS/bin/lttng destroy</script>
+                </process>
+            </post_processes>
+            <scoring_formula default="GOOD-05-Default">
+                <formula name="GOOD-05-Default">STDOUT-05 AND NOT TIMEOUT AND NOT CONTROLLED_EXIT</formula>
+            </scoring_formula>
+            <output_checks>
+                <compare_check check_type="CONTAINS" name="STDOUT-05">
+                    <actual output_type="STANDARD_OUT"></actual>
+                    <expected encoding="STRING" type="USE_FILE_CONTENTS">good-05/std-out.txt</expected>
+                </compare_check>
+                <simple_check check_type="SPECIAL" encoding="STRING" name="TIMEOUT" type="USE_TEXT">DOES_NOT_RETURN</simple_check>
+                <simple_check check_type="SPECIAL" encoding="STRING" name="CONTROLLED_EXIT" type="USE_TEXT">CONTROLLED_EXIT</simple_check>
+            </output_checks>
+        </iopair>
+        <iopair name="C-C197A-GREP-01-ST02-DT02-DF11-CF20-01-GOOD-06" reset_scheme="NONE" timeout="300" type="GOOD">
+            <description>match lines not containing NASDAQ, ignore case, count
+Read a number from the input.  Create a struct with two fields: size (unsigned short) and buffer (char*).  Initialize the struct using the unsigned short value as a size, and malloc the unsigned short value worth of bytes.  Later, memset the buffer in the struct using the number passed in as input.  Since the input is a long, and we only allocated an unsigned short amount, we will corrupt the heap, leading to seg fault or glib error. Good inputs: 65535 or less. Bad inputs: more than 65535
+
+</description>
+            <technical_impact>NONE</technical_impact>
+            <pre_processes scheme="SEQUENCE">
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">printf 'env FELONWEED_MOUNTAINEERED;\n' | tee nginx_conf_env.txt</script>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="FELONWEED_MOUNTAINEERED" type="USE_TEXT">/opt/stonesoup/workspace/testData/brighteyes_prespecifically/vertible_acephali.txt</environment_variable>
+                </process>
+                <process>
+                    <file encoding="STRING" path="/opt/stonesoup/workspace/testData/brighteyes_prespecifically/vertible_acephali.txt" type="USE_TEXT">1000</file>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">mkdir $SS_TC_ROOT/logs/execute/lttng</script>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="LTTNG_HOME" type="USE_TEXT">$SS_TC_ROOT/logs/execute/lttng</environment_variable>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="SS_RUN_COMMAND_LD_PRELOAD" type="USE_TEXT">$SS_TC_DEPS/lib64/liblttng-stonesoup-c.so:$SS_TC_DEPS/lib64/liblttng-ust-fork.so</environment_variable>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">mkdir -p $SS_TC_DEPS/var/run/lttng</script>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">$SS_TC_DEPS/bin/lttng create &amp;&amp; $SS_TC_DEPS/bin/lttng enable-event -u -a &amp;&amp; $SS_TC_DEPS/bin/lttng start</script>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">rm -rf $SS_TC_ROOT/lockDir</script>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="MALLOC_CHECK_" type="USE_TEXT">1</environment_variable>
+                </process>
+            </pre_processes>
+            <run_command encoding="STRING" preprend_runcommand="true" type="USE_TEXT">-v -i -c NASDAQ input/mktsymbols.txt</run_command>
+            <post_processes scheme="SEQUENCE">
+                <process>
+                    <script background="false" encoding="STRING" input_id="lttng_output_P7lLBms5P0" type="USE_TEXT">$SS_TC_DEPS/bin/lttng stop &amp;&amp; $SS_TC_DEPS/bin/lttng view &amp;&amp; $SS_TC_DEPS/bin/lttng destroy</script>
+                </process>
+            </post_processes>
+            <scoring_formula default="GOOD-06-Default">
+                <formula name="GOOD-06-Default">STDOUT-06 AND NOT TIMEOUT AND NOT CONTROLLED_EXIT</formula>
+            </scoring_formula>
+            <output_checks>
+                <compare_check check_type="CONTAINS" name="STDOUT-06">
+                    <actual output_type="STANDARD_OUT"></actual>
+                    <expected encoding="STRING" type="USE_FILE_CONTENTS">good-06/std-out.txt</expected>
+                </compare_check>
+                <simple_check check_type="SPECIAL" encoding="STRING" name="TIMEOUT" type="USE_TEXT">DOES_NOT_RETURN</simple_check>
+                <simple_check check_type="SPECIAL" encoding="STRING" name="CONTROLLED_EXIT" type="USE_TEXT">CONTROLLED_EXIT</simple_check>
+            </output_checks>
+        </iopair>
+        <iopair name="C-C197A-GREP-01-ST02-DT02-DF11-CF20-01-GOOD-07" reset_scheme="NONE" timeout="300" type="GOOD">
+            <description>grep stdin (a device), match words beginning w/ D, P, or Z, redirect file into stdin
+Read a number from the input.  Create a struct with two fields: size (unsigned short) and buffer (char*).  Initialize the struct using the unsigned short value as a size, and malloc the unsigned short value worth of bytes.  Later, memset the buffer in the struct using the number passed in as input.  Since the input is a long, and we only allocated an unsigned short amount, we will corrupt the heap, leading to seg fault or glib error. Good inputs: 65535 or less. Bad inputs: more than 65535
+
+</description>
+            <technical_impact>NONE</technical_impact>
+            <pre_processes scheme="SEQUENCE">
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">printf 'env FELONWEED_MOUNTAINEERED;\n' | tee nginx_conf_env.txt</script>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="FELONWEED_MOUNTAINEERED" type="USE_TEXT">/opt/stonesoup/workspace/testData/brighteyes_prespecifically/vertible_acephali.txt</environment_variable>
+                </process>
+                <process>
+                    <file encoding="STRING" path="/opt/stonesoup/workspace/testData/brighteyes_prespecifically/vertible_acephali.txt" type="USE_TEXT">1</file>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">mkdir $SS_TC_ROOT/logs/execute/lttng</script>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="LTTNG_HOME" type="USE_TEXT">$SS_TC_ROOT/logs/execute/lttng</environment_variable>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="SS_RUN_COMMAND_LD_PRELOAD" type="USE_TEXT">$SS_TC_DEPS/lib64/liblttng-stonesoup-c.so:$SS_TC_DEPS/lib64/liblttng-ust-fork.so</environment_variable>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">mkdir -p $SS_TC_DEPS/var/run/lttng</script>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">$SS_TC_DEPS/bin/lttng create &amp;&amp; $SS_TC_DEPS/bin/lttng enable-event -u -a &amp;&amp; $SS_TC_DEPS/bin/lttng start</script>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">rm -rf $SS_TC_ROOT/lockDir</script>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="MALLOC_CHECK_" type="USE_TEXT">1</environment_variable>
+                </process>
+            </pre_processes>
+            <run_command encoding="STRING" preprend_runcommand="true" type="USE_TEXT">-D read -e ^[DPZ] /dev/stdin &lt; input/mktsymbols.txt</run_command>
+            <post_processes scheme="SEQUENCE">
+                <process>
+                    <script background="false" encoding="STRING" input_id="lttng_output_YNKheRDssh" type="USE_TEXT">$SS_TC_DEPS/bin/lttng stop &amp;&amp; $SS_TC_DEPS/bin/lttng view &amp;&amp; $SS_TC_DEPS/bin/lttng destroy</script>
+                </process>
+            </post_processes>
+            <scoring_formula default="GOOD-07-Default">
+                <formula name="GOOD-07-Default">STDOUT-07 AND NOT TIMEOUT AND NOT CONTROLLED_EXIT</formula>
+            </scoring_formula>
+            <output_checks>
+                <compare_check check_type="CONTAINS" name="STDOUT-07">
+                    <actual output_type="STANDARD_OUT"></actual>
+                    <expected encoding="STRING" type="USE_FILE_CONTENTS">good-07/std-out.txt</expected>
+                </compare_check>
+                <simple_check check_type="SPECIAL" encoding="STRING" name="TIMEOUT" type="USE_TEXT">DOES_NOT_RETURN</simple_check>
+                <simple_check check_type="SPECIAL" encoding="STRING" name="CONTROLLED_EXIT" type="USE_TEXT">CONTROLLED_EXIT</simple_check>
+            </output_checks>
+        </iopair>
+        <iopair name="C-C197A-GREP-01-ST02-DT02-DF11-CF20-01-GOOD-08" reset_scheme="NONE" timeout="300" type="GOOD">
+            <description>extended grep, print number of lines of context
+Read a number from the input.  Create a struct with two fields: size (unsigned short) and buffer (char*).  Initialize the struct using the unsigned short value as a size, and malloc the unsigned short value worth of bytes.  Later, memset the buffer in the struct using the number passed in as input.  Since the input is a long, and we only allocated an unsigned short amount, we will corrupt the heap, leading to seg fault or glib error. Good inputs: 65535 or less. Bad inputs: more than 65535
+
+</description>
+            <technical_impact>NONE</technical_impact>
+            <pre_processes scheme="SEQUENCE">
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">printf 'env FELONWEED_MOUNTAINEERED;\n' | tee nginx_conf_env.txt</script>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="FELONWEED_MOUNTAINEERED" type="USE_TEXT">/opt/stonesoup/workspace/testData/brighteyes_prespecifically/vertible_acephali.txt</environment_variable>
+                </process>
+                <process>
+                    <file encoding="STRING" path="/opt/stonesoup/workspace/testData/brighteyes_prespecifically/vertible_acephali.txt" type="USE_TEXT">10</file>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">mkdir $SS_TC_ROOT/logs/execute/lttng</script>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="LTTNG_HOME" type="USE_TEXT">$SS_TC_ROOT/logs/execute/lttng</environment_variable>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="SS_RUN_COMMAND_LD_PRELOAD" type="USE_TEXT">$SS_TC_DEPS/lib64/liblttng-stonesoup-c.so:$SS_TC_DEPS/lib64/liblttng-ust-fork.so</environment_variable>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">mkdir -p $SS_TC_DEPS/var/run/lttng</script>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">$SS_TC_DEPS/bin/lttng create &amp;&amp; $SS_TC_DEPS/bin/lttng enable-event -u -a &amp;&amp; $SS_TC_DEPS/bin/lttng start</script>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">rm -rf $SS_TC_ROOT/lockDir</script>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="MALLOC_CHECK_" type="USE_TEXT">1</environment_variable>
+                </process>
+            </pre_processes>
+            <run_command encoding="STRING" preprend_runcommand="true" type="USE_TEXT">-E -C 15 ^[BRT] input/mktsymbols.txt</run_command>
+            <post_processes scheme="SEQUENCE">
+                <process>
+                    <script background="false" encoding="STRING" input_id="lttng_output_fpSWcggMTk" type="USE_TEXT">$SS_TC_DEPS/bin/lttng stop &amp;&amp; $SS_TC_DEPS/bin/lttng view &amp;&amp; $SS_TC_DEPS/bin/lttng destroy</script>
+                </process>
+            </post_processes>
+            <scoring_formula default="GOOD-08-Default">
+                <formula name="GOOD-08-Default">STDOUT-08 AND NOT TIMEOUT AND NOT CONTROLLED_EXIT</formula>
+            </scoring_formula>
+            <output_checks>
+                <compare_check check_type="CONTAINS" name="STDOUT-08">
+                    <actual output_type="STANDARD_OUT"></actual>
+                    <expected encoding="STRING" type="USE_FILE_CONTENTS">good-08/std-out.txt</expected>
+                </compare_check>
+                <simple_check check_type="SPECIAL" encoding="STRING" name="TIMEOUT" type="USE_TEXT">DOES_NOT_RETURN</simple_check>
+                <simple_check check_type="SPECIAL" encoding="STRING" name="CONTROLLED_EXIT" type="USE_TEXT">CONTROLLED_EXIT</simple_check>
+            </output_checks>
+        </iopair>
+        <iopair name="C-C197A-GREP-01-ST02-DT02-DF11-CF20-01-GOOD-09" reset_scheme="NONE" timeout="300" type="GOOD">
+            <description>lines not beginning w/ B, R or T
+Read a number from the input.  Create a struct with two fields: size (unsigned short) and buffer (char*).  Initialize the struct using the unsigned short value as a size, and malloc the unsigned short value worth of bytes.  Later, memset the buffer in the struct using the number passed in as input.  Since the input is a long, and we only allocated an unsigned short amount, we will corrupt the heap, leading to seg fault or glib error. Good inputs: 65535 or less. Bad inputs: more than 65535
+
+</description>
+            <technical_impact>NONE</technical_impact>
+            <pre_processes scheme="SEQUENCE">
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">printf 'env FELONWEED_MOUNTAINEERED;\n' | tee nginx_conf_env.txt</script>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="FELONWEED_MOUNTAINEERED" type="USE_TEXT">/opt/stonesoup/workspace/testData/brighteyes_prespecifically/vertible_acephali.txt</environment_variable>
+                </process>
+                <process>
+                    <file encoding="STRING" path="/opt/stonesoup/workspace/testData/brighteyes_prespecifically/vertible_acephali.txt" type="USE_TEXT">1000</file>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">mkdir $SS_TC_ROOT/logs/execute/lttng</script>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="LTTNG_HOME" type="USE_TEXT">$SS_TC_ROOT/logs/execute/lttng</environment_variable>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="SS_RUN_COMMAND_LD_PRELOAD" type="USE_TEXT">$SS_TC_DEPS/lib64/liblttng-stonesoup-c.so:$SS_TC_DEPS/lib64/liblttng-ust-fork.so</environment_variable>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">mkdir -p $SS_TC_DEPS/var/run/lttng</script>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">$SS_TC_DEPS/bin/lttng create &amp;&amp; $SS_TC_DEPS/bin/lttng enable-event -u -a &amp;&amp; $SS_TC_DEPS/bin/lttng start</script>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">rm -rf $SS_TC_ROOT/lockDir</script>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="MALLOC_CHECK_" type="USE_TEXT">1</environment_variable>
+                </process>
+            </pre_processes>
+            <run_command encoding="STRING" preprend_runcommand="true" type="USE_TEXT">-v ^[BRT] input/mktsymbols.txt</run_command>
+            <post_processes scheme="SEQUENCE">
+                <process>
+                    <script background="false" encoding="STRING" input_id="lttng_output_hh2cPlz7u5" type="USE_TEXT">$SS_TC_DEPS/bin/lttng stop &amp;&amp; $SS_TC_DEPS/bin/lttng view &amp;&amp; $SS_TC_DEPS/bin/lttng destroy</script>
+                </process>
+            </post_processes>
+            <scoring_formula default="GOOD-09-Default">
+                <formula name="GOOD-09-Default">STDOUT-09 AND NOT TIMEOUT AND NOT CONTROLLED_EXIT</formula>
+            </scoring_formula>
+            <output_checks>
+                <compare_check check_type="CONTAINS" name="STDOUT-09">
+                    <actual output_type="STANDARD_OUT"></actual>
+                    <expected encoding="STRING" type="USE_FILE_CONTENTS">good-09/std-out.txt</expected>
+                </compare_check>
+                <simple_check check_type="SPECIAL" encoding="STRING" name="TIMEOUT" type="USE_TEXT">DOES_NOT_RETURN</simple_check>
+                <simple_check check_type="SPECIAL" encoding="STRING" name="CONTROLLED_EXIT" type="USE_TEXT">CONTROLLED_EXIT</simple_check>
+            </output_checks>
+        </iopair>
+        <iopair name="C-C197A-GREP-01-ST02-DT02-DF11-CF20-01-GOOD-10" reset_scheme="NONE" timeout="300" type="GOOD">
+            <description>count lines not beginning w/ B, R or T
+Read a number from the input.  Create a struct with two fields: size (unsigned short) and buffer (char*).  Initialize the struct using the unsigned short value as a size, and malloc the unsigned short value worth of bytes.  Later, memset the buffer in the struct using the number passed in as input.  Since the input is a long, and we only allocated an unsigned short amount, we will corrupt the heap, leading to seg fault or glib error. Good inputs: 65535 or less. Bad inputs: more than 65535
+
+</description>
+            <technical_impact>NONE</technical_impact>
+            <pre_processes scheme="SEQUENCE">
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">printf 'env FELONWEED_MOUNTAINEERED;\n' | tee nginx_conf_env.txt</script>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="FELONWEED_MOUNTAINEERED" type="USE_TEXT">/opt/stonesoup/workspace/testData/brighteyes_prespecifically/vertible_acephali.txt</environment_variable>
+                </process>
+                <process>
+                    <file encoding="STRING" path="/opt/stonesoup/workspace/testData/brighteyes_prespecifically/vertible_acephali.txt" type="USE_TEXT">1</file>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">mkdir $SS_TC_ROOT/logs/execute/lttng</script>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="LTTNG_HOME" type="USE_TEXT">$SS_TC_ROOT/logs/execute/lttng</environment_variable>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="SS_RUN_COMMAND_LD_PRELOAD" type="USE_TEXT">$SS_TC_DEPS/lib64/liblttng-stonesoup-c.so:$SS_TC_DEPS/lib64/liblttng-ust-fork.so</environment_variable>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">mkdir -p $SS_TC_DEPS/var/run/lttng</script>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">$SS_TC_DEPS/bin/lttng create &amp;&amp; $SS_TC_DEPS/bin/lttng enable-event -u -a &amp;&amp; $SS_TC_DEPS/bin/lttng start</script>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">rm -rf $SS_TC_ROOT/lockDir</script>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="MALLOC_CHECK_" type="USE_TEXT">1</environment_variable>
+                </process>
+            </pre_processes>
+            <run_command encoding="STRING" preprend_runcommand="true" type="USE_TEXT">-c -v ^[BRT] input/mktsymbols.txt</run_command>
+            <post_processes scheme="SEQUENCE">
+                <process>
+                    <script background="false" encoding="STRING" input_id="lttng_output_8H1mBCXB9a" type="USE_TEXT">$SS_TC_DEPS/bin/lttng stop &amp;&amp; $SS_TC_DEPS/bin/lttng view &amp;&amp; $SS_TC_DEPS/bin/lttng destroy</script>
+                </process>
+            </post_processes>
+            <scoring_formula default="GOOD-10-Default">
+                <formula name="GOOD-10-Default">STDOUT-10 AND NOT TIMEOUT AND NOT CONTROLLED_EXIT</formula>
+            </scoring_formula>
+            <output_checks>
+                <compare_check check_type="CONTAINS" name="STDOUT-10">
+                    <actual output_type="STANDARD_OUT"></actual>
+                    <expected encoding="STRING" type="USE_FILE_CONTENTS">good-10/std-out.txt</expected>
+                </compare_check>
+                <simple_check check_type="SPECIAL" encoding="STRING" name="TIMEOUT" type="USE_TEXT">DOES_NOT_RETURN</simple_check>
+                <simple_check check_type="SPECIAL" encoding="STRING" name="CONTROLLED_EXIT" type="USE_TEXT">CONTROLLED_EXIT</simple_check>
+            </output_checks>
+        </iopair>
+        <iopair name="C-C197A-GREP-01-ST02-DT02-DF11-CF20-01-BAD-01" reset_scheme="NONE" timeout="300" type="BAD">
+            <description>Read a number from the input.  Create a struct with two fields: size (unsigned short) and buffer (char*).  Initialize the struct using the unsigned short value as a size, and malloc the unsigned short value worth of bytes.  Later, memset the buffer in the struct using the number passed in as input.  Since the input is a long, and we only allocated an unsigned short amount, we will corrupt the heap, leading to seg fault or glib error. Good inputs: 65535 or less. Bad inputs: more than 65535
+
+</description>
+            <technical_impact>DOS_UNCONTROLLED_EXIT</technical_impact>
+            <pre_processes scheme="SEQUENCE">
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">printf 'env FELONWEED_MOUNTAINEERED;\n' | tee nginx_conf_env.txt</script>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="FELONWEED_MOUNTAINEERED" type="USE_TEXT">/opt/stonesoup/workspace/testData/brighteyes_prespecifically/vertible_acephali.txt</environment_variable>
+                </process>
+                <process>
+                    <file encoding="STRING" path="/opt/stonesoup/workspace/testData/brighteyes_prespecifically/vertible_acephali.txt" type="USE_TEXT">65538</file>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">mkdir $SS_TC_ROOT/logs/execute/lttng</script>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="LTTNG_HOME" type="USE_TEXT">$SS_TC_ROOT/logs/execute/lttng</environment_variable>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="SS_RUN_COMMAND_LD_PRELOAD" type="USE_TEXT">$SS_TC_DEPS/lib64/liblttng-stonesoup-c.so:$SS_TC_DEPS/lib64/liblttng-ust-fork.so</environment_variable>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">mkdir -p $SS_TC_DEPS/var/run/lttng</script>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">$SS_TC_DEPS/bin/lttng create &amp;&amp; $SS_TC_DEPS/bin/lttng enable-event -u -a &amp;&amp; $SS_TC_DEPS/bin/lttng start</script>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">rm -rf $SS_TC_ROOT/lockDir</script>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="MALLOC_CHECK_" type="USE_TEXT">1</environment_variable>
+                </process>
+            </pre_processes>
+            <run_command encoding="STRING" preprend_runcommand="true" type="USE_TEXT">-r -i BIRMINGHAM input/zip/</run_command>
+            <post_processes scheme="SEQUENCE">
+                <process delay_after="0" delay_before="0">
+                    <script background="false" encoding="STRING" type="USE_TEXT">sort $SS_LOG_EXECUTE_STDOUT -o $SS_LOG_EXECUTE_STDOUT_tmp &amp;&amp; mv $SS_LOG_EXECUTE_STDOUT_tmp $SS_LOG_EXECUTE_STDOUT</script>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" input_id="lttng_output_W34PTcVnK4OKNNyHh0wS" type="USE_TEXT">$SS_TC_DEPS/bin/lttng stop &amp;&amp; $SS_TC_DEPS/bin/lttng view &amp;&amp; $SS_TC_DEPS/bin/lttng destroy</script>
+                </process>
+            </post_processes>
+            <scoring_formula default="segfault_formula_5G2ahBg9eJ">
+                <formula name="segfault_formula_5G2ahBg9eJ">weakness_started_3kVEodrEQEeKRQsVDsdj AND ((NOT PERFORMER AND (segfault_code_XNNRMh48XI OR segfault_code_gsbTXGvZIH OR segfault_code_AdtNiCVIFD OR segfault_code_BYnSuBaQRa OR segfault_code_grp58ZwlLs OR segfault_msg_wxlCjmlekY OR illegal_inst_msg_NtVXov154Z OR segfault_glibc_mRmboF0ybc) AND NOT timeout_KfhLq2u50j) or (PERFORMER AND NOT ((segfault_code_XNNRMh48XI OR segfault_code_gsbTXGvZIH OR segfault_code_AdtNiCVIFD OR segfault_code_BYnSuBaQRa OR segfault_code_grp58ZwlLs OR segfault_msg_wxlCjmlekY OR illegal_inst_msg_NtVXov154Z OR segfault_glibc_mRmboF0ybc) OR timeout_KfhLq2u50j)))</formula>
+                <formula name="no_weakness_started_formula_RwG57GCK1Z">(NOT PERFORMER AND (segfault_code_XNNRMh48XI OR segfault_code_gsbTXGvZIH OR segfault_code_AdtNiCVIFD OR segfault_code_BYnSuBaQRa OR segfault_code_grp58ZwlLs OR segfault_msg_wxlCjmlekY OR illegal_inst_msg_NtVXov154Z OR segfault_glibc_mRmboF0ybc) AND NOT timeout_KfhLq2u50j) or (PERFORMER AND NOT ((segfault_code_XNNRMh48XI OR segfault_code_gsbTXGvZIH OR segfault_code_AdtNiCVIFD OR segfault_code_BYnSuBaQRa OR segfault_code_grp58ZwlLs OR segfault_msg_wxlCjmlekY OR illegal_inst_msg_NtVXov154Z OR segfault_glibc_mRmboF0ybc) OR timeout_KfhLq2u50j))</formula>
+            </scoring_formula>
+            <output_checks>
+                <simple_check check_type="SPECIAL" encoding="STRING" name="timeout_KfhLq2u50j" type="USE_TEXT">DOES_NOT_RETURN</simple_check>
+                <simple_check check_type="SPECIAL" encoding="STRING" name="controlled_exit_X7zkwYUgo8" type="USE_TEXT">CONTROLLED_EXIT</simple_check>
+                <simple_check check_type="SPECIAL" encoding="STRING" name="continued_execution_H46wX2JLdk" type="USE_TEXT">CONTINUED_EXECUTION</simple_check>
+                <compare_check check_type="EXACT_MATCH" name="segfault_code_XNNRMh48XI">
+                    <actual encoding="STRING" output_type="RETURN_CODE">None</actual>
+                    <expected encoding="STRING" type="USE_TEXT">132</expected>
+                </compare_check>
+                <compare_check check_type="EXACT_MATCH" name="segfault_code_gsbTXGvZIH">
+                    <actual encoding="STRING" output_type="RETURN_CODE">None</actual>
+                    <expected encoding="STRING" type="USE_TEXT">134</expected>
+                </compare_check>
+                <compare_check check_type="EXACT_MATCH" name="segfault_code_AdtNiCVIFD">
+                    <actual encoding="STRING" output_type="RETURN_CODE">None</actual>
+                    <expected encoding="STRING" type="USE_TEXT">135</expected>
+                </compare_check>
+                <compare_check check_type="EXACT_MATCH" name="segfault_code_BYnSuBaQRa">
+                    <actual encoding="STRING" output_type="RETURN_CODE">None</actual>
+                    <expected encoding="STRING" type="USE_TEXT">136</expected>
+                </compare_check>
+                <compare_check check_type="EXACT_MATCH" name="segfault_code_grp58ZwlLs">
+                    <actual encoding="STRING" output_type="RETURN_CODE">None</actual>
+                    <expected encoding="STRING" type="USE_TEXT">139</expected>
+                </compare_check>
+                <compare_check check_type="CONTAINS" name="segfault_msg_wxlCjmlekY">
+                    <actual encoding="STRING" output_type="STANDARD_ERROR">None</actual>
+                    <expected encoding="STRING" type="USE_TEXT">Segmentation fault</expected>
+                </compare_check>
+                <compare_check check_type="CONTAINS" name="illegal_inst_msg_NtVXov154Z">
+                    <actual encoding="STRING" output_type="STANDARD_ERROR">None</actual>
+                    <expected encoding="STRING" type="USE_TEXT">Illegal instruction</expected>
+                </compare_check>
+                <compare_check check_type="CONTAINS" name="segfault_glibc_mRmboF0ybc">
+                    <actual encoding="STRING" output_type="FILE_CONTENTS">logfile.txt</actual>
+                    <expected encoding="STRING" type="USE_TEXT">glibc detected</expected>
+                </compare_check>
+                <compare_check check_type="CONTAINS" name="weakness_started_3kVEodrEQEeKRQsVDsdj">
+                    <actual encoding="STRING" input_id_ref="lttng_output_W34PTcVnK4OKNNyHh0wS" output_type="STANDARD_OUT">None</actual>
+                    <expected encoding="STRING" type="USE_TEXT">stonesoup_trace:weakness_start</expected>
+                </compare_check>
+            </output_checks>
+        </iopair>
+        <iopair name="C-C197A-GREP-01-ST02-DT02-DF11-CF20-01-BAD-02" reset_scheme="NONE" timeout="300" type="BAD">
+            <description>Read a number from the input.  Create a struct with two fields: size (unsigned short) and buffer (char*).  Initialize the struct using the unsigned short value as a size, and malloc the unsigned short value worth of bytes.  Later, memset the buffer in the struct using the number passed in as input.  Since the input is a long, and we only allocated an unsigned short amount, we will corrupt the heap, leading to seg fault or glib error. Good inputs: 65535 or less. Bad inputs: more than 65535
+
+</description>
+            <technical_impact>DOS_UNCONTROLLED_EXIT</technical_impact>
+            <pre_processes scheme="SEQUENCE">
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">printf 'env FELONWEED_MOUNTAINEERED;\n' | tee nginx_conf_env.txt</script>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="FELONWEED_MOUNTAINEERED" type="USE_TEXT">/opt/stonesoup/workspace/testData/brighteyes_prespecifically/vertible_acephali.txt</environment_variable>
+                </process>
+                <process>
+                    <file encoding="STRING" path="/opt/stonesoup/workspace/testData/brighteyes_prespecifically/vertible_acephali.txt" type="USE_TEXT">131074</file>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">mkdir $SS_TC_ROOT/logs/execute/lttng</script>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="LTTNG_HOME" type="USE_TEXT">$SS_TC_ROOT/logs/execute/lttng</environment_variable>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="SS_RUN_COMMAND_LD_PRELOAD" type="USE_TEXT">$SS_TC_DEPS/lib64/liblttng-stonesoup-c.so:$SS_TC_DEPS/lib64/liblttng-ust-fork.so</environment_variable>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">mkdir -p $SS_TC_DEPS/var/run/lttng</script>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">$SS_TC_DEPS/bin/lttng create &amp;&amp; $SS_TC_DEPS/bin/lttng enable-event -u -a &amp;&amp; $SS_TC_DEPS/bin/lttng start</script>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" type="USE_TEXT">rm -rf $SS_TC_ROOT/lockDir</script>
+                </process>
+                <process>
+                    <environment_variable encoding="STRING" key="MALLOC_CHECK_" type="USE_TEXT">1</environment_variable>
+                </process>
+            </pre_processes>
+            <run_command encoding="STRING" preprend_runcommand="true" type="USE_TEXT">-r -i BIRMINGHAM input/zip/</run_command>
+            <post_processes scheme="SEQUENCE">
+                <process delay_after="0" delay_before="0">
+                    <script background="false" encoding="STRING" type="USE_TEXT">sort $SS_LOG_EXECUTE_STDOUT -o $SS_LOG_EXECUTE_STDOUT_tmp &amp;&amp; mv $SS_LOG_EXECUTE_STDOUT_tmp $SS_LOG_EXECUTE_STDOUT</script>
+                </process>
+                <process>
+                    <script background="false" encoding="STRING" input_id="lttng_output_t834xeP4nT5fsVvgHymw" type="USE_TEXT">$SS_TC_DEPS/bin/lttng stop &amp;&amp; $SS_TC_DEPS/bin/lttng view &amp;&amp; $SS_TC_DEPS/bin/lttng destroy</script>
+                </process>
+            </post_processes>
+            <scoring_formula default="segfault_formula_g4HnE6kUgX">
+                <formula name="segfault_formula_g4HnE6kUgX">weakness_started_e7ARZcvzxf1aqBAcPr7h AND ((NOT PERFORMER AND (segfault_code_gwUMq0cMLA OR segfault_code_rhzNG7GuaZ OR segfault_code_xAhloXgrjp OR segfault_code_NL4gmnk2nT OR segfault_code_jvBCW8SVr0 OR segfault_msg_9I51hOrPma OR illegal_inst_msg_YNkr5mDvzX OR segfault_glibc_gwJ7qaxa3d) AND NOT timeout_IPLZS0uSFI) or (PERFORMER AND NOT ((segfault_code_gwUMq0cMLA OR segfault_code_rhzNG7GuaZ OR segfault_code_xAhloXgrjp OR segfault_code_NL4gmnk2nT OR segfault_code_jvBCW8SVr0 OR segfault_msg_9I51hOrPma OR illegal_inst_msg_YNkr5mDvzX OR segfault_glibc_gwJ7qaxa3d) OR timeout_IPLZS0uSFI)))</formula>
+                <formula name="no_weakness_started_formula_CHwAK4XMqd">(NOT PERFORMER AND (segfault_code_gwUMq0cMLA OR segfault_code_rhzNG7GuaZ OR segfault_code_xAhloXgrjp OR segfault_code_NL4gmnk2nT OR segfault_code_jvBCW8SVr0 OR segfault_msg_9I51hOrPma OR illegal_inst_msg_YNkr5mDvzX OR segfault_glibc_gwJ7qaxa3d) AND NOT timeout_IPLZS0uSFI) or (PERFORMER AND NOT ((segfault_code_gwUMq0cMLA OR segfault_code_rhzNG7GuaZ OR segfault_code_xAhloXgrjp OR segfault_code_NL4gmnk2nT OR segfault_code_jvBCW8SVr0 OR segfault_msg_9I51hOrPma OR illegal_inst_msg_YNkr5mDvzX OR segfault_glibc_gwJ7qaxa3d) OR timeout_IPLZS0uSFI))</formula>
+            </scoring_formula>
+            <output_checks>
+                <simple_check check_type="SPECIAL" encoding="STRING" name="timeout_IPLZS0uSFI" type="USE_TEXT">DOES_NOT_RETURN</simple_check>
+                <simple_check check_type="SPECIAL" encoding="STRING" name="controlled_exit_2aCDiO5Xl2" type="USE_TEXT">CONTROLLED_EXIT</simple_check>
+                <simple_check check_type="SPECIAL" encoding="STRING" name="continued_execution_sNLBUOSjWE" type="USE_TEXT">CONTINUED_EXECUTION</simple_check>
+                <compare_check check_type="EXACT_MATCH" name="segfault_code_gwUMq0cMLA">
+                    <actual encoding="STRING" output_type="RETURN_CODE">None</actual>
+                    <expected encoding="STRING" type="USE_TEXT">132</expected>
+                </compare_check>
+                <compare_check check_type="EXACT_MATCH" name="segfault_code_rhzNG7GuaZ">
+                    <actual encoding="STRING" output_type="RETURN_CODE">None</actual>
+                    <expected encoding="STRING" type="USE_TEXT">134</expected>
+                </compare_check>
+                <compare_check check_type="EXACT_MATCH" name="segfault_code_xAhloXgrjp">
+                    <actual encoding="STRING" output_type="RETURN_CODE">None</actual>
+                    <expected encoding="STRING" type="USE_TEXT">135</expected>
+                </compare_check>
+                <compare_check check_type="EXACT_MATCH" name="segfault_code_NL4gmnk2nT">
+                    <actual encoding="STRING" output_type="RETURN_CODE">None</actual>
+                    <expected encoding="STRING" type="USE_TEXT">136</expected>
+                </compare_check>
+                <compare_check check_type="EXACT_MATCH" name="segfault_code_jvBCW8SVr0">
+                    <actual encoding="STRING" output_type="RETURN_CODE">None</actual>
+                    <expected encoding="STRING" type="USE_TEXT">139</expected>
+                </compare_check>
+                <compare_check check_type="CONTAINS" name="segfault_msg_9I51hOrPma">
+                    <actual encoding="STRING" output_type="STANDARD_ERROR">None</actual>
+                    <expected encoding="STRING" type="USE_TEXT">Segmentation fault</expected>
+                </compare_check>
+                <compare_check check_type="CONTAINS" name="illegal_inst_msg_YNkr5mDvzX">
+                    <actual encoding="STRING" output_type="STANDARD_ERROR">None</actual>
+                    <expected encoding="STRING" type="USE_TEXT">Illegal instruction</expected>
+                </compare_check>
+                <compare_check check_type="CONTAINS" name="segfault_glibc_gwJ7qaxa3d">
+                    <actual encoding="STRING" output_type="FILE_CONTENTS">logfile.txt</actual>
+                    <expected encoding="STRING" type="USE_TEXT">glibc detected</expected>
+                </compare_check>
+                <compare_check check_type="CONTAINS" name="weakness_started_e7ARZcvzxf1aqBAcPr7h">
+                    <actual encoding="STRING" input_id_ref="lttng_output_t834xeP4nT5fsVvgHymw" output_type="STANDARD_OUT">None</actual>
+                    <expected encoding="STRING" type="USE_TEXT">stonesoup_trace:weakness_start</expected>
+                </compare_check>
+            </output_checks>
+        </iopair>
+    </iopairs>
+</project>

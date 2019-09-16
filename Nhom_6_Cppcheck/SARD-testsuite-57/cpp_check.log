@@ -1,0 +1,69 @@
+000\001\977\uninit_variable_datatype.cpp:22:6: error: Uninitialized variable: integer [uninitvar]
+ if (integer == 0)
+     ^
+000\001\977\uninit_variable_datatype.cpp:23:31: error: Uninitialized variable: integer [uninitvar]
+  cout << "integer == 0: " << integer << endl;
+                              ^
+000\001\977\uninit_variable_datatype.cpp:25:31: error: Uninitialized variable: integer [uninitvar]
+  cout << "integer != 0: " << integer << endl;
+                              ^
+000\001\987\uninit_variable_loop.cpp:20:14: error: Uninitialized variable: p [uninitvar]
+ for (int p; p < 10; ++p)
+             ^
+000\001\993\null_deref_basic.cpp:22:7: error: Null pointer dereference: p [nullPointer]
+ k = *p;
+      ^
+000\001\993\null_deref_basic.cpp:20:11: note: Assignment 'p=0', assigned value is 0
+ int *p = 0, k;
+          ^
+000\001\993\null_deref_basic.cpp:22:7: note: Null pointer dereference
+ k = *p;
+      ^
+000\001\995\null_deref_scope.cpp:20:11: warning: Possible null pointer dereference: ptr [nullPointer]
+ value = *ptr;
+          ^
+000\001\995\null_deref_scope.cpp:25:11: note: Assignment 'p=0', assigned value is 0
+ int *p = 0, k;
+          ^
+000\001\995\null_deref_scope.cpp:27:11: note: Calling function 'function', 1st argument 'p' value is 0
+ function(p,k);
+          ^
+000\001\995\null_deref_scope.cpp:20:11: note: Null pointer dereference
+ value = *ptr;
+          ^
+000\001\997\null_deref_control_flow.cpp:23:8: error: Null pointer dereference: p [nullPointer]
+  k = *p;
+       ^
+000\001\997\null_deref_control_flow.cpp:20:11: note: Assignment 'p=0', assigned value is 0
+ int *p = 0, k, s = (rand() % 2);
+          ^
+000\001\997\null_deref_control_flow.cpp:23:8: note: Null pointer dereference
+  k = *p;
+       ^
+000\002\060\Unintialized_variable_datatype_pointer.cpp:26:2: error: Returning/dereferencing 'p' after it is deallocated / released [deallocret]
+ return p;
+ ^
+000\002\187\uninit_variable_datatype.cpp:22:6: error: Uninitialized variable: integer [uninitvar]
+ if (integer == 0)
+     ^
+000\002\187\uninit_variable_datatype.cpp:23:31: error: Uninitialized variable: integer [uninitvar]
+  cout << "integer == 0: " << integer << endl;
+                              ^
+000\002\187\uninit_variable_datatype.cpp:25:31: error: Uninitialized variable: integer [uninitvar]
+  cout << "integer != 0: " << integer << endl;
+                              ^
+000\002\188\uninit_variable_loop.cpp:20:14: error: Uninitialized variable: p [uninitvar]
+ for (int p; p < 10; ++p)
+             ^
+000\001\995\null_deref_scope.cpp:20:0: error: Null pointer dereference: ptr [ctunullpointer]
+
+^
+000\001\995\null_deref_scope.cpp:25:0: note: Assignment 'p=0', assigned value is 0
+
+^
+000\001\995\null_deref_scope.cpp:27:0: note: Calling function function, 1st argument is null
+
+^
+000\001\995\null_deref_scope.cpp:20:0: note: Dereferencing argument ptr that is null
+
+^

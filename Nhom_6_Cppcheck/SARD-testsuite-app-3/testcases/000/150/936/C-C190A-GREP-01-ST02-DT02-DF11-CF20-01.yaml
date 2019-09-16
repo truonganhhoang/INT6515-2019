@@ -1,0 +1,154 @@
+description: "Creating test case using base program.\nAdded an environment variable read to get a filename to read in the file contents using an fread operation within the function\nCompleted injection.\n"
+code_complexity_features:
+  - file_name: /tmp/tmpUfCPsp_ss_testcase/src-rose/src/dfa.c
+    function_name: dfamust
+    line_number: 0
+    feature_group: source_taint
+    feature: FILE_CONTENTS
+  - file_name: /tmp/tmpUfCPsp_ss_testcase/src-rose/src/dfa.c
+    function_name: dfamust
+    line_number: 0
+    feature_group: data_type
+    feature: simple
+  - file_name: /tmp/tmpUfCPsp_ss_testcase/src-rose/src/dfa.c
+    function_name: dfamust
+    line_number: 0
+    feature_group: data_flow
+    feature: basic
+  - file_name: /tmp/tmpUfCPsp_ss_testcase/src-rose/src/dfa.c
+    function_name: dfamust
+    line_number: 0
+    feature_group: control_flow
+    feature: sequence
+io_pair:
+  exploits:
+    - inputs:
+        - value_type_enum: 0
+          value_type: USE_TEXT_DIRECTLY
+          value_encoding: none
+          value: /opt/stonesoup/workspace/testData/lucratively_sinjer/seecatchie_cadet.txt
+          ordinal: 1
+          source_enum: 2
+          source: env_var_input
+          stage_enum: 0
+          stage: pre_process
+          name: APORETIC_REVERSERS
+        - source: file_content_input
+          source_enum: 3
+          stage: pre_process
+          stage_enum: 0
+          id: source
+          ordinal: 2
+          name: /opt/stonesoup/workspace/testData/lucratively_sinjer/seecatchie_cadet.txt
+          value: 46400
+          value_encoding: none
+          value_type: USE_TEXT_DIRECTLY
+          value_type_enum: 0
+    - inputs:
+        - source: env_var_input
+          source_enum: 2
+          stage: pre_process
+          stage_enum: 0
+          value: /opt/stonesoup/workspace/testData/lucratively_sinjer/seecatchie_cadet.txt
+          value_encoding: none
+          value_type: USE_TEXT_DIRECTLY
+          value_type_enum: 0
+          ordinal: 1
+          name: APORETIC_REVERSERS
+        - source: file_content_input
+          source_enum: 3
+          stage: pre_process
+          stage_enum: 0
+          id: source
+          ordinal: 2
+          name: /opt/stonesoup/workspace/testData/lucratively_sinjer/seecatchie_cadet.txt
+          value: 55000
+          value_encoding: none
+          value_type: USE_TEXT_DIRECTLY
+          value_type_enum: 0
+  description: "INT_MAX=2147483647  Any input that is more than the square root of INT_MAX will cause an integer overflow.  Good inputs are any number less than or equal to 46340.  Bad inputs are greater than 46341.  If an overflow occurs, it will result in an infinite loop\n\n"
+  base_inputs:
+    - source: env_var_input
+      source_enum: 2
+      stage: pre_process
+      stage_enum: 0
+      value: /opt/stonesoup/workspace/testData/lucratively_sinjer/seecatchie_cadet.txt
+      value_encoding: none
+      value_type: USE_TEXT_DIRECTLY
+      value_type_enum: 0
+      ordinal: 1
+      name: APORETIC_REVERSERS
+    - source: file_content_input
+      source_enum: 3
+      stage: pre_process
+      stage_enum: 0
+      id: source
+      ordinal: 2
+      name: /opt/stonesoup/workspace/testData/lucratively_sinjer/seecatchie_cadet.txt
+  benigns:
+    - inputs:
+        - stage_enum: 0
+          value: /opt/stonesoup/workspace/testData/lucratively_sinjer/seecatchie_cadet.txt
+          value_type: USE_TEXT_DIRECTLY
+          value_type_enum: 0
+          source_enum: 2
+          stage: pre_process
+          source: env_var_input
+          value_encoding: none
+          ordinal: 1
+          name: APORETIC_REVERSERS
+        - ordinal: 2
+          stage_enum: 0
+          stage: pre_process
+          value_encoding: none
+          source: file_content_input
+          source_enum: 3
+          name: /opt/stonesoup/workspace/testData/lucratively_sinjer/seecatchie_cadet.txt
+          id: source
+          value: 50
+          value_type_enum: 0
+          value_type: USE_TEXT_DIRECTLY
+    - inputs:
+        - value_type: USE_TEXT_DIRECTLY
+          value_encoding: none
+          stage_enum: 0
+          stage: pre_process
+          value: /opt/stonesoup/workspace/testData/lucratively_sinjer/seecatchie_cadet.txt
+          source_enum: 2
+          source: env_var_input
+          ordinal: 1
+          value_type_enum: 0
+          name: APORETIC_REVERSERS
+        - id: source
+          name: /opt/stonesoup/workspace/testData/lucratively_sinjer/seecatchie_cadet.txt
+          source: file_content_input
+          stage: pre_process
+          source_enum: 3
+          stage_enum: 0
+          ordinal: 2
+          value_encoding: none
+          value: 100
+          value_type_enum: 0
+          value_type: USE_TEXT_DIRECTLY
+    - inputs:
+        - value: /opt/stonesoup/workspace/testData/lucratively_sinjer/seecatchie_cadet.txt
+          value_type_enum: 0
+          ordinal: 1
+          name: APORETIC_REVERSERS
+          stage_enum: 0
+          stage: pre_process
+          source_enum: 2
+          source: env_var_input
+          value_encoding: none
+          value_type: USE_TEXT_DIRECTLY
+        - value: 10000
+          value_type_enum: 0
+          value_type: USE_TEXT_DIRECTLY
+          name: /opt/stonesoup/workspace/testData/lucratively_sinjer/seecatchie_cadet.txt
+          source: file_content_input
+          stage: pre_process
+          source_enum: 3
+          id: source
+          stage_enum: 0
+          ordinal: 2
+          value_encoding: none

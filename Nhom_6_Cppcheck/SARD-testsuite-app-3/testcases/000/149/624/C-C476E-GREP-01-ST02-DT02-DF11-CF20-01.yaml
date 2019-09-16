@@ -1,0 +1,184 @@
+description: "Creating test case using base program.\nAdded an environment variable read to get a filename to read in the file contents using an fread operation within the function\nCompleted injection.\n"
+code_complexity_features:
+  - file_name: /tmp/tmpr96NkE_ss_testcase/src-rose/src/dfa.c
+    function_name: dfamust
+    line_number: 0
+    feature_group: source_taint
+    feature: FILE_CONTENTS
+  - file_name: /tmp/tmpr96NkE_ss_testcase/src-rose/src/dfa.c
+    function_name: dfamust
+    line_number: 0
+    feature_group: data_type
+    feature: simple
+  - file_name: /tmp/tmpr96NkE_ss_testcase/src-rose/src/dfa.c
+    function_name: dfamust
+    line_number: 0
+    feature_group: data_flow
+    feature: basic
+  - file_name: /tmp/tmpr96NkE_ss_testcase/src-rose/src/dfa.c
+    function_name: dfamust
+    line_number: 0
+    feature_group: control_flow
+    feature: sequence
+io_pair:
+  description: "Good inputs: 1) environment variable is not set. 2) environment variable is set to a filename that exists.Bad input: 1) environment variable is set to a filename that does not exist.\n\n"
+  base_inputs:
+    - source: env_var_input
+      source_enum: 2
+      stage: pre_process
+      stage_enum: 0
+      value: /opt/stonesoup/workspace/testData/detrusion_illoricate/refinements_nikon.txt
+      value_encoding: none
+      value_type: USE_TEXT_DIRECTLY
+      value_type_enum: 0
+      ordinal: 1
+      name: ORGAMY_MISESTIMATION
+    - source: file_content_input
+      source_enum: 3
+      stage: pre_process
+      stage_enum: 0
+      id: source
+      ordinal: 2
+      name: /opt/stonesoup/workspace/testData/detrusion_illoricate/refinements_nikon.txt
+  benigns:
+    - inputs:
+        - value: /opt/stonesoup/workspace/testData/detrusion_illoricate/refinements_nikon.txt
+          stage: pre_process
+          stage_enum: 0
+          value_encoding: none
+          source: env_var_input
+          value_type: USE_TEXT_DIRECTLY
+          name: ORGAMY_MISESTIMATION
+          ordinal: 1
+          value_type_enum: 0
+          source_enum: 2
+        - value_type: USE_TEXT_DIRECTLY
+          stage: pre_process
+          id: source
+          ordinal: 2
+          source_enum: 3
+          source: file_content_input
+          value_type_enum: 0
+          stage_enum: 0
+          value: /opt/stonesoup/workspace/testData/good01.txt
+          name: /opt/stonesoup/workspace/testData/detrusion_illoricate/refinements_nikon.txt
+          value_encoding: none
+        - value_type: USE_TEXT_DIRECTLY
+          value_type_enum: 0
+          ordinal: 2
+          source_enum: 3
+          source: file_content_input
+          stage: pre_process
+          stage_enum: 0
+          value: This file is not empty.
+          value_encoding: none
+          name: /opt/stonesoup/workspace/testData/good01.txt
+    - inputs:
+        - stage: pre_process
+          source_enum: 2
+          stage_enum: 0
+          value: /opt/stonesoup/workspace/testData/detrusion_illoricate/refinements_nikon.txt
+          source: env_var_input
+          ordinal: 1
+          value_type: USE_TEXT_DIRECTLY
+          value_encoding: none
+          value_type_enum: 0
+          name: ORGAMY_MISESTIMATION
+        - value_type: USE_TEXT_DIRECTLY
+          stage_enum: 0
+          source_enum: 3
+          source: file_content_input
+          stage: pre_process
+          ordinal: 2
+          id: source
+          name: /opt/stonesoup/workspace/testData/detrusion_illoricate/refinements_nikon.txt
+          value_encoding: none
+          value: /opt/stonesoup/workspace/testData/good02.txt
+          value_type_enum: 0
+        - value_type_enum: 0
+          source: file_content_input
+          stage: pre_process
+          source_enum: 3
+          ordinal: 2
+          value_type: USE_TEXT_DIRECTLY
+          stage_enum: 0
+          value: Hello world!  And, good-bye.
+          value_encoding: none
+          name: /opt/stonesoup/workspace/testData/good02.txt
+    - inputs:
+        - source: env_var_input
+          value: /opt/stonesoup/workspace/testData/detrusion_illoricate/refinements_nikon.txt
+          source_enum: 2
+          stage_enum: 0
+          value_type: USE_TEXT_DIRECTLY
+          value_encoding: none
+          ordinal: 1
+          value_type_enum: 0
+          name: ORGAMY_MISESTIMATION
+          stage: pre_process
+        - stage_enum: 0
+          id: source
+          name: /opt/stonesoup/workspace/testData/detrusion_illoricate/refinements_nikon.txt
+          value: /opt/stonesoup/workspace/testData/good03.txt
+          ordinal: 2
+          source: file_content_input
+          source_enum: 3
+          value_type: USE_TEXT_DIRECTLY
+          value_encoding: none
+          value_type_enum: 0
+          stage: pre_process
+        - value: Yet another file.
+          stage: pre_process
+          stage_enum: 0
+          ordinal: 2
+          source_enum: 3
+          value_encoding: none
+          name: /opt/stonesoup/workspace/testData/good03.txt
+          value_type: USE_TEXT_DIRECTLY
+          value_type_enum: 0
+          source: file_content_input
+  exploits:
+    - inputs:
+        - value_type: USE_TEXT_DIRECTLY
+          value_encoding: none
+          value: /opt/stonesoup/workspace/testData/detrusion_illoricate/refinements_nikon.txt
+          stage_enum: 0
+          source: env_var_input
+          stage: pre_process
+          source_enum: 2
+          ordinal: 1
+          value_type_enum: 0
+          name: ORGAMY_MISESTIMATION
+        - id: source
+          stage: pre_process
+          source_enum: 3
+          source: file_content_input
+          stage_enum: 0
+          ordinal: 2
+          name: /opt/stonesoup/workspace/testData/detrusion_illoricate/refinements_nikon.txt
+          value: /opt/stonesoup/workspace/testData/bad01.txt
+          value_encoding: none
+          value_type: USE_TEXT_DIRECTLY
+          value_type_enum: 0
+    - inputs:
+        - source: env_var_input
+          source_enum: 2
+          stage: pre_process
+          stage_enum: 0
+          value: /opt/stonesoup/workspace/testData/detrusion_illoricate/refinements_nikon.txt
+          value_encoding: none
+          value_type: USE_TEXT_DIRECTLY
+          value_type_enum: 0
+          ordinal: 1
+          name: ORGAMY_MISESTIMATION
+        - source: file_content_input
+          source_enum: 3
+          stage: pre_process
+          stage_enum: 0
+          id: source
+          ordinal: 2
+          name: /opt/stonesoup/workspace/testData/detrusion_illoricate/refinements_nikon.txt
+          value: /opt/stonesoup/workspace/testData/bad02.txt
+          value_encoding: none
+          value_type: USE_TEXT_DIRECTLY
+          value_type_enum: 0
