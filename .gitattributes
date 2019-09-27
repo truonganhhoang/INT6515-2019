@@ -1,0 +1,2 @@
+9-Pmd/*.html filter=lfs diff=lfs merge=lfs -text
+9-Pmd/*.txt filter=lfs diff=lfs merge=lfs -text
